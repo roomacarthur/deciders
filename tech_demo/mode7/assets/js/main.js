@@ -8,8 +8,6 @@ Math.radianToDegrees = function (radians) {
   return (radians * 180 / Math.PI);
 };
 
-debugger;
-
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -21,6 +19,7 @@ const imgCtx = imgCanvas.getContext('2d');
 
 const testImg = new Image;
 const sprite = new Image;
+const billboard = new Image;
 
 const viewHeight = 15;
 
@@ -33,9 +32,9 @@ let move = 0;
 
 testImg.src = "assets/img/track.png";
 sprite.src = "assets/img/rider.png";
+billboard.src = "assets/img/billboard.png";
 
 testImg.onload = () => {
-  debugger;
   imgCanvas.width = testImg.width;
   imgCanvas.height = testImg.height;
   imgCtx.drawImage(testImg, 0,0);
@@ -45,8 +44,16 @@ testImg.onload = () => {
 function drawMap() {
   let x = (mapX / testImg.width) * miniCanvas.width;
   let y = (mapY / testImg.height) * miniCanvas.height;
+  let oX = (80 / testImg.width) * miniCanvas.width;
+  let oY = (350 / testImg.height) * miniCanvas.height;
   let vX = Math.cos(facing);
   let vY = Math.sin(facing);
+  let halfFov = Math.degreesToRadian(25);
+  let sX = Math.cos(facing + halfFov);
+  let sY = Math.sin(facing + halfFov);
+  let eX = Math.cos(facing - halfFov);
+  let eY = Math.sin(facing - halfFov);
+
 
   minictx.clearRect(0,0,miniCanvas.width,miniCanvas.height);
   minictx.drawImage(testImg,0,0,testImg.width,testImg.height,0,0,miniCanvas.width,miniCanvas.height);
@@ -117,11 +124,39 @@ function projectFloor(height) {
   ctx.putImageData(screenData,0,0);
 }
 
-function drawSprite() {
+function drawPlayer() {
   let x = (canvas.width/2)-(sprite.width*2);
   let y = canvas.height - (sprite.height*4) - 2;
   ctx.drawImage(sprite, x, y, sprite.width * 4, sprite.height * 4);
 }
+
+function drawSprite() {
+  // Calculate world position relative to camera
+  let x = (80 - mapX);
+  let y = (350 - mapY);
+  // View vector
+  const rX = Math.cos(facing);
+  const rY = Math.sin(facing);
+  // Is the sprite in front of the view?
+  if (rX*x+rY*y > 0) {
+    // Generate projection plane
+    let planeX = rY / 2;
+    let planeY = -rX / 2;
+    // Generate transform coordinates
+    let invDet = 1.0 / (planeX * rX - rY * planeY);
+    let tX = invDet * (rY * x - rX * y);
+    let tY = invDet * (-planeY * x + planeX * y);
+
+    let distance = Math.sqrt(x*x+y*y);
+    let size = ((canvas.height)/distance)*viewHeight;
+
+    let sX = Math.floor( (canvas.width / 2) * (1 + tX / tY) - (size / 2) );
+    let sY = Math.floor( ((canvas.height - size) / 2) + (size / 2) );
+
+    ctx.drawImage(billboard, sX, sY, size, size);
+  }
+}
+
 
 function moveView(dir) {
   let vX = Math.cos(facing);
@@ -132,7 +167,7 @@ function moveView(dir) {
 
 function rotateView(dir) {
   const circle = 2*Math.PI;
-  facing += Math.degreesToRadian(dir);
+  facing = facing + Math.degreesToRadian(dir);
   if (facing < 0) facing = circle + facing;
   if (facing > circle) facing -= circle;
 }
@@ -161,6 +196,7 @@ function loop(time) {
   projectFloor(viewHeight);
   drawMap();
   drawSprite();
+  drawPlayer();
   // Draw overlays
   ctx.fillStyle = "black";
   ctx.fillText(`FPS: ${Math.floor(1000/(time - lastTime))}`, 5, 15);
