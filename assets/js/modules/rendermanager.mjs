@@ -59,6 +59,23 @@ class PixelImg {
   get image() {return this._image;}
 }/**
 }
+/**
+ * Manages rendering to the screen
+ */
+class Renderer {
+  /**
+   * Creates a new RenderManager
+   *  @param {Object} canvas - The HTML canvas object to draw on
+   */
+  constructor(canvas) {
+    this._canvas = canvas;
+    this._ctx = canvas.getContext("2d");
+    // Create the camera
+    this._camera = new Camera2D({x:0,y:0},{x:0,y:1});
+
+  }
+
+}
 
 /**
  * Defines a 2D camera
