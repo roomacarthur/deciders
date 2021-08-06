@@ -21,12 +21,17 @@ const testImg = new Image;
 const sprite = new Image;
 const billboard = new Image;
 
-const viewHeight = 15;
+let viewHeight = 15;
+const maxHeight = 25;
+const minHeight = 15;
+
+let gravity = -2;
 
 let mapX = 80;
 let mapY = 250;
 let facing = 1.57079632679;
 
+let raise = 0;
 let rotate = 0;
 let move = 0;
 
@@ -109,7 +114,7 @@ function projectFloor(height) {
       // Offset for camera height and move to camera x/y position
       sx = ~~(sx * height + mapX);
       sy = ~~(sy * height + mapY);
-
+      // Ensure pixel isn't out of bounds
       if (sx > 0 && sx < imgData.width && sy > 0 && sy < imgData.height){
         // Generate image and screen buffer offsets
         let soff = sy * imgData.width + sx;
@@ -131,32 +136,51 @@ function drawPlayer() {
 }
 
 function drawSprite() {
-  // Calculate world position relative to camera
-  let x = (80 - mapX);
-  let y = (350 - mapY);
-  // View vector
+  const scale = 15;
+  const x = 80;
+  const y = 350;
+  const z = 0;
+  // Calculate view vector
   const rX = Math.cos(facing);
   const rY = Math.sin(facing);
-  // Is the sprite in front of the view?
-  if (rX*x+rY*y > 0) {
-    // Generate projection plane
-    let planeX = rY / 2;
-    let planeY = -rX / 2;
-    // Generate transform coordinates
-    let invDet = 1.0 / (planeX * rX - rY * planeY);
-    let tX = invDet * (rY * x - rX * y);
-    let tY = invDet * (-planeY * x + planeX * y);
+  //Generate projection plane;
+  const planeX = rY / 2;
+  const planeY = -rX / 2;
 
-    let distance = Math.sqrt(x*x+y*y);
-    let size = ((canvas.height)/distance)*viewHeight;
+  // Calculate world position relative to canera
+  const wX = x - mapX;
+  const wY = y - mapY;
+  // Generate screen/world transform
+  // tX = horizontal scalar tY = depth from screen plane
+  const invDet = 1.0 / (planeX * rY - rX * planeY);
+  const tX = invDet * (rY * wX - rX * wY);
+  const tY = invDet * (-planeY * wX + planeX * wY);
 
-    let sX = Math.floor( (canvas.width / 2) * (1 + tX / tY) - (size / 2) );
-    let sY = Math.floor( ((canvas.height - size) / 2) + (size / 2) );
+  // Is the sprite in front of the camera?
+  if (tY > scale) {
+    // Calculate Distance scalar
+    const size = Math.abs( ~~((canvas.height / tY) * scale) );
+    // Camera height offset
+    const vOffset = (canvas.height / tY) * ((viewHeight - minHeight) - z);
+    // Calculate screen coordinates
+    const sX = ~~( (canvas.width / 2) * (1 + tX / tY) - size / 2 );
+    const sY = ~~( ((canvas.height - size) / 2) + (size / 2) + vOffset);
 
+    // Draw the sprite to screen
     ctx.drawImage(billboard, sX, sY, size, size);
   }
 }
 
+function raiseView(dir) {
+  if (dir > 0) viewHeight += dir;
+  else viewHeight += gravity;
+  if (viewHeight >= maxHeight) {
+    viewHeight = maxHeight;
+    raise = 0;
+  }
+
+  if (viewHeight < minHeight) viewHeight = minHeight;
+}
 
 function moveView(dir) {
   let vX = Math.cos(facing);
@@ -166,7 +190,7 @@ function moveView(dir) {
 }
 
 function rotateView(dir) {
-  const circle = 2*Math.PI;
+  const circle = 2 * Math.PI;
   facing = facing + Math.degreesToRadian(dir);
   if (facing < 0) facing = circle + facing;
   if (facing > circle) facing -= circle;
@@ -177,6 +201,7 @@ document.addEventListener('keydown', function(e) {
     if (e.code === "ArrowRight") rotate = -1;
     if (e.code === "ArrowUp") move = 1;
     if (e.code === "ArrowDown") move = -1;
+    if (e.code === "Space") raise = 1;
 });
 
 document.addEventListener('keyup', function(e) {
@@ -184,6 +209,7 @@ document.addEventListener('keyup', function(e) {
     if (e.code === "ArrowRight") rotate = 0;
     if (e.code === "ArrowUp") move = 0;
     if (e.code === "ArrowDown") move = 0;
+    if (e.code === "Space") raise = 0;
 });
 
 let lastTime = performance.now();
@@ -191,6 +217,7 @@ function loop(time) {
   // Update state
   rotateView(rotate);
   moveView(move);
+  raiseView(raise);
   // Draw Frame
   drawBackground();
   projectFloor(viewHeight);
@@ -201,7 +228,6 @@ function loop(time) {
   ctx.fillStyle = "black";
   ctx.fillText(`FPS: ${Math.floor(1000/(time - lastTime))}`, 5, 15);
   ctx.fillText(`X: ${~~mapX} Y: ${~~mapY} View Angle: ${~~Math.radianToDegrees(facing)}`, 5, 30);
-
 
   lastTime = time;
   window.requestAnimationFrame(loop);
