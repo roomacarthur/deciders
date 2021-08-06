@@ -93,6 +93,10 @@ class Camera2D {
     this._direction = new Vector2D(direction.x, direction.x);
     this._height = height;
   }
+  get position() {return this._position;}
+  get direction() {return this._direction;}
+  get height() {return this._height;}
+  set height(val) {this._height = val;}
 }
 
 export { ImgAsset, PixelImg, Renderer, Camera2D };
