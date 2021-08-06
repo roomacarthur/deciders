@@ -57,7 +57,6 @@ class PixelImg {
   get width() {return this._image.width;}
   get height() {return this._image.height;}
   get image() {return this._image;}
-}/**
 }
 /**
  * Manages rendering to the screen
@@ -94,3 +93,5 @@ class Camera2D {
     this._direction = new Vector2D(direction.x, direction.x);
   }
 }
+
+export { ImgAsset, PixelImg, Renderer, Camera2D };
