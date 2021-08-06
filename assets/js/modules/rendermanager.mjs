@@ -57,4 +57,18 @@ class PixelImg {
   get width() {return this._image.width;}
   get height() {return this._image.height;}
   get image() {return this._image;}
+}/**
+}
+
+/**
+ * Defines a 2D camera
+ */
+class Camera2D {
+  /**
+   * Creates a new camera
+   */
+  constructor(position, direction) {
+    this._position = new Point2D(position.x, position.y);
+    this._direction = new Vector2D(direction.x, direction.x);
+  }
 }
