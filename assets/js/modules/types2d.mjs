@@ -208,6 +208,8 @@ class BoundingCircle extends Point2D {
   set radius(val) {
     this._radius = val;
   }
+
+  //TODO: Actual collision detection goes here...
 }
 
 /**
