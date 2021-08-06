@@ -1,16 +1,11 @@
 body {
-  background-color: rgb(183, 182, 192) !important;
+  background-color: rgb(215, 214, 223) !important;
 }
-
-nav {
-  margin: 10px;
-}
-.logo {
-  text-align: center;
-}
-.logo h1 {
-  font-size: 300%;
-}
+/* 
+#####################################################
+#-----Alignment-------------------------------------#
+#####################################################
+*/
 .container {
   display: flex;
   align-items: center;
@@ -18,15 +13,43 @@ nav {
   flex-direction: column;
   padding-top: 20px;
 }
-.container h1 {
-  padding-bottom: 20px;
+/* 
+#####################################################
+#-----Header----------------------------------------#
+#####################################################
+*/
+nav {
+  margin: 10px;
+  border: 5px solid #000;
 }
-
+.nav-container p{
+  margin-bottom: 5px !important;
+}
+.nav-container > .container {
+  padding-top: 0;
+}
+.logo {
+  text-align: center;
+  margin: 0;
+}
+.logo h1 {
+  font-size: 300%;
+}
 .links {
   flex-direction: row;
+  margin-bottom: 10px;
 }
 .links a {
-  margin: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+/* 
+#####################################################
+#-----Main Body Content-----------------------------#
+#####################################################
+*/
+.container h1 {
+  padding-bottom: 20px;
 }
 .content {
   width: 80vw;
@@ -38,16 +61,36 @@ nav {
   /* justify-content: center; */
   flex-direction: column;
 }
-
 .content div {
   width: 50vw;
   margin: 40px;
 }
-
 #about-box {
   text-align: center;
 }
 
+/* 
+#####################################################
+#-----Play Game Page--------------------------------#
+#####################################################
+*/
+#game-container {
+  background-color: #000 !important;
+  margin: 0 10px;
+  height: 700px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+#game-container h2{
+  margin: 50px;
+}
+/* 
+#####################################################
+#-----High Scores Page------------------------------#
+#####################################################
+*/
 .hs-container {
   width: 80vw;
   min-width: 492px;
@@ -72,6 +115,12 @@ nav {
   padding-right: 10px;
   padding-left: 10px;
 }
+
+/* 
+#####################################################
+#-----Footer socials--------------------------------#
+#####################################################
+*/
 footer {
   margin: 10px;
   text-align: center;
@@ -93,25 +142,81 @@ footer {
   margin: 20px;
   padding: 0;
   background-color: black !important;
-
   border: 5px solid rgb(131, 131, 131);
   box-shadow: 0px 0px 0px 5px #000;
 }
-
 .dev-icon:hover {
   border: 5px solid #007bff;
 }
-
-
-
-
-
-
 .dev-name {
   text-transform: uppercase;
   text-decoration: none !important;
   color: black !important;
   letter-spacing: 2px;
 }
+/* 
+#####################################################
+#-----Coin Slot + Animation=------------------------#
+#####################################################
+*/
+.arcade {
+  width: 200px;
+  height: 300px;
+  background-color: black;
+  /* color: rgb(255, 0, 4); */
+  border: 8px rgb(204, 18, 18) solid;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: row;
+  margin: 30px 10px;
+  animation: slot-flash ease-in-out 1.5s infinite;
+}
+.arcade::after {
+  content: "";
+  position: absolute;
+  width: 190px;
+  height: 290px;
+  box-shadow: rgb(87, 57, 57) 0px 0px 5px 6px inset;
+}
 
-/* Media Queries  */
+.slot {
+  height: 200px;
+  width: 25px;
+  border: 4px solid rgb(255, 0, 4);
+  border-radius: 3px;
+  position: relative;
+  left:5px;
+  animation: slot-flash ease-in-out 1s infinite;
+}
+.slot::after {
+  content: "";
+  position: absolute;
+
+  height: 193px;
+  width: 17px;
+  box-shadow: rgb(216, 138, 138) 0px 0px 5px 3px inset;
+}
+@keyframes slot-flash {
+  0% {
+    box-shadow: none;
+  }
+  50% {
+    box-shadow: rgb(230, 121, 121) 0px 0px 8px 5px;
+  }
+  100% {
+    box-shadow: none;
+  }
+}
+.arcade-text {
+  text-transform: uppercase;
+  font-size: 20px;
+  margin-left: 15px;
+}
+.coin-text {
+  padding-top: 10px;
+  font-size: 40px;
+  margin: 0;
+  /* font-weight: 600; */
+}
