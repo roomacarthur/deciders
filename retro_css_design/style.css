@@ -44,6 +44,10 @@ nav {
   margin: 40px;
 }
 
+#about-box {
+  text-align: center;
+}
+
 .hs-container {
   width: 80vw;
   min-width: 492px;
