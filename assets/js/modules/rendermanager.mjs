@@ -75,6 +75,11 @@ class Renderer {
 
   }
 
+
+  /**
+   * Draws a given sprite to the screen
+   */
+  drawSprite(image) {}
 }
 
 /**
