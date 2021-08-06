@@ -74,6 +74,47 @@ class Renderer {
 
   }
 
+  /**
+   * Performs an Affine Transformation on the given texture and projects it
+   * to the floor plain.
+   *  @param {Object} texture - A PixelImg object of the texture to draw
+   */
+  projectFloor(texture) {
+    // We need the centre point of the canvas a lot, so precaching it helps speed the loops
+    const halfWidth = this._canvas.width / 2;
+    const halfHeight = this._canvas.height / 2;
+    // We want to write directly to the canvas buffer so get the raw pixel data
+    const screenData = this._ctx.getImageData(0,0
+       this._canvas.width, this._canvas.height);
+    const screenPixels = new Uint32Array(screenData.data.buffer);
+
+    // Loop through the floor area of the of the screen in scanlines
+    for (let y = halfHeight; y < this._canvas.height; y++) {
+      // Calculate this scanline's z depth
+      let pz = y - (halfHeight);
+      for (let x = 0; x < this._canvas.width; x++) {
+        let px = x-(halfWidth);       // Shifts the origin to middle of the screen
+        let py = this._canvas.height; // Sets the floor plane at the bottom of the canvas
+        // Project screen coordinates to floor coordinates
+        let wx = (px / pz);
+        let wy = (py / pz);
+        // Add camera rotation (basic vector rotation)
+        let sx = wx * this._camera.direction.x - wy * this._camera.direction.y;
+        let sy = wx * this._camera.direction.y + wy * this._camera.direction.x;
+        // Offset for camera height and move to camera x/y position
+        sx = ~~(sx * this._camera.height + this._camera.position.x);
+        sy = ~~(sy * this._camera.height + this._camera.position.y);
+        // Is the pixel in the buffer?
+        if (sx > 0 && sx < texture.width && sy > 0 && sy < texture.height) {
+          // Convert screen and image coordinates to buffer offsets
+          let soff = sy * texture.width + sx;
+          let doff = y * screenData.width + x;
+          // Copy pixel data
+          screenPixels[doff] = texture.pixels[soff];
+        }
+      }
+    }
+  }
 
   /**
    * Draws a given sprite to the screen
