@@ -88,9 +88,10 @@ class Camera2D {
   /**
    * Creates a new camera
    */
-  constructor(position, direction) {
+  constructor(position, direction, height) {
     this._position = new Point2D(position.x, position.y);
     this._direction = new Vector2D(direction.x, direction.x);
+    this._height = height;
   }
 }
 
