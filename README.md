@@ -1,4 +1,8 @@
 # Super BMX Bash
+<div align="center">
+
+![coin slot animation from Super BMX Bash](/readme/coin-slot.gif)
+</div>
 
 A collaborative project for the Code Institute's August Hackathon, with a retro game theme.
 
