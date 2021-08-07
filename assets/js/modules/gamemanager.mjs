@@ -3,6 +3,8 @@
  */
 
 import { ImageAsset, Renderer, Camera2D } from "./rendermanager.mjs";
+import { Track } from "./track.mjs";
+import { Player } from "./gameobjects.mjs";
 
 const AssetTypes = {
   IMAGE: "image",
