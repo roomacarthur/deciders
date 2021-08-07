@@ -91,11 +91,34 @@ class Game {
   /*
    * Game Loop
    */
-  _update(time) {}
-  _draw(time) {}
+  _updateLoading(time) {}
+  _drawLoading(time) {}
+
+  _updatePlaying(time) {
+    // Sort sprites by distance to player
+    // Handle player input
+    // Check goals
+  }
+
+  _drawPlaying(time) {
+    // Draw backdrop
+    // Draw gound plain
+    // Draw objects
+    // Draw interface
+  }
 
   _loop(time) {
-
+    switch(this._state) {
+      GameStates.LOADING:
+      GameStates.LOADED:
+        this._updateLoading(time);
+        this._drawLoading(time);
+        break;
+      GameStates.PLAYING:
+        this._updatePlaying(time);
+        this._drawPlaying(time);
+        break;
+    }
   }
 
   /*
