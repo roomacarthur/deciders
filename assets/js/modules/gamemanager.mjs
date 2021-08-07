@@ -152,14 +152,16 @@ class Game {
   keyUp(event) {
     switch(event.code) {
       case "ArrowUp":     // Move Forware
-        this.test = 0;
+        this._player.accelerate(0);
         break;
       case "ArrowDown":   // Move Backwards
-        this.test = 0;
+        this._player.accelerate(0);
         break;
       case "ArrowLeft":   // Turn Left
+        this._player.rotate(0);
         break;
       case "ArrowRight":  // Turn Right
+        this._player.rotate(0);
         break;
       case "Space":       // Jump
         break;
@@ -171,14 +173,16 @@ class Game {
   keyDown(event) {
     switch(event.code) {
       case "ArrowUp":     // Move Forware
-        this.test = 1;
+        this._player.accelerate(1);
         break;
       case "ArrowDown":   // Move Backwards
-        this.test = -1;
+        this._player.accelerate(-1);
         break;
       case "ArrowLeft":   // Turn Left
+        this._player.rotate(1);
         break;
       case "ArrowRight":  // Turn Right
+        this._player.rotate(-1);
         break;
       case "Space":       // Jump
         break;
