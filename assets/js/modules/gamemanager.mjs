@@ -118,17 +118,13 @@ class Game {
     // Handle player input
 
     // Align camera to player
-    //debugger;
-    let cX = this._player.dimensions.x - (this._player.direction.x * -15);
-    let cY = this._player.dimensions.y - (this._player.direction.y * -15);
+    let cX = this._player.dimensions.x - (this._player.direction.x * 35);
+    let cY = this._player.dimensions.y - (this._player.direction.y * 35);
     this._renderer.camera.setPosition(cX, cY);
     this._renderer.camera.setDirection(
       this._player.direction.x,
       this._player.direction.y
     );
-
-
-
     // Check goals
   }
 
