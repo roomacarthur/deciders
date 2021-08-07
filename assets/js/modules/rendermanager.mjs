@@ -174,6 +174,17 @@ class Renderer {
       this._ctx.drawImage(image.image, sX, sY, size, size);
     }
   }
+
+  /**
+   * Currently draw a flat sky and floor colour background. Can be improved to
+   * draw a skybox.
+   */
+  drawBackdrop() {
+    this._ctx.fillStyle = "cyan";
+    this._ctx.fillRect(0,0,canvas.width,canvas.height/2);
+    this._ctx.fillStyle = "green";
+    this._ctx.fillRect(0,canvas.height/2,canvas.width,canvas.height);
+  }
 }
 
 /**
