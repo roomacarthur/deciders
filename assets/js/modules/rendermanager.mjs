@@ -61,7 +61,7 @@ class Renderer {
     this._camera = new Camera2D(
       {x:0,y:0},
       {x:0,y:0},
-      15,0
+      5,15,1000,10
     );
     this._thisFrameTime = 0;
     this._lastFrameTime = 0;
@@ -206,7 +206,7 @@ class Camera2D {
    *  @param {number} farClip The far clipping distance
    *  @param {number} height The offset height above the floor plain
    */
-  constructor(position, direction, scale, nearClip=20, farClip=1000, height=0) {
+  constructor(position, direction, scale, nearClip=5, farClip=1000, height=5) {
     this._position = new Point2D(position.x, position.y);
     this._direction = new Vector2D(direction.x, direction.x);
     this._scale = scale;
