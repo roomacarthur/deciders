@@ -86,11 +86,29 @@ class Renderer {
       {x:0,y:0},
       15,0
     );
+    this._thisFrameTime = 0;
+    this._lastFrameTime = 0;
   }
 
   get camera() {return this._camera;}
   get canvas() {return this._canvas;}
   get context() {return this._ctx;}
+
+  /**
+   * Starts a draw frame
+   *  @param {number} time The current time in milliseconds
+   */
+  startFrame(time) {
+    this._thisFrameTime = time - this._lastFrameTime;
+    return this._thisFrameTime;
+  }
+  /**
+   * Ends the current draw frame
+   *  @param {number} time The current time in milliseconds
+   */
+  endFrame(time) {
+    this._lastFrameTime = time;
+  }
 
   /**
    * Performs an Affine Transformation on the given texture and projects it
@@ -231,7 +249,7 @@ class Camera2D {
   set farClip(val) {return this._farClip;}
   /** Returns the height of the camera taking scale into account */
   get verticalOffset() {return (this.scale + this._height);}
-
+  //TODO: Vision checks
 }
 
 export { ImgAsset, PixelImg, Renderer, Camera2D };
