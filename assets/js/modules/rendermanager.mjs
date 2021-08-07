@@ -37,7 +37,7 @@ class ImageAsset {
   get loaded() {return this._loaded;}
 
   get pixels() {
-    if (!this._loaded) throw "Image not loaded!";
+    //if (!this._loaded) throw "Image not loaded!";
     return this._pixels;
   }
 
@@ -190,6 +190,11 @@ class Renderer {
     if (width= -1) width = image.width;
     if (height= -1) height = image.height;
     this._ctx.drawImage(image.image, position.x, position.y, width, height);
+  }
+
+  drawText(text, x, y, color="#000") {
+    this._ctx.fillStyle = color;
+    this._ctx.fillText(text, x, y);
   }
 }
 
