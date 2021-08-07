@@ -84,7 +84,7 @@ class Renderer {
     this._camera = new Camera2D(
       {x:0,y:0},
       {x:0,y:0},
-      15
+      15,0
     );
   }
 
@@ -146,7 +146,7 @@ class Renderer {
    *  @param {Object} position - Point2D world position of the sprite
    *  @param {number} height - Height of this sprite above the floor plain
    */
-  drawSprite(image, position, height=0, scale=15) {
+  drawSprite(image, position, height=0) {
     // Precache camera direction vector values
     const rX = this._camera.direction.x;
     const rY = this._camera.direction.y;
@@ -162,11 +162,11 @@ class Renderer {
     const tX = invDet * (rY * wX - rX * wY);
     const tY = invDet * (-pY * wX + pX * wY);
     // Is the sprite in front of the camera?
-    if (tY > scale) {
+    if (tY > 20) {
       // Calculate distance scalar
-      const size = Math.abs( ~~((this._canvas.height / tY) * scale) );
+      const size = Math.abs( ~~((this._canvas.height / tY) * this._camera.scale) );
       // Camera height offset
-      const vOffset = (this._canvas.height / tY) * ((this._camera.height - scale) - height);
+      const vOffset = (this._canvas.height / tY) * (this._camera.height - height);
       // Calculate screen coordinates
       const sX = ~~( (this._canvas.width / 2) * (1 + tX / tY) - size / 2 );
       const sY = ~~( ((this._canvas.height - size) / 2) + (size / 2) + vOffset);
@@ -195,22 +195,34 @@ class Camera2D {
    * Creates a new camera
    *  @param {Object} position World x,y coordinate of the camera
    *  @param {Object} direction Camera view vector in X,Y notation
-   *  @param {number} baseHeight The base height of the camera above the floor plane
+   *  @param {number} scale The base scale to apply to the view
+   *  @param {number} nearClip The near clipping distance
+   *  @param {number} farClip The far clipping distance
    *  @param {number} height The offset height above the floor plain
    */
-  constructor(position, direction, baseHeight, height=0) {
+  constructor(position, direction, scale, nearClip=20, farClip=1000, height=0) {
     this._position = new Point2D(position.x, position.y);
     this._direction = new Vector2D(direction.x, direction.x);
-    this._baseHeight = baseHeight;
+    this._scale = scale;
+    this.nearClip = nearClip;
+    this._farClip = farClip
     this._height = height;
+    // Generate 
   }
+  // Getters and setters
   get position() {return this._position;}
   get direction() {return this._direction;}
   get height() {return this._height;}
   set height(val) {this._height = val;}
-  get baseHeight() {return this._baseHeight;}
-  set baseHeight(val) {this._baseHeight = val;}
-  get verticalOffset() {return (this._baseHeight + this._height);}
+  get scale() {return this._scale;}
+  set scale(val) {this._scale = val;}
+  get nearClip() {return this._nearClip;}
+  set nearClip(val) {return this._nearClip;}
+  get farClip() {return this._farClip;}
+  set farClip(val) {return this._farClip;}
+  /** Returns the height of the camera taking scale into account */
+  get verticalOffset() {return (this.scale + this._height);}
+
 }
 
 export { ImgAsset, PixelImg, Renderer, Camera2D };
