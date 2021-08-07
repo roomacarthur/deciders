@@ -58,6 +58,16 @@ class Game {
   }
 
   /*
+   * Game Loop
+   */
+  _update(time) {}
+  _draw(time) {}
+
+  _loop(time) {
+
+  }
+
+  /*
    * Player interaction
    */
   keyUp(event) {
