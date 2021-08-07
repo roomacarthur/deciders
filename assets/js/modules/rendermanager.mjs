@@ -100,6 +100,9 @@ class Renderer {
     // We need the centre point of the canvas a lot, so precaching it helps speed the loops
     const halfWidth = this._canvas.width / 2;
     const halfHeight = this._canvas.height / 2;
+    // Precache camera data
+    const rX = this._camera.direction.y;
+    const rY = -this._camera.direction.x;
     // We want to write directly to the canvas buffer so get the raw pixel data
     const screenData = this._ctx.getImageData(0,0
        this._canvas.width, this._canvas.height);
@@ -116,8 +119,8 @@ class Renderer {
         let wx = (px / pz);
         let wy = (py / pz);
         // Add camera rotation (basic vector rotation)
-        let sx = wx * this._camera.direction.x - wy * this._camera.direction.y;
-        let sy = wx * this._camera.direction.y + wy * this._camera.direction.x;
+        let sX = wX * rX - wY * rY;
+        let sY = wX * rY + wY * rX;
         // Offset for camera height and move to camera x/y position
         sx = ~~(sx * this._camera.height + this._camera.position.x);
         sy = ~~(sy * this._camera.height + this._camera.position.y);
