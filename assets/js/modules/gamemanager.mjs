@@ -89,7 +89,7 @@ class Game {
       case AssetTypes.IMAGE:
         // Creates a new image asset and adds it to the assets list
         this._assets.push(
-          new ImgAsset(
+          new ImageAsset(
             file,
             this._assets.length,
             (id)=>this._registerAssetLoaded(id)
@@ -99,27 +99,11 @@ class Game {
       case AssetTypes.SOUND:
         break;
     }
+    return this._assets.length - 1;
   }
 
   getAsset(id) {
     return this._assets[id];
-  }
-
-  /*
-   * Setup
-   */
-  _setupGame() {
-
-  }
-
-  _setupEvents() {
-    document.addEventListener("keydown", (event)=>this.keyDown(event));
-    document.addEventListener("keyup", (event)=>this.keyUp(event));
-  }
-
-  _start() {
-    // Start game loop
-    window.requestAnimationFrame((time)=>this._loop(time));
   }
 
   /*
@@ -130,29 +114,38 @@ class Game {
 
   _updatePlaying(time) {
     // Sort sprites by distance to player
+
     // Handle player input
+
+    // Align camera to player
+    //debugger;
+    let cX = this._player.dimensions.x - (this._player.direction.x * -15);
+    let cY = this._player.dimensions.y - (this._player.direction.y * -15);
+    this._renderer.camera.setPosition(cX, cY);
+    this._renderer.camera.setDirection(
+      this._player.direction.x,
+      this._player.direction.y
+    );
+
+
+
     // Check goals
   }
 
   _drawPlaying(time) {
     // Draw backdrop
+    this._renderer.drawBackdrop();
     // Draw gound plain
+    this._renderer.projectFloor(this.track.image);
     // Draw objects
     // Draw interface
   }
 
   _loop(time) {
-    switch(this._state) {
-      GameStates.LOADING:
-      GameStates.LOADED:
-        this._updateLoading(time);
-        this._drawLoading(time);
-        break;
-      GameStates.PLAYING:
-        this._updatePlaying(time);
-        this._drawPlaying(time);
-        break;
-    }
+    this._updatePlaying(time);
+    this._drawPlaying(time);
+
+    window.requestAnimationFrame((time)=>this._loop(time));
   }
 
   /*
@@ -161,8 +154,10 @@ class Game {
   keyUp(event) {
     switch(event.code) {
       case "ArrowUp":     // Move Forware
+        this.test = 0;
         break;
       case "ArrowDown":   // Move Backwards
+        this.test = 0;
         break;
       case "ArrowLeft":   // Turn Left
         break;
@@ -178,8 +173,10 @@ class Game {
   keyDown(event) {
     switch(event.code) {
       case "ArrowUp":     // Move Forware
+        this.test = 1;
         break;
       case "ArrowDown":   // Move Backwards
+        this.test = -1;
         break;
       case "ArrowLeft":   // Turn Left
         break;
