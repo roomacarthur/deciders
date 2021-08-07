@@ -113,9 +113,11 @@ class Game {
   _drawLoading(time) {}
 
   _updatePlaying(time) {
+    const timeDelta = time / 1000;
     // Sort sprites by distance to player
 
-    // Handle player input
+    // Update object states
+    this._player.update(timeDelta);
 
     // Align camera to player
     let cX = this._player.dimensions.x - (this._player.direction.x * 35);
@@ -125,7 +127,8 @@ class Game {
       this._player.direction.x,
       this._player.direction.y
     );
-    // Check goals
+
+    // Check goals and victory conditions
   }
 
   _drawPlaying(time) {
@@ -140,9 +143,11 @@ class Game {
   }
 
   _loop(time) {
-    this._updatePlaying(time);
-    this._drawPlaying(time);
+    const frameTime = this._renderer.startFrame(time);
+    this._updatePlaying(frameTime);
+    this._drawPlaying(frameTime);
 
+    this._renderer.endFrame(time);
     window.requestAnimationFrame((time)=>this._loop(time));
   }
 
