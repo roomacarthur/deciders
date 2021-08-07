@@ -10,9 +10,10 @@ const AssetTypes = {
 };
 
 const GameStates = {
-  PAUSED: "paused",
   LOADING: "loading",
+  LOADED: "loaded",
   PLAYING: "playing",
+  PAUSED: "paused",
   FINISHED: "finished"
 }
 
@@ -40,8 +41,13 @@ class Game {
    * Asset management
    */
   _registerAssetLoaded(id) {
+    this._assets.loadedCount++;
     // Have we finished loading all our assets?
-
+    if (this._assets.loadedCount >= this._assets.length-1) {
+      this._state = GameStates.LOADED;
+    } else {
+      this._state = GameStates.LOADING;
+    }
   }
 
   addAsset(file, type) {
