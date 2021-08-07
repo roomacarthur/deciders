@@ -86,7 +86,6 @@ class Renderer {
       {x:0,y:0},
       15
     );
-
   }
 
   get camera() {return this._camera;}
@@ -124,8 +123,8 @@ class Renderer {
         let sX = wX * rX - wY * rY;
         let sY = wX * rY + wY * rX;
         // Offset for camera height and move to camera x/y position
-        sX = ~~(sX * this._camera.height + this._camera.position.x);
-        sY = ~~(sY * this._camera.height + this._camera.position.y);
+        sX = ~~(sX * this._camera.verticalOffset + this._camera.position.x);
+        sY = ~~(sY * this._camera.verticalOffset + this._camera.position.y);
         // Is the pixel in the buffer?
         if (sX > 0 && sX < texture.width && sY > 0 && sY < texture.height) {
           // Convert screen and image coordinates to buffer offsets
@@ -167,12 +166,12 @@ class Renderer {
       // Calculate distance scalar
       const size = Math.abs( ~~((this._canvas.height / tY) * scale) );
       // Camera height offset
-      const vOffset = (this._canvas.height / tY) * ((this._canvas.height - scale) - height);
+      const vOffset = (this._canvas.height / tY) * ((this._camera.height - scale) - height);
       // Calculate screen coordinates
       const sX = ~~( (this._canvas.width / 2) * (1 + tX / tY) - size / 2 );
       const sY = ~~( ((this._canvas.height - size) / 2) + (size / 2) + vOffset);
       // Draw the sprite to screen
-      ctx.drawImage(image.image, sX, sY, size, size);
+      this._ctx.drawImage(image.image, sX, sY, size, size);
     }
   }
 }
@@ -183,16 +182,24 @@ class Renderer {
 class Camera2D {
   /**
    * Creates a new camera
+   *  @param {Object} position World x,y coordinate of the camera
+   *  @param {Object} direction Camera view vector in X,Y notation
+   *  @param {number} baseHeight The base height of the camera above the floor plane
+   *  @param {number} height The offset height above the floor plain
    */
-  constructor(position, direction, height) {
+  constructor(position, direction, baseHeight, height=0) {
     this._position = new Point2D(position.x, position.y);
     this._direction = new Vector2D(direction.x, direction.x);
+    this._baseHeight = baseHeight;
     this._height = height;
   }
   get position() {return this._position;}
   get direction() {return this._direction;}
   get height() {return this._height;}
   set height(val) {this._height = val;}
+  get baseHeight() {return this._baseHeight;}
+  set baseHeight(val) {this._baseHeight = val;}
+  get verticalOffset() {return (this._baseHeight + this._height);}
 }
 
 export { ImgAsset, PixelImg, Renderer, Camera2D };
