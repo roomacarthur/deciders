@@ -104,30 +104,30 @@ class Renderer {
     const rX = this._camera.direction.y;
     const rY = -this._camera.direction.x;
     // We want to write directly to the canvas buffer so get the raw pixel data
-    const screenData = this._ctx.getImageData(0,0
-       this._canvas.width, this._canvas.height);
+    const screenData = this._ctx.getImageData(0,0,
+      this._canvas.width, this._canvas.height);
     const screenPixels = new Uint32Array(screenData.data.buffer);
 
     // Loop through the floor area of the of the screen in scanlines
-    for (let y = halfHeight; y < this._canvas.height; y++) {
+    for (let y = halfHeight+1; y < this._canvas.height; y++) {
       // Calculate this scanline's z depth
-      let pz = y - (halfHeight);
+      let pZ = y - (halfHeight);
       for (let x = 0; x < this._canvas.width; x++) {
-        let px = x-(halfWidth);       // Shifts the origin to middle of the screen
-        let py = this._canvas.height; // Sets the floor plane at the bottom of the canvas
+        let pX = x-(halfWidth);       // Shifts the origin to middle of the screen
+        let pY = this._canvas.height; // Sets the floor plane at the bottom of the canvas
         // Project screen coordinates to floor coordinates
-        let wx = (px / pz);
-        let wy = (py / pz);
+        let wX = (pX / pZ);
+        let wY = (pY / pZ);
         // Add camera rotation (basic vector rotation)
         let sX = wX * rX - wY * rY;
         let sY = wX * rY + wY * rX;
         // Offset for camera height and move to camera x/y position
-        sx = ~~(sx * this._camera.height + this._camera.position.x);
-        sy = ~~(sy * this._camera.height + this._camera.position.y);
+        sX = ~~(sX * this._camera.height + this._camera.position.x);
+        sY = ~~(sY * this._camera.height + this._camera.position.y);
         // Is the pixel in the buffer?
-        if (sx > 0 && sx < texture.width && sy > 0 && sy < texture.height) {
+        if (sX > 0 && sX < texture.width && sY > 0 && sY < texture.height) {
           // Convert screen and image coordinates to buffer offsets
-          let soff = sy * texture.width + sx;
+          let soff = sY * texture.width + sX;
           let doff = y * screenData.width + x;
           // Copy pixel data
           screenPixels[doff] = texture.pixels[soff];
