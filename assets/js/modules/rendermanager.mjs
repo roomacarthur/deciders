@@ -186,8 +186,10 @@ class Renderer {
    *  @param {Object} image The image to draw
    *  @param {Object} position The x,y screen coordinates of the top left corner
    */
-  drawOverlayImage(image, position) {
-    this._ctx.drawImage(image.image, position.x, position.y);
+  drawOverlayImage(image, position, width=-1, height=-1) {
+    if (width= -1) width = image.width;
+    if (height= -1) height = image.height;
+    this._ctx.drawImage(image.image, position.x, position.y, width, height);
   }
 }
 
