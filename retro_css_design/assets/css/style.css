@@ -13,6 +13,9 @@ body {
   flex-direction: column;
   padding-top: 20px;
 }
+.center {
+  margin: 0 auto;
+}
 /* 
 #####################################################
 #-----Header----------------------------------------#
@@ -101,12 +104,22 @@ nav {
   min-width: 492px;
   margin: 0 auto;
   margin-top: 50px;
+  padding: 10px;
   background-color: #000 !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.hs-balloon {
+  width: 230px;
+  text-align: center;
 }
 .hs-table {
   text-align: center;
   margin: 0 auto;
   color: #fff !important;
+  margin-bottom: 3git0px;
 }
 .hs-table th {
   padding-bottom: 15px;
