@@ -90,6 +90,8 @@ class Renderer {
   }
 
   get camera() {return this._camera;}
+  get canvas() {return this._canvas;}
+  get context() {return this._ctx;}
 
   /**
    * Performs an Affine Transformation on the given texture and projects it
