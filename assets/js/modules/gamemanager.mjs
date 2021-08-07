@@ -30,6 +30,23 @@ class Game {
     this._renderer = new Renderer(canvas);
     
   /*
+   * Setup
+   */
+  _setupGame() {
+
+  }
+
+  _setupEvents() {
+    document.addEventListener("keydown", (event)=>this.keyDown(event));
+    document.addEventListener("keyup", (event)=>this.keyUp(event));
+  }
+
+  _start() {
+    // Start game loop
+    window.requestAnimationFrame((time)=>this._loop(time));
+  }
+
+  /*
    * Player interaction
    */
   keyUp(event) {
