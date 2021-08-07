@@ -4,6 +4,18 @@
 
 import { ImgAsset, PixelImg, Renderer, Camera } from "./rendermanager.mjs";
 
+const AssetTypes = {
+  IMAGE: "image",
+  SOUND: "sound"
+};
+
+const GameStates = {
+  PAUSED: "paused",
+  LOADING: "loading",
+  PLAYING: "playing",
+  FINISHED: "finished"
+}
+
 /**
  * Game manager. Creates and manages game objects, runs the main game loop
  * and handles game state and logic.
@@ -20,4 +32,4 @@ class Game {
   }
 }
 
-export { Game };
+export { Game, AssetTypes, GameStates };
