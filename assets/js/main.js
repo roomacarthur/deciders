@@ -1,15 +1,8 @@
 // Engine Core Test code
 
-import { PixelImg, Renderer } from "./modules/rendermanager.mjs";
+import { Game, AssetTypes, GameStates } from "./modules/gamemanager.mjs";
+import * as configs from "./config.mjs";
 
-const floorImg = new PixelImg("./assets/img/tracks/test.png", floorLoaded);
-const renderer = new Renderer(document.getElementById('canvas'));
-renderer.camera.direction.x = Math.cos(1.57079632679);
-renderer.camera.direction.y = Math.sin(1.57079632679);
-
-function floorLoaded() {
-  renderer.drawBackdrop();
-  renderer.projectFloor(floorImg);
-}
-
-
+const game = new Game(document.getElementById('canvas'));
+game.setupGame(configs.TestTrackConfig, configs.TestPlayerConfig);
+game.start();

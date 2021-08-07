@@ -3,46 +3,21 @@ import { Point2D, Vector2D } from "./types2d.mjs";
 /**
  * @module rendermanager
  */
-/**
- * Encapsulates a simple image that can be drawn to a canvas
- */
-class ImgAsset {
-  /**
-   * Creates a new ImgAsset
-   *  @param {String} image - The image file path for this texture
-   *  @param {Object} callback - (Optional) Function to call when image loading complete
-   */
-  constructor(image, callback = null) {
-    this._loaded = false;
-    this._image = new Image();
-    this._image.src = image;
-    this._image.onload = () => {
-      this._loaded = true;
-      if (callback) callback();
-    }
-  }
-  get loaded() {return this._loaded;}
-  get pixels() {
-    if (!this._loaded) throw "Image not loaded!";
-    return this._pixels;
-  }
-  get width() {return this._image.width;}
-  get height() {return this._image.height;}
-  get image() {return this._image;}
-}
+
 /**
  * Encapsulates an image that can be read to and from on a per pixel basis
  */
-class PixelImg {
+class ImageAsset {
   /**
-   * Creates a new PixelImg
+   * Creates a new ImageAsset
    *  @param {String} image - The image file path for this texture
+   *  @param {number} id - The resource id
    *  @param {Object} callback - (Optional) Function to call when image loading complete
    */
-  constructor(image, callback = null) {
+  constructor(image, id=0, callback = null) {
     this._loaded = false;
+    this._id = id;
     this._image = new Image();
-    this._image.src = image;
     this._image.onload = () => {
       // Create the buffer for reading the pixel data and move the image into it
       this._surface = document.createElement('canvas');
@@ -54,8 +29,9 @@ class PixelImg {
       this._data = this._context.getImageData(0,0,this._image.width,this._image.height);
       this._pixels = new Uint32Array(this._data.data.buffer);
       this._loaded = true;
-      if (callback) callback();
+      if (callback) callback(this._id);
     }
+    this._image.src = image;
   }
 
   get loaded() {return this._loaded;}
@@ -68,6 +44,7 @@ class PixelImg {
   get width() {return this._image.width;}
   get height() {return this._image.height;}
   get image() {return this._image;}
+  get id() {return this._id;}
 }
 /**
  * Manages rendering to the screen
@@ -84,8 +61,10 @@ class Renderer {
     this._camera = new Camera2D(
       {x:0,y:0},
       {x:0,y:0},
-      15
+      5,15,1000,10
     );
+    this._thisFrameTime = 0;
+    this._lastFrameTime = 0;
   }
 
   get camera() {return this._camera;}
@@ -93,9 +72,25 @@ class Renderer {
   get context() {return this._ctx;}
 
   /**
+   * Starts a draw frame
+   *  @param {number} time The current time in milliseconds
+   */
+  startFrame(time) {
+    this._thisFrameTime = time - this._lastFrameTime;
+    return this._thisFrameTime;
+  }
+  /**
+   * Ends the current draw frame
+   *  @param {number} time The current time in milliseconds
+   */
+  endFrame(time) {
+    this._lastFrameTime = time;
+  }
+
+  /**
    * Performs an Affine Transformation on the given texture and projects it
    * to the floor plain.
-   *  @param {Object} texture - A PixelImg object of the texture to draw
+   *  @param {Object} texture - An ImageAsset object of the texture to draw
    */
   projectFloor(texture) {
     // We need the centre point of the canvas a lot, so precaching it helps speed the loops
@@ -141,12 +136,12 @@ class Renderer {
 
   /**
    * Draws a given sprite to the screen
-   *  @param {Object} image - The ImgAsset to draw
+   *  @param {Object} image - The ImageAsset to draw
    *  @param {number} scale - Base scale for the sprite
    *  @param {Object} position - Point2D world position of the sprite
    *  @param {number} height - Height of this sprite above the floor plain
    */
-  drawSprite(image, position, height=0, scale=15) {
+  drawSprite(image, position, height=0) {
     // Precache camera direction vector values
     const rX = this._camera.direction.x;
     const rY = this._camera.direction.y;
@@ -162,11 +157,11 @@ class Renderer {
     const tX = invDet * (rY * wX - rX * wY);
     const tY = invDet * (-pY * wX + pX * wY);
     // Is the sprite in front of the camera?
-    if (tY > scale) {
+    if (tY > 20) {
       // Calculate distance scalar
-      const size = Math.abs( ~~((this._canvas.height / tY) * scale) );
+      const size = Math.abs( ~~((this._canvas.height / tY) * this._camera.scale) );
       // Camera height offset
-      const vOffset = (this._canvas.height / tY) * ((this._camera.height - scale) - height);
+      const vOffset = (this._canvas.height / tY) * (this._camera.height - height);
       // Calculate screen coordinates
       const sX = ~~( (this._canvas.width / 2) * (1 + tX / tY) - size / 2 );
       const sY = ~~( ((this._canvas.height - size) / 2) + (size / 2) + vOffset);
@@ -185,6 +180,17 @@ class Renderer {
     this._ctx.fillStyle = "green";
     this._ctx.fillRect(0,canvas.height/2,canvas.width,canvas.height);
   }
+
+  /**
+   * Simple image drawing
+   *  @param {Object} image The image to draw
+   *  @param {Object} position The x,y screen coordinates of the top left corner
+   */
+  drawOverlayImage(image, position, width=-1, height=-1) {
+    if (width= -1) width = image.width;
+    if (height= -1) height = image.height;
+    this._ctx.drawImage(image.image, position.x, position.y, width, height);
+  }
 }
 
 /**
@@ -195,22 +201,43 @@ class Camera2D {
    * Creates a new camera
    *  @param {Object} position World x,y coordinate of the camera
    *  @param {Object} direction Camera view vector in X,Y notation
-   *  @param {number} baseHeight The base height of the camera above the floor plane
+   *  @param {number} scale The base scale to apply to the view
+   *  @param {number} nearClip The near clipping distance
+   *  @param {number} farClip The far clipping distance
    *  @param {number} height The offset height above the floor plain
    */
-  constructor(position, direction, baseHeight, height=0) {
+  constructor(position, direction, scale, nearClip=5, farClip=1000, height=5) {
     this._position = new Point2D(position.x, position.y);
     this._direction = new Vector2D(direction.x, direction.x);
-    this._baseHeight = baseHeight;
+    this._scale = scale;
+    this.nearClip = nearClip;
+    this._farClip = farClip
     this._height = height;
+    // Generate
   }
+  // Getters and setters
   get position() {return this._position;}
   get direction() {return this._direction;}
   get height() {return this._height;}
   set height(val) {this._height = val;}
-  get baseHeight() {return this._baseHeight;}
-  set baseHeight(val) {this._baseHeight = val;}
-  get verticalOffset() {return (this._baseHeight + this._height);}
+  get scale() {return this._scale;}
+  set scale(val) {this._scale = val;}
+  get nearClip() {return this._nearClip;}
+  set nearClip(val) {return this._nearClip;}
+  get farClip() {return this._farClip;}
+  set farClip(val) {return this._farClip;}
+  /** Returns the height of the camera taking scale into account */
+  get verticalOffset() {return (this.scale + this._height);}
+
+  setPosition(x,y) {
+    this._position.x = x;
+    this._position.y = y;
+  }
+  setDirection(x,y) {
+    this._direction.x = x;
+    this._direction.y = y;
+  }
+  //TODO: Vision checks
 }
 
-export { ImgAsset, PixelImg, Renderer, Camera2D };
+export { ImageAsset, Renderer, Camera2D };
