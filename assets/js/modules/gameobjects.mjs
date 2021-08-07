@@ -2,6 +2,7 @@
  * @module gameobjects
  */
 
+import { Game } from "./gamemanager.mjs";
 import { Point2D, Vector2D, BoundingCircle, BoundingBox } from "./types2d.mjs";
 
 /**
@@ -33,6 +34,14 @@ class Player extends GameObject {
   constructor(game, sprite, position, template) {
     super(game, sprite, position, template);
     this._direction = new Vector2D(Math.cos(position.dir), Math.sin(position.dir));
+
+    this._maxSpeed = template.maxSpeed;
+    this._maxAcceleration = template.acceleration;
+    this._turnSpeed = template.tSpeed;
+
+    this._rotation = 0;
+    this._acceleration = 0;
+    this._speed = 0;
   }
 
   get direction() {return this._direction;}
