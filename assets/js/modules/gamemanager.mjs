@@ -39,9 +39,10 @@ class Game {
     this._lastState = this._state;
     // Game Objects
     this._setupEvents();
-
-    this.test = 0;
   }
+
+  /** Returns how much speed should be reduced per second due to friction */
+  get friction() {return 25;}
 
   /*
    * Setup
@@ -113,9 +114,11 @@ class Game {
   _drawLoading(time) {}
 
   _updatePlaying(time) {
+    const timeDelta = time / 1000;
     // Sort sprites by distance to player
 
-    // Handle player input
+    // Update object states
+    this._player.update(timeDelta);
 
     // Align camera to player
     let cX = this._player.dimensions.x - (this._player.direction.x * 35);
@@ -125,7 +128,15 @@ class Game {
       this._player.direction.x,
       this._player.direction.y
     );
-    // Check goals
+
+    // Check goals and victory conditions
+  }
+
+  _drawDebugInfo(time) {
+    this._renderer.drawText(`FPS: ${~~(1000/(time))}`, 5, 15);
+    this._renderer.drawText(
+      `X: ${~~this._player.dimensions.x} Y: ${~~this._player.dimensions.y}`, 5, 30
+    );
   }
 
   _drawPlaying(time) {
@@ -137,12 +148,15 @@ class Game {
     this._player.draw(this._renderer);
     // Draw objects
     // Draw interface
+    this._drawDebugInfo(time);
   }
 
   _loop(time) {
-    this._updatePlaying(time);
-    this._drawPlaying(time);
+    const frameTime = this._renderer.startFrame(time);
+    this._updatePlaying(frameTime);
+    this._drawPlaying(frameTime);
 
+    this._renderer.endFrame(time);
     window.requestAnimationFrame((time)=>this._loop(time));
   }
 
@@ -152,14 +166,16 @@ class Game {
   keyUp(event) {
     switch(event.code) {
       case "ArrowUp":     // Move Forware
-        this.test = 0;
+        this._player.accelerate(0);
         break;
       case "ArrowDown":   // Move Backwards
-        this.test = 0;
+        this._player.accelerate(0);
         break;
       case "ArrowLeft":   // Turn Left
+        this._player.rotate(0);
         break;
       case "ArrowRight":  // Turn Right
+        this._player.rotate(0);
         break;
       case "Space":       // Jump
         break;
@@ -171,14 +187,16 @@ class Game {
   keyDown(event) {
     switch(event.code) {
       case "ArrowUp":     // Move Forware
-        this.test = 1;
+        this._player.accelerate(1);
         break;
       case "ArrowDown":   // Move Backwards
-        this.test = -1;
+        this._player.accelerate(-1);
         break;
       case "ArrowLeft":   // Turn Left
+        this._player.rotate(1);
         break;
       case "ArrowRight":  // Turn Right
+        this._player.rotate(-1);
         break;
       case "Space":       // Jump
         break;

@@ -3,7 +3,7 @@ const TestTrackConfig = {
     name: "Test Track",
     image: "./assets/img/tracks/test.png",
     // Player spawn point position and view direction in radians
-    pSpawn: {x:80, y:250, dir: 1.5708},
+    pSpawn: {x:920, y:585, dir: 4.71239},
     // List of checkpoints position and radii in map image pixels
     checkpoints: [
         {x:15, y:15, r:50},
@@ -20,7 +20,7 @@ const TestTrackConfig = {
 const TestPlayerConfig = {
     name: "player one",
     sprite: "./assets/img/sprites/testplayer.png",
-    // Acceleration in pixels a second (so this player would reach max speed in three seconds.
+    // Acceleration in pixels a second
     acceleration: 50,
     // Maximum speed in pixels a second
     maxSpeed: 150,
