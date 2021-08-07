@@ -3,41 +3,13 @@ import { Point2D, Vector2D } from "./types2d.mjs";
 /**
  * @module rendermanager
  */
-/**
- * Encapsulates a simple image that can be drawn to a canvas
- */
-class ImgAsset {
-  /**
-   * Creates a new ImgAsset
-   *  @param {String} image - The image file path for this texture
-   *  @param {number} id - The resource id
-   *  @param {Object} callback - (Optional) Function to call when image loading complete
-   */
-  constructor(image, id=0, callback = null) {
-    this._loaded = false;
-    this._id = id;
-    this._image = new Image();
-    this._image.onload = () => {
-      this._loaded = true;
-      if (callback) callback(this._id);
-    }
-    this._image.src = image;
-  }
-  get loaded() {return this._loaded;}
-  get pixels() {
-    if (!this._loaded) throw "Image not loaded!";
-    return this._pixels;
-  }
-  get width() {return this._image.width;}
-  get height() {return this._image.height;}
-  get image() {return this._image;}
-}
+
 /**
  * Encapsulates an image that can be read to and from on a per pixel basis
  */
-class PixelImg {
+class ImageAsset {
   /**
-   * Creates a new PixelImg
+   * Creates a new ImageAsset
    *  @param {String} image - The image file path for this texture
    *  @param {number} id - The resource id
    *  @param {Object} callback - (Optional) Function to call when image loading complete
@@ -117,7 +89,7 @@ class Renderer {
   /**
    * Performs an Affine Transformation on the given texture and projects it
    * to the floor plain.
-   *  @param {Object} texture - A PixelImg object of the texture to draw
+   *  @param {Object} texture - An ImageAsset object of the texture to draw
    */
   projectFloor(texture) {
     // We need the centre point of the canvas a lot, so precaching it helps speed the loops
@@ -163,7 +135,7 @@ class Renderer {
 
   /**
    * Draws a given sprite to the screen
-   *  @param {Object} image - The ImgAsset to draw
+   *  @param {Object} image - The ImageAsset to draw
    *  @param {number} scale - Base scale for the sprite
    *  @param {Object} position - Point2D world position of the sprite
    *  @param {number} height - Height of this sprite above the floor plain
@@ -256,4 +228,4 @@ class Camera2D {
   //TODO: Vision checks
 }
 
-export { ImgAsset, PixelImg, Renderer, Camera2D };
+export { ImageAsset, Renderer, Camera2D };

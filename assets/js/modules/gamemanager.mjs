@@ -2,7 +2,7 @@
  * @module gamemanager
  */
 
-import { ImgAsset, PixelImg, Renderer, Camera } from "./rendermanager.mjs";
+import { ImageAsset, Renderer, Camera2D } from "./rendermanager.mjs";
 
 const AssetTypes = {
   IMAGE: "image",
@@ -36,8 +36,21 @@ class Game {
    * Asset handling
    */
   _registerAssetLoaded(id) {}
-  addAsset(file, type) {
 
+  addAsset(file, type) {
+    switch(type) {
+      case AssetTypes.IMAGE:
+        this._assets.push(
+          new ImgAsset
+        );
+        break;
+      case AssetTypes.SOUND:
+        break;
+    }
+  }
+
+  getAsset(id) {
+    return this._assets[id];
   }
 
   /*
