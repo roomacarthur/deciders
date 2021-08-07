@@ -185,6 +185,15 @@ class Renderer {
     this._ctx.fillStyle = "green";
     this._ctx.fillRect(0,canvas.height/2,canvas.width,canvas.height);
   }
+
+  /**
+   * Simple image drawing
+   *  @param {Object} image The image to draw
+   *  @param {Object} position The x,y screen coordinates of the top left corner
+   */
+  drawOverlayImage(image, position) {
+    this._ctx.drawImage(image.image, position.x, position.y);
+  }
 }
 
 /**
@@ -207,7 +216,7 @@ class Camera2D {
     this.nearClip = nearClip;
     this._farClip = farClip
     this._height = height;
-    // Generate 
+    // Generate
   }
   // Getters and setters
   get position() {return this._position;}
