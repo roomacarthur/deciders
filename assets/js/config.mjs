@@ -20,7 +20,7 @@ const TestTrackConfig = {
 const TestPlayerConfig = {
     name: "player one",
     sprite: "./assets/img/sprites/testplayer.png",
-    // Acceleration in pixels a second (so this player would reach max speed in three seconds.
+    // Acceleration in pixels a second
     acceleration: 50,
     // Maximum speed in pixels a second
     maxSpeed: 150,
