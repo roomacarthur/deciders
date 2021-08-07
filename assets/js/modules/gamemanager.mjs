@@ -29,6 +29,41 @@ class Game {
     // Create Renderer
     this._renderer = new Renderer(canvas);
     
+  /*
+   * Player interaction
+   */
+  keyUp(event) {
+    switch(event.code) {
+      case "ArrowUp":     // Move Forware
+        break;
+      case "ArrowDown":   // Move Backwards
+        break;
+      case "ArrowLeft":   // Turn Left
+        break;
+      case "ArrowRight":  // Turn Right
+        break;
+      case "Space":       // Jump
+        break;
+      case "P":           // Pause
+        break;
+    }
+  }
+
+  keyDown(event) {
+    switch(event.code) {
+      case "ArrowUp":     // Move Forware
+        break;
+      case "ArrowDown":   // Move Backwards
+        break;
+      case "ArrowLeft":   // Turn Left
+        break;
+      case "ArrowRight":  // Turn Right
+        break;
+      case "Space":       // Jump
+        break;
+      case "P":           // Pause
+        break;
+    }
   }
 }
 
