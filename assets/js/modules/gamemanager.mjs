@@ -37,6 +37,38 @@ class Game {
     // State management
     this._state = GameStates.LOADING;
     this._lastState = this._state;
+    // Game Objects
+    this._setupEvents();
+
+    this.test = 0;
+  }
+
+  /*
+   * Setup
+   */
+  setupGame(trackTemplate, playerTemplate) {
+    // Create Track
+    this.track = new Track(
+      this.getAsset(this.addAsset(trackTemplate.image, AssetTypes.IMAGE)),
+      trackTemplate
+    );
+    // Create Player
+    this._player = new Player(
+      this,
+      this.getAsset(this.addAsset(playerTemplate.sprite, AssetTypes.IMAGE)),
+      trackTemplate.pSpawn,
+      playerTemplate
+    );
+  }
+
+  _setupEvents() {
+    document.addEventListener("keydown", (event)=>this.keyDown(event));
+    document.addEventListener("keyup", (event)=>this.keyUp(event));
+  }
+
+  start() {
+    // Start game loop
+    window.requestAnimationFrame((time)=>this._loop(time));
   }
 
   /*
