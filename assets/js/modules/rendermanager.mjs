@@ -10,16 +10,18 @@ class ImgAsset {
   /**
    * Creates a new ImgAsset
    *  @param {String} image - The image file path for this texture
+   *  @param {number} id - The resource id
    *  @param {Object} callback - (Optional) Function to call when image loading complete
    */
-  constructor(image, callback = null) {
+  constructor(image, id=0, callback = null) {
     this._loaded = false;
+    this._id = id;
     this._image = new Image();
-    this._image.src = image;
     this._image.onload = () => {
       this._loaded = true;
-      if (callback) callback();
+      if (callback) callback(this._id);
     }
+    this._image.src = image;
   }
   get loaded() {return this._loaded;}
   get pixels() {
@@ -37,12 +39,13 @@ class PixelImg {
   /**
    * Creates a new PixelImg
    *  @param {String} image - The image file path for this texture
+   *  @param {number} id - The resource id
    *  @param {Object} callback - (Optional) Function to call when image loading complete
    */
-  constructor(image, callback = null) {
+  constructor(image, id=0, callback = null) {
     this._loaded = false;
+    this._id = id;
     this._image = new Image();
-    this._image.src = image;
     this._image.onload = () => {
       // Create the buffer for reading the pixel data and move the image into it
       this._surface = document.createElement('canvas');
@@ -54,8 +57,9 @@ class PixelImg {
       this._data = this._context.getImageData(0,0,this._image.width,this._image.height);
       this._pixels = new Uint32Array(this._data.data.buffer);
       this._loaded = true;
-      if (callback) callback();
+      if (callback) callback(this._id);
     }
+    this._image.src = image;
   }
 
   get loaded() {return this._loaded;}
