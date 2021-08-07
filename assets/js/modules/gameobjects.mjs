@@ -17,6 +17,10 @@ class GameObject {
   get dimensions() {return this._bounds;}
   get image() {return this._sprite;}
 
+  draw(renderer) {
+    renderer.drawSprite(this._sprite, this._bounds)
+  }
+
   collision(object) {
     return this._bounds.collides(object._bounds);
   }
