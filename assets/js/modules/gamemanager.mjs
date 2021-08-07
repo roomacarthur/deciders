@@ -39,9 +39,10 @@ class Game {
     this._lastState = this._state;
     // Game Objects
     this._setupEvents();
-
-    this.test = 0;
   }
+
+  /** Returns how much speed should be reduced per second due to friction */
+  get friction() {return 25;}
 
   /*
    * Setup
