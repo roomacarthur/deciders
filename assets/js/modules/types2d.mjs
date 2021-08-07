@@ -210,6 +210,8 @@ class BoundingCircle extends Point2D {
   }
 
   //TODO: Actual collision detection goes here...
+  collides(circle) {return false;}
+  intersects(circle) {return null;}
 }
 
 /**
