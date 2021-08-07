@@ -133,6 +133,8 @@ class Game {
     this._renderer.drawBackdrop();
     // Draw gound plain
     this._renderer.projectFloor(this.track.image);
+    // Draw Player
+    this._player.draw(this._renderer);
     // Draw objects
     // Draw interface
   }
