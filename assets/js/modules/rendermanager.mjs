@@ -143,8 +143,38 @@ class Renderer {
   /**
    * Draws a given sprite to the screen
    *  @param {Object} image - The ImgAsset to draw
+   *  @param {number} scale - Base scale for the sprite
+   *  @param {Object} position - Point2D world position of the sprite
+   *  @param {number} height - Height of this sprite above the floor plain
    */
-  drawSprite(image) {}
+  drawSprite(image, position, height=0, scale=15) {
+    // Precache camera direction vector values
+    const rX = this._camera.direction.x;
+    const rY = this._camera.direction.y;
+    // Generate projection plane
+    const pX = rY / 2;
+    const pY = -rX / 2;
+    // Calculate the sprite's position in the world relative to the camera
+    const wX = position.x - this._camera.position.x;
+    const wY = position.y - this._camera.position.y;
+    // Generate screen/world transform
+    // tX = horizontal scalar, tY = depth from screen plane
+    const invDet = 1.0 / (pX * rY - rX * pY);
+    const tX = invDet * (rY * wX - rX * wY);
+    const tY = invDet * (-pY * wX + pX * wY);
+    // Is the sprite in front of the camera?
+    if (tY > scale) {
+      // Calculate distance scalar
+      const size = Math.abs( ~~((this._canvas.height / tY) * scale) );
+      // Camera height offset
+      const vOffset = (this._canvas.height / tY) * ((this._canvas.height - scale) - height);
+      // Calculate screen coordinates
+      const sX = ~~( (this._canvas.width / 2) * (1 + tX / tY) - size / 2 );
+      const sY = ~~( ((this._canvas.height - size) / 2) + (size / 2) + vOffset);
+      // Draw the sprite to screen
+      ctx.drawImage(image.image, sX, sY, size, size);
+    }
+  }
 }
 
 /**
