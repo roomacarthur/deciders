@@ -28,7 +28,18 @@ class Game {
   constructor(canvas) {
     // Create Renderer
     this._renderer = new Renderer(canvas);
-    
+    // Asset lists
+    this._assets = new Array();
+  }
+
+  /*
+   * Asset handling
+   */
+  _registerAssetLoaded(id) {}
+  addAsset(file, type) {
+
+  }
+
   /*
    * Setup
    */
