@@ -102,7 +102,7 @@ class Renderer {
     // We need the centre point of the canvas a lot, so precaching it helps speed the loops
     const halfWidth = this._canvas.width / 2;
     const halfHeight = this._canvas.height / 2;
-    // Precache camera data
+    // Create project plane from camera view
     const rX = this._camera.direction.y;
     const rY = -this._camera.direction.x;
     // We want to write directly to the canvas buffer so get the raw pixel data
@@ -110,8 +110,8 @@ class Renderer {
       this._canvas.width, this._canvas.height);
     const screenPixels = new Uint32Array(screenData.data.buffer);
 
-    // Loop through the floor area of the of the screen in scanlines
-    for (let y = halfHeight+1; y < this._canvas.height; y++) {
+    // Loop through the floor area of the screen in scanlines
+    for (let y = halfHeight + 1; y < this._canvas.height; y++) {
       // Calculate this scanline's z depth
       let pZ = y - (halfHeight);
       for (let x = 0; x < this._canvas.width; x++) {
