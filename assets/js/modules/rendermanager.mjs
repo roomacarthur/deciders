@@ -81,9 +81,15 @@ class Renderer {
     this._canvas = canvas;
     this._ctx = canvas.getContext("2d");
     // Create the camera
-    this._camera = new Camera2D({x:0,y:0},{x:0,y:1});
+    this._camera = new Camera2D(
+      {x:0,y:0},
+      {x:0,y:0},
+      15
+    );
 
   }
+
+  get camera() {return this._camera;}
 
   /**
    * Performs an Affine Transformation on the given texture and projects it
