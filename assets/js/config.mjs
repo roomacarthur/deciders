@@ -3,7 +3,7 @@ const TestTrackConfig = {
     name: "Test Track",
     image: "./assets/img/tracks/test.png",
     // Player spawn point position and view direction in radians
-    pSpawn: {x:80, y:250, dir: 1.5708},
+    pSpawn: {x:920, y:585, dir: 4.71239},
     // List of checkpoints position and radii in map image pixels
     checkpoints: [
         {x:15, y:15, r:50},
