@@ -7,11 +7,19 @@ import { Point2D, Vector2D } from "./types2d.mjs";
  * Encapsulates a simple image that can be drawn to a canvas
  */
 class ImgAsset {
-  constructor(image) {
+  /**
+   * Creates a new ImgAsset
+   *  @param {String} image - The image file path for this texture
+   *  @param {Object} callback - (Optional) Function to call when image loading complete
+   */
+  constructor(image, callback = null) {
     this._loaded = false;
     this._image = new Image();
     this._image.src = image;
-    this._image.onload = () => this._loaded = true;
+    this._image.onload = () => {
+      this._loaded = true;
+      if (callback) callback();
+    }
   }
   get loaded() {return this._loaded;}
   get pixels() {
