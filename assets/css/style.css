@@ -56,7 +56,7 @@ nav {
 }
 .content {
   width: 80vw;
-  min-width: 492px;
+  min-width: 410px;
   margin: 0 auto;
   margin-top: 30px;
   display: flex;
@@ -91,8 +91,8 @@ nav {
   align-content: center;
   justify-content: center;
 }
-#game-container h2{
-  margin: 50px;
+#game-container > h2{
+  text-align: center;
 }
 /* 
 #####################################################
