@@ -131,10 +131,13 @@ class Renderer {
         }
       }
     }
+    // Copy the buffer data back to the screen
+    this._ctx.putImageData(screenData,0,0);
   }
 
   /**
    * Draws a given sprite to the screen
+   *  @param {Object} image - The ImgAsset to draw
    */
   drawSprite(image) {}
 }
