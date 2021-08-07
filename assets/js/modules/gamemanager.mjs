@@ -30,18 +30,30 @@ class Game {
     this._renderer = new Renderer(canvas);
     // Asset lists
     this._assets = new Array();
+    this._assets.loadedCount = 0;
+    // State management
+    this._state = GameStates.LOADING;
+    this._lastState = this._state;
   }
 
   /*
-   * Asset handling
+   * Asset management
    */
-  _registerAssetLoaded(id) {}
+  _registerAssetLoaded(id) {
+    // Have we finished loading all our assets?
+
+  }
 
   addAsset(file, type) {
     switch(type) {
       case AssetTypes.IMAGE:
+        // Creates a new image asset and adds it to the assets list
         this._assets.push(
-          new ImgAsset
+          new ImgAsset(
+            file,
+            this._assets.length,
+            (id)=>this._registerAssetLoaded(id)
+          )
         );
         break;
       case AssetTypes.SOUND:
