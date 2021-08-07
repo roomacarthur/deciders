@@ -226,6 +226,15 @@ class Camera2D {
   set farClip(val) {return this._farClip;}
   /** Returns the height of the camera taking scale into account */
   get verticalOffset() {return (this.scale + this._height);}
+
+  setPosition(x,y) {
+    this._position.x = x;
+    this._position.y = y;
+  }
+  setDirection(x,y) {
+    this._direction.x = x;
+    this._direction.y = y;
+  }
   //TODO: Vision checks
 }
 
