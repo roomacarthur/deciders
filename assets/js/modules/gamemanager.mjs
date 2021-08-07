@@ -132,6 +132,13 @@ class Game {
     // Check goals and victory conditions
   }
 
+  _drawDebugInfo(time) {
+    this._renderer.drawText(`FPS: ${~~(1000/(time))}`, 5, 15);
+    this._renderer.drawText(
+      `X: ${~~this._player.dimensions.x} Y: ${~~this._player.dimensions.y}`, 5, 30
+    );
+  }
+
   _drawPlaying(time) {
     // Draw backdrop
     this._renderer.drawBackdrop();
@@ -141,6 +148,7 @@ class Game {
     this._player.draw(this._renderer);
     // Draw objects
     // Draw interface
+    this._drawDebugInfo(time);
   }
 
   _loop(time) {
