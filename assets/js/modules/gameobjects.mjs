@@ -71,18 +71,20 @@ class Player extends GameObject {
    *  @param {number} timeDelta - Time in seconds since the last update
    */
   update(timeDelta) {
-    // Update speed
-    this._speed += (this._acceleration - this._game.friction) * timeDelta;
-    if (this._speed > this._maxSpeed) this._speed = this._maxSpeed;
-    else if (this._speed < 0) this._speed = 0;
+    if (!this._jumping) {
+      // Update speed
+      this._speed += (this._acceleration - this._game.friction) * timeDelta;
+      if (this._speed > this._maxSpeed) this._speed = this._maxSpeed;
+      else if (this._speed < 0) this._speed = 0;
+
+      // Update rotation
+      const rotation = ((this._rotation) * ((this._speed / this._maxSpeed)/2));
+      this._direction.rotateByRadians(rotation * timeDelta);
+    }
 
     // Update position
     this._bounds.x += (this._direction.x * this._speed) * timeDelta;
     this._bounds.y += (this._direction.y * this._speed) * timeDelta;
-
-    // Update rotation
-    const rotation = ((this._rotation) * ((this._speed / this._maxSpeed)/2));
-    this._direction.rotateByRadians(rotation * timeDelta);
 
     // Update vertical position
     this._height += this._vAcceleration * timeDelta;
