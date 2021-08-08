@@ -61,7 +61,7 @@ class Game {
     for (let i = 0; i < objectTypes.length; i++) {
       this._objectTemplates.set(objectTypes[i].name, {
         template: objectTypes[i],
-        sprite: this.getAsset(this.addAsset(objectTypes.image, AssetTypes.IMAGE))
+        sprite: this.getAsset(this.addAsset(objectTypes[i].sprite, AssetTypes.IMAGE))
       });
     }
 
@@ -190,7 +190,7 @@ class Game {
     */
    createObject(type, position) {
      // Get the template
-     const template = this._objectTemplates(type);
+     const template = this._objectTemplates.get(type);
      if (template) {
        // Create the object, add it to the list and return it
        this._objects.push(
@@ -202,7 +202,7 @@ class Game {
            this._objects.length
          )
        );
-       return this._objects[this._object.length-1];
+       return this._objects[this._objects.length-1];
      }
      return null;
    }
@@ -217,8 +217,12 @@ class Game {
   _sortObjects() {}
 
   _updatePlaying(time) {
+
+    // Check if playing or paused...
+
     const timeDelta = time / 1000;
-    // Sort sprites by distance to player
+    // Sort sprites by distance to camera
+    this._sortObjects();
 
     // Handle user input
     this._handleKeys();
@@ -257,6 +261,9 @@ class Game {
     // Draw Player
     this._player.draw(this._renderer);
     // Draw objects
+    for (let i = 0; i < this._objects.length; i++) {
+      this._objects[i].draw(this._renderer);
+    }
     // Draw interface
     this._drawDebugInfo(time);
   }
