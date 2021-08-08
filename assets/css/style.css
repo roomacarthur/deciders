@@ -112,6 +112,11 @@ nav {
   background-color: #000;
 }
 
+#stopwatch{
+  text-align: center;
+  color: green;
+}
+
 /* 
 #####################################################
 #-----High Scores Page------------------------------#
