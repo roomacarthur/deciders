@@ -216,6 +216,12 @@ class BananaPeel extends Pickup {
   }
 }
 
+class Tree extends Pickup {
+  constructor(game, sprite, position, template, id) {
+    super(game, sprite, position, template, id);
+  }
+}
+
 /**
  * Creates Game Objects on demand based on templates
  */
@@ -236,6 +242,10 @@ class ObjectFactory {
         new BananaPeel(game, sprite, position, template, id)
     });
     // Add new game objects here
+    this._factories.set("tree", {
+      create: (game, sprite, position, template, id) =>
+        new Tree(game, sprite, position, template, id)
+    });
   }
 
   createObject(game, sprite, position, template, id) {

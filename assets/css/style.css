@@ -91,9 +91,27 @@ nav {
   align-content: center;
   justify-content: center;
 }
+
 #game-container > h2{
   text-align: center;
 }
+
+/* 
+#####################################################
+#-----Game Page--------------------------------#
+##################################################### 
+*/
+
+#game-box{
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+#gaming {
+  background-color: #000;
+}
+
 /* 
 #####################################################
 #-----High Scores Page------------------------------#
@@ -203,7 +221,7 @@ footer {
 .slot {
   height: 200px;
   width: 25px;
-  border: 5px solid rgb(255, 0, 4);
+  border: 5px solid rgb(67, 63, 64);
   border-radius: 3px;
   position: relative;
   left:8px;
