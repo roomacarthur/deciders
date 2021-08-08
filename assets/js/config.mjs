@@ -10,9 +10,9 @@ const TrackConfig = {
     // Friction on the track
     tDrag: 25,
     // Friction off the track
-    dDrag: 50,
+    dDrag: 30,
     // Change to max speed when not on the track
-    dSpeed: -75,
+    dSpeed: -100,
     // Player spawn point position and view direction in radians
     pSpawn: {x:345, y:200, dir: 2.8704},
     // List of checkpoints position and radii in map image pixels
