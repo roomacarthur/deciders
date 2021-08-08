@@ -91,9 +91,23 @@ nav {
   align-content: center;
   justify-content: center;
 }
+
 #game-container > h2{
   text-align: center;
 }
+
+/* 
+#####################################################
+#-----Game Page--------------------------------#
+##################################################### 
+*/
+
+#game-box{
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
 /* 
 #####################################################
 #-----High Scores Page------------------------------#
