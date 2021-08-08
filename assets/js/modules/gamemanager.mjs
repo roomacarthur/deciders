@@ -43,10 +43,11 @@ class Game {
     this._setupGame(trackTemplate, playerTemplate, objectTypes);
   }
 
+  groundSpeed(pos) {return this._track.getMapSpeed(pos);}
   friction(pos) {return this._track.getFriction(pos);}
   get gravity() {return 50;}
 
-  get state() {}
+  get state() {return this._state;}
 
   /*
    * Setup

@@ -37,14 +37,25 @@ class Track {
 
   getFriction(pos) {
     // Get the value of the mask at the given coordinates
-    const pixel = this._mask.getPixel(pos.x, pos.y);
+    const pixel = this._mask.getPixel(~~pos.x, ~~pos.y);
     // Is the pixel black or white?
-    if (pixel > 8947848) {
+    if (pixel > 0xFF888888) {
       // Track
+      return this._template.tDrag;
     } else {
       // Dirt
+      return this._template.dDrag;
     }
     return 25;
+  }
+  getMapSpeed(pos) {
+    // Get the value of the mask at the given coordinates
+    const pixel = this._mask.getPixel(~~pos.x, ~~pos.y);
+    // Is the pixel black or white?
+    if (pixel < 0xFF888888) {
+      return this._template.dSpeed;
+    }
+    return 0;
   }
 }
 

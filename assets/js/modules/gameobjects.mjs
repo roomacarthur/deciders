@@ -95,9 +95,17 @@ class Player extends GameObject {
   update(timeDelta) {
     if (!this._jumping) {
       // Update speed
-      this._speed += (this._acceleration - this._game.friction(this._bounds)) * timeDelta;
-      if (this._speed > this._maxSpeed) this._speed = this._maxSpeed;
-      else if (this._speed < 0) this._speed = 0;
+      const friction = this._game.friction(this._bounds);
+      const mapSpeed = this._game.groundSpeed(this._bounds);
+      
+      // Don't add acceleration if we're traveling faster than the current max
+      if (this._speed < (this._maxSpeed + mapSpeed)) {
+        this._speed += (this._acceleration - friction) * timeDelta;
+      } else {
+        this._speed -= friction;
+      }
+      if (this._speed < 0) this._speed = 0;
+
 
       // Update rotation
       const rotation = ((this._rotation) * ((this._speed / this._maxSpeed)/2));
