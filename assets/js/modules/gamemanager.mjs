@@ -42,12 +42,7 @@ class Game {
     this._setupGame(trackTemplate, playerTemplate, objectTypes);
   }
 
-  /**
-   * Returns how much speed should be reduced per second due to friction
-   * This value should be pulled from the track depending on whether the player#
-   * is on the track or not.
-   */
-  get friction() {return 25;}
+  friction(pos) {return this._track.getFriction(pos);}
   get gravity() {return 50;}
 
   get state() {}
@@ -249,8 +244,9 @@ class Game {
     );
     this._renderer.drawText(
       `Facing: ${Math.atan2(this._player.direction.y,this._player.direction.x)}`,
-      5, 50
+      5, 45
     );
+    this._renderer.drawText(`Height: ${this._player.height}`, 5, 60);
   }
 
   _drawPlaying(time) {

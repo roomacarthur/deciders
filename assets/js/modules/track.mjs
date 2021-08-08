@@ -1,5 +1,6 @@
 
 import { Game, AssetTypes } from "./gamemanager.mjs";
+import { ImageAsset } from "./rendermanager.mjs";
 import { CheckPoint, ObjectFactory } from "./gameobjects.mjs";
 
 class Track {
@@ -30,9 +31,21 @@ class Track {
   }
 
   get image() {return this._image;}
-
   get skyColor() {return this._template.skyColor;}
   get groundColor() {return this._template.groundColor;}
+  get gravity() {return this._template.gravity;}
+
+  getFriction(pos) {
+    // Get the value of the mask at the given coordinates
+    const pixel = this._mask.getPixel(pos.x, pos.y);
+    // Is the pixel black or white?
+    if (pixel > 8947848) {
+      // Track
+    } else {
+      // Dirt
+    }
+    return 25;
+  }
 }
 
 export { Track };
