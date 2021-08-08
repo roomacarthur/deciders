@@ -213,10 +213,18 @@ class Game {
   /*
    * Game Loop
    */
-  _sortObjects() {}
+  _sortObjects() {
+    // Sorts all the objects based on distance to the camera
+    this._objects.sort((a,b) => {
+      const aD = this._renderer.camera.position.distanceTo2(a.dimensions);
+      const bD = this._renderer.camera.position.distanceTo2(b.dimensions);
+      if (aD > bD) return -1;
+      if (aD < bD) return 1;
+      return 0;
+    });
+  }
 
   _updatePlaying(time) {
-
     // Check if playing or paused...
 
     const timeDelta = time / 1000;
