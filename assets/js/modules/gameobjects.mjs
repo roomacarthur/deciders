@@ -177,6 +177,18 @@ class Scenery extends GameObject {
   }
 }
 
+class GoFaster extends Pickup {
+  constructor(game, sprite, position, template, id) {
+    super(game, sprite, position, template, id);
+  }
+}
+
+class BananaPeel extends Pickup {
+  constructor(game, sprite, position, template, id) {
+    super(game, sprite, position, template, id);
+  }
+}
+
 /**
  * Creates Game Objects on demand based on templates
  */
@@ -187,6 +199,14 @@ class ObjectFactory {
     this._factories.set("checkpoint", {
       create: (game, sprite, position, template, id) =>
         new CheckPoint(game, sprite, position, template, id)
+    });
+    this._factories.set("gofaster", {
+      create: (game, sprite, position, template, id) =>
+        new GoFaster(game, sprite, position, template, id)
+    });
+    this._factories.set("bananapeel", {
+      create: (game, sprite, position, template, id) =>
+        new BananaPeel(game, sprite, position, template, id)
     });
     // Add new game objects here
   }
