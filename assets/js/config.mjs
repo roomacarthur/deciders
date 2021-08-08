@@ -25,7 +25,7 @@ const TrackConfig = {
     // An object has a position and a type, which should map to object configs
     objects: [
         {x: 25, y: 25, t: "gofaster"},
-        {x: 310, y: 210, t: "bananapeel"},
+        {x: 345, y: 200, t: "bananapeel"},
     ]
 };
 
@@ -40,12 +40,12 @@ const PlayerConfig = {
     tSpeed: 3.14,
     // Jump Power
     jumpPower: 15,
-    // Collision detection radius in pixels
-    radius: 10,
     // Default height above the ground
     height: 0,
     // Scale of the sprite on the screen
-    scale: 1
+    scale: 1,
+    // Collision detection radius in pixels
+    radius: 10
 };
 
 const ObjectTypes = [
@@ -53,8 +53,8 @@ const ObjectTypes = [
     name: "checkpoint",
     sprite: "./assets/img/sprites/checkpoint.png",
     jumpable: false,
-    height: 25,
-    scale: 25,
+    height: 15,
+    scale: 20,
     radius: 50
   },
   {
@@ -67,7 +67,7 @@ const ObjectTypes = [
     // Default height above the floor plain
     height: 0,
     // Scale of the sprite on screen
-    scale: 2,
+    scale: 10,
     // Radius on the map
     radius: 25
   },
