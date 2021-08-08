@@ -189,6 +189,10 @@ class Game {
     this._renderer.drawText(
       `X: ${~~this._player.dimensions.x} Y: ${~~this._player.dimensions.y}`, 5, 30
     );
+    this._renderer.drawText(
+      `Facing: ${Math.atan2(this._player.direction.y,this._player.direction.x)}`,
+      5, 50
+    );
   }
 
   _drawPlaying(time) {
