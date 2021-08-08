@@ -9,6 +9,13 @@ import { Point2D, Vector2D, BoundingCircle, BoundingBox } from "./types2d.mjs";
  * Base class for an object on the map
  */
 class GameObject {
+  /**
+   * Creates a new game object
+   *  @param {Object} game - The gamemanager object
+   *  @param {Object} sprite - This object's image asset
+   *  @param {Object} position - Initial X, Y and facing angle for the object
+   *  @param {Object} template - Initial values for object properties
+   */
   constructor(game, sprite, position, template) {
     this._game = game;
     this._sprite = sprite;
