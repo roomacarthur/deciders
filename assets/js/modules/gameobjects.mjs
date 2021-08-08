@@ -80,8 +80,8 @@ class Player extends GameObject {
     this._bounds.y += (this._direction.y * this._speed) * timeDelta;
 
     // Update rotation
-    this._direction.rotateByRadians(
-      (this._rotation * (this._speed / this._maxSpeed)) * timeDelta);
+    const rotation = ((this._rotation) * ((this._speed / this._maxSpeed)/2));
+    this._direction.rotateByRadians(rotation * timeDelta);
   }
 
 }
