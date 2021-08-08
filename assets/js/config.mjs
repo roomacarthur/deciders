@@ -2,6 +2,12 @@
 const TestTrackConfig = {
     name: "Test Track",
     image: "./assets/img/tracks/test.png",
+    // Track gravity - affects how far a player can jump
+    gravity: 50,
+    // Friction on the track
+    tDrag: 25,
+    // Friction off the track
+    dDrag: 50,
     // Player spawn point position and view direction in radians
     pSpawn: {x:920, y:585, dir: 4.71239},
     // List of checkpoints position and radii in map image pixels
