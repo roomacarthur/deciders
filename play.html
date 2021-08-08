@@ -31,7 +31,8 @@
       <section>
         <div class="container">
           <h2 class="nes-text is-warning">Super BMX Bash</h2>
-          <div class="nes-pointer arcade">
+          
+          <button id="btn1" class="nes-pointer arcade" onclick="changePage()">
             <div class="slot"><div class="slot-inner"></div></div>
             <div class="arcade-text">
               <p class="coin-text nes-text is-warning">25&#162;</p>
@@ -40,7 +41,7 @@
               <p class="nes-text is-warning">to</p>
               <p class="nes-text is-warning">Start</p>
             </div>
-          </div>
+        </button>
           <p class="nes-balloon from-left nes-pointer">
             or press space-bar to start
           </p>
@@ -141,5 +142,14 @@
         </div>
       </section>
     </footer>
+    <script>
+      document.addEventListener('keyup', event => {
+        if (event.code === 'Space') {
+          changePage();
+        }
+      })
+      function changePage() {
+        location.href = "game.html"}
+    </script>
   </body>
 </html>
