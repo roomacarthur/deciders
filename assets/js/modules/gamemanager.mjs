@@ -54,6 +54,7 @@ class Game {
   setupGame(trackTemplate, playerTemplate) {
     // Create Track
     this.track = new Track(
+      this,
       this.getAsset(this.addAsset(trackTemplate.image, AssetTypes.IMAGE)),
       trackTemplate
     );
