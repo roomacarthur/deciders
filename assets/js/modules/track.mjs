@@ -12,6 +12,7 @@ class Track {
 
     // Create Objects and checkpoints
     this._createCheckpoints(template);
+    this._createObjects(template);
   }
 
   _createCheckpoints(template) {
@@ -19,6 +20,12 @@ class Track {
     for (let i = 0; i < template.checkpoints.length; i++) {
       let checkpoint = this._game.createObject("checkpoint", template.checkpoints[i]);
       this._checkPoints.push(checkpoint);
+    }
+  }
+
+  _createObjects(template) {
+    for (let i = 0; i < template.objects.length; i++) {
+      this._game.createObject(template.objects[i].t, template.objects[i]);
     }
   }
 

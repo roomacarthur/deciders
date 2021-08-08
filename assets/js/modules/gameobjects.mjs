@@ -20,6 +20,7 @@ class GameObject {
     this._game = game;
     this._sprite = sprite;
     this._bounds = new BoundingCircle(position.x, position.y, template.radius);
+    this._scale = template.scale;
     this._height = 0;
   }
 
@@ -28,7 +29,7 @@ class GameObject {
   get height() {return this._height;}
 
   draw(renderer) {
-    renderer.drawSprite(this._sprite, this._bounds, 1, this._height);
+    renderer.drawSprite(this._sprite, this._bounds, this._scale, this._height);
   }
 
   collision(object) {
@@ -176,6 +177,18 @@ class Scenery extends GameObject {
   }
 }
 
+class GoFaster extends Pickup {
+  constructor(game, sprite, position, template, id) {
+    super(game, sprite, position, template, id);
+  }
+}
+
+class BananaPeel extends Pickup {
+  constructor(game, sprite, position, template, id) {
+    super(game, sprite, position, template, id);
+  }
+}
+
 /**
  * Creates Game Objects on demand based on templates
  */
@@ -186,6 +199,14 @@ class ObjectFactory {
     this._factories.set("checkpoint", {
       create: (game, sprite, position, template, id) =>
         new CheckPoint(game, sprite, position, template, id)
+    });
+    this._factories.set("gofaster", {
+      create: (game, sprite, position, template, id) =>
+        new GoFaster(game, sprite, position, template, id)
+    });
+    this._factories.set("bananapeel", {
+      create: (game, sprite, position, template, id) =>
+        new BananaPeel(game, sprite, position, template, id)
     });
     // Add new game objects here
   }

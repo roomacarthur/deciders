@@ -17,14 +17,15 @@ const TrackConfig = {
     pSpawn: {x:345, y:200, dir: 2.8704},
     // List of checkpoints position and radii in map image pixels
     checkpoints: [
-        {x:170, y:325, r:50},
-        {x:345, y:200, r:50}
+        {x:170, y:325},
+        {x:265, y:800},
+        {x:345, y:200}
     ],
     // List of objects (bonuses, obstacles, and scenery)
     // An object has a position and a type, which should map to object configs
     objects: [
         {x: 25, y: 25, t: "gofaster"},
-        {x: 50, y: 25, t: "bannanpeel"}
+        {x: 50, y: 25, t: "bananapeel"}
     ]
 };
 
@@ -40,7 +41,9 @@ const PlayerConfig = {
     // Jump Power
     jumpPower: 15,
     // Collision detection radius in pixels
-    radius: 10
+    radius: 10,
+    // Scale of the sprite on the screen
+    scale: 1
 };
 
 const ObjectTypes = [
@@ -48,7 +51,7 @@ const ObjectTypes = [
     name: "checkpoint",
     sprite: "./assets/img/sprites/checkpoint.png",
     jumpable: false,
-    scale: 2,
+    scale: 10,
     radius: 50
   },
   {
@@ -64,7 +67,7 @@ const ObjectTypes = [
     radius: 25
   },
   {
-    name: "bannanpeel",
+    name: "bananapeel",
     sprite: "./assets/img/sprites/test.png",
     jumpable: true,
     scale: 1.5,
