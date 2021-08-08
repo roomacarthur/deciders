@@ -13,13 +13,15 @@ class GameObject {
     this._game = game;
     this._sprite = sprite;
     this._bounds = new BoundingCircle(position.x, position.y, template.radius);
+    this._height = 0;
   }
 
   get dimensions() {return this._bounds;}
   get image() {return this._sprite;}
+  get height() {return this._height;}
 
   draw(renderer) {
-    renderer.drawSprite(this._sprite, this._bounds)
+    renderer.drawSprite(this._sprite, this._bounds, this._height);
   }
 
   collision(object) {
@@ -38,22 +40,22 @@ class Player extends GameObject {
     this._maxSpeed = template.maxSpeed;
     this._maxAcceleration = template.acceleration;
     this._turnSpeed = template.tSpeed;
+    this._jumpPower = template.jumpPower;
 
     this._rotation = 0;
     this._acceleration = 0;
     this._speed = 0;
+    this._vAcceleration = 0;
+    this._jumping = false;
   }
 
   get direction() {return this._direction;}
 
-  /* TODO:
-    Jumping - Add an instantaneous vertical velocity that adds to Height each frame,
-      a gravity term will reduce the vertical velocity to negative until the player
-      height is 0.
-    Accelerate - Adds positive or negative value to speed until at max or negative max
-    IF not acclerating a friction value subtracts from speed until 0;
-    Turn - If speed != 0 rotate direction vector
-  */
+  jump() {
+    if (this._height === 0)
+      this._vAcceleration = (this._speed / this._maxSpeed) * this._jumpPower;
+  }
+
   get acceleration() {return this._acceleration;}
   accelerate(dir) {
     this._acceleration = this._maxAcceleration * dir;
@@ -69,7 +71,6 @@ class Player extends GameObject {
    *  @param {number} timeDelta - Time in seconds since the last update
    */
   update(timeDelta) {
-
     // Update speed
     this._speed += (this._acceleration - this._game.friction) * timeDelta;
     if (this._speed > this._maxSpeed) this._speed = this._maxSpeed;
@@ -82,6 +83,15 @@ class Player extends GameObject {
     // Update rotation
     const rotation = ((this._rotation) * ((this._speed / this._maxSpeed)/2));
     this._direction.rotateByRadians(rotation * timeDelta);
+
+    // Update vertical position
+    this._height += this._vAcceleration * timeDelta;
+    if (this._height <= 0) {
+      this._height = 0;
+      this._vAcceleration = 0;
+      this._jumping = false;
+    } else if (this._height > 0) this._jumping = true;
+    this._vAcceleration -= this._game.gravity * timeDelta;
   }
 
 }
