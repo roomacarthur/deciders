@@ -153,8 +153,25 @@ class CheckPoint extends GameObject {
   }
 }
 
+/**
+ * Base class for an object that the player can pickup. Obstacle or Power up
+ */
+class Pickup extends GameObject {
 
+}
 
+/**
+ * Defines a peice of map scenery the player can collide with
+ */
+class Scenery extends GameObject {
 
+}
 
-export { GameObject, Player };
+/**
+ * Creates Game Objects on demand based on templates
+ */
+class ObjectFactory {
+
+}
+
+export { GameObject, Player, CheckPoint, Pickup, Scenery, ObjectFactory };
