@@ -180,12 +180,40 @@ class Game {
   }
 
   /*
+   * Object management
+   */
+   /**
+    * Creates a new game object from a template and adds it to the object list
+    *  @param {string} type - name identifier of the object template
+    *
+    */
+   createObject(type, position) {
+     // Get the template
+     const template = this._objectTemplates(type);
+     if (template) {
+       // Create the object, add it to the list and return it
+       this._objects.push(
+         this._objectFactory.createObject(
+           this,
+           template.sprite,
+           position,
+           template.template,
+           this._objects.length
+         )
+       );
+       return this._objects[this._object.length-1];
+     }
+     return null;
+   }
+
+   getObject(id) {
+     return this._objects[id];
+   }
+
+  /*
    * Game Loop
    */
-  _updateLoading(time) {}
-  _drawLoading(time) {}
-
-  _sortSprites() {}
+  _sortObjects() {}
 
   _updatePlaying(time) {
     const timeDelta = time / 1000;
@@ -222,9 +250,9 @@ class Game {
 
   _drawPlaying(time) {
     // Draw backdrop
-    this._renderer.drawBackdrop();
+    this._renderer.drawBackdrop(this._track.skyColor, this._track.groundColor);
     // Draw gound plain
-    if (this.track.image.loaded) this._renderer.projectFloor(this.track.image);
+    if (this._track.image.loaded) this._renderer.projectFloor(this._track.image);
     // Draw Player
     this._player.draw(this._renderer);
     // Draw objects
