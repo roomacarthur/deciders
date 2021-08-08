@@ -42,10 +42,10 @@ const TestPlayerConfig = {
 
 const ObjectTypes = [
   {
-    name: "checkpoint"
+    name: "checkpoint",
     scale: 2,
     radius: 50
-  }
+  },
   {
     // Name identifier
     name: "gofaster",
