@@ -80,6 +80,8 @@ class Game {
       trackTemplate.pSpawn,
       playerTemplate
     );
+
+    this._objects.push(this._player);
   }
 
   _setupEvents() {
@@ -254,8 +256,6 @@ class Game {
     this._renderer.drawBackdrop(this._track.skyColor, this._track.groundColor);
     // Draw gound plain
     if (this._track.image.loaded) this._renderer.projectFloor(this._track.image);
-    // Draw Player
-    this._player.draw(this._renderer);
     // Draw objects
     for (let i = 0; i < this._objects.length; i++) {
       this._objects[i].draw(this._renderer);
