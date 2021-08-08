@@ -13,7 +13,6 @@ const AssetTypes = {
 
 const GameStates = {
   LOADING: "loading",
-  LOADED: "loaded",
   PLAYING: "playing",
   PAUSED: "paused",
   FINISHED: "finished"
