@@ -2,6 +2,8 @@
 const TestTrackConfig = {
     name: "Test Track",
     image: "./assets/img/tracks/test.png",
+    skyColor: "#00FFFF",
+    groundColor: "#008000",
     // Track gravity - affects how far a player can jump
     gravity: 50,
     // Friction on the track
