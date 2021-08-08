@@ -47,6 +47,7 @@ class Game {
    * is on the track or not.
    */
   get friction() {return 25;}
+  get gravity() {return 25;}
 
   /*
    * Setup
