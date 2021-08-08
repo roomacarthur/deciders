@@ -1,7 +1,7 @@
 
 const TestTrackConfig = {
     name: "Test Track",
-    image: "./assets/img/tracks/test.png",
+    image: "./assets/img/tracks/f-track.png",//test.png",
     skyColor: "#00FFFF",
     groundColor: "#008000",
     // Track gravity - affects how far a player can jump
@@ -33,7 +33,7 @@ const TestPlayerConfig = {
     // Maximum speed in pixels a second
     maxSpeed: 150,
     // Turn speed in radians a second (there's 6.28 radians in a circle)
-    tSpeed: 2.0,
+    tSpeed: 3.14,
     // Jump Power
     jumpPower: 15,
     // Collision detection radius in pixels
