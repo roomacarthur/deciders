@@ -140,6 +140,7 @@ class Game {
   }
 
   start() {
+    this._state = GameStates.PLAYING;
     // Start game loop
     window.requestAnimationFrame((time)=>this._loop(time));
   }
