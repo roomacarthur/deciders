@@ -25,7 +25,38 @@ const TrackConfig = {
     // An object has a position and a type, which should map to object configs
     objects: [
         {x: 25, y: 25, t: "gofaster"},
-        {x: 50, y: 25, t: "bananapeel"}
+        // obstacle
+        {x: 320, y: 210, t: "bananapeel"},
+        {x: 145, y: 452, t: "bananapeel"},
+        {x: 165, y: 372, t: "bananapeel"},
+        {x: 160, y: 665, t: "bananapeel"},
+        {x: 402, y: 768, t: "bananapeel"},
+        {x: 628, y: 828, t: "bananapeel"},
+        {x: 907, y: 828, t: "bananapeel"},
+        {x: 773, y: 637, t: "bananapeel"},
+        {x: 603, y: 482, t: "bananapeel"},
+        {x: 669, y: 321, t: "bananapeel"},
+        {x: 691, y: 112, t: "bananapeel"},
+        {x: 409, y: 203, t: "bananapeel"},
+        // scenery
+        {x: 131, y: 170, t: "tree"},
+        {x: 50, y: 291, t: "tree"},
+        {x: 260, y: 350, t: "tree"},
+        {x: 226, y: 420, t: "tree"},
+        {x: 5, y: 480, t: "tree"},
+        {x: 60, y: 670, t: "tree"},
+        {x: 212, y: 516, t: "tree"},
+        {x: 41, y: 825, t: "tree"},
+        {x: 175, y: 897, t: "tree"},
+        {x: 260, y: 683, t: "tree"},
+        {x: 415, y: 874, t: "tree"},
+        {x: 625, y: 934, t: "tree"},
+        {x: 769, y: 796, t: "tree"},
+        {x: 1000, y: 768, t: "tree"},
+        {x: 727, y: 544, t: "tree"},
+        {x: 538, y: 257, t: "tree"},
+        {x: 388, y: 70, t: "tree"},
+
     ]
 };
 
@@ -68,9 +99,16 @@ const ObjectTypes = [
   },
   {
     name: "bananapeel",
-    sprite: "./assets/img/sprites/test.png",
+    sprite: "./assets/img/objects/banana.png",
     jumpable: true,
-    scale: 1.5,
+    scale: 5,
+    radius: 25
+  },
+  {
+    name: "tree",
+    sprite: "./assets/img/objects/tree.png",
+    jumpable: true,
+    scale: 5,
     radius: 25
   }
 ];
