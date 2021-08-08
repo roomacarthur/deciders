@@ -45,6 +45,14 @@ class ImageAsset {
   get height() {return this._image.height;}
   get image() {return this._image;}
   get id() {return this._id;}
+
+  getPixel(x,y) {
+    if (this._loaded) {
+      const pos = y * this._image.width + x;
+      return this._pixels[pos];
+    }
+    return 0;
+  }
 }
 /**
  * Manages rendering to the screen
