@@ -33,6 +33,13 @@ class GameObject {
  * Acts as the players avatar in the game
  */
 class Player extends GameObject {
+  /**
+   * Creates a new player object
+   *  @param {Object} game - The gamemanager object
+   *  @param {Object} sprite - The image asset storing this players on screen character
+   *  @param {Object} position - Initial X, Y and facing angle for the player
+   *  @param {Object} template - Initial values for player object properties
+   */
   constructor(game, sprite, position, template) {
     super(game, sprite, position, template);
     this._direction = new Vector2D(Math.cos(position.dir), Math.sin(position.dir));
@@ -49,25 +56,31 @@ class Player extends GameObject {
     this._jumping = false;
   }
 
+  /** Returns the current player direction vector */
   get direction() {return this._direction;}
 
+  /** Gives the player an initial upward acceleration */
   jump() {
     if (this._height === 0)
       this._vAcceleration = (this._speed / this._maxSpeed) * this._jumpPower;
   }
 
+  /** Returns the players current acceleration */
   get acceleration() {return this._acceleration;}
+  /** Sets the players acceleration */
   accelerate(dir) {
     this._acceleration = this._maxAcceleration * dir;
   }
 
+  /** Returns the current rotation offset */
   get rotation() {return this._rotation;}
+  /** Sets the player's rotation */
   rotate(dir) {
     this._rotation = this._turnSpeed * dir;
   }
 
   /**
-   * Updates position and rotation based on time passed
+   * Updates position and rotation based on time elasped since last update
    *  @param {number} timeDelta - Time in seconds since the last update
    */
   update(timeDelta) {
@@ -97,5 +110,11 @@ class Player extends GameObject {
   }
 
 }
+
+
+
+
+
+
 
 export { GameObject, Player };
