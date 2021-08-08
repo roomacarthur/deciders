@@ -181,6 +181,21 @@ class Scenery extends GameObject {
  */
 class ObjectFactory {
 
+  constructor() {
+    this._factories = new Map();
+    this._factories.set("checkpoint", {
+      create: (game, sprite, position, template, id) =>
+        new CheckPoint(game, sprite, position, template, id)
+    });
+    // Add new game objects here
+  }
+
+  createObject(game, sprite, position, template, id) {
+    const factory = this._factories.get(template.name);
+    if (factory) return factory.create(game, sprite, position, template, id);
+    return null;
+  }
+
 }
 
 export { GameObject, Player, CheckPoint, Pickup, Scenery, ObjectFactory };
