@@ -41,7 +41,11 @@ class Game {
     this._setupEvents();
   }
 
-  /** Returns how much speed should be reduced per second due to friction */
+  /**
+   * Returns how much speed should be reduced per second due to friction
+   * This value should be pulled from the track depending on whether the player#
+   * is on the track or not.
+   */
   get friction() {return 25;}
 
   /*
@@ -65,6 +69,51 @@ class Game {
   _setupEvents() {
     document.addEventListener("keydown", (event)=>this.keyDown(event));
     document.addEventListener("keyup", (event)=>this.keyUp(event));
+    // Maps events to actions
+    this._actionMap = {
+      forwards: {
+        up: false,
+        down: false,
+        actionUp:()=>this._player.accelerate(0),
+        actionDn:()=>this._player.accelerate(1)
+      },
+      backwards: {
+        up: false,
+        down: false,
+        actionUp:()=>this._player.accelerate(0),
+        actionDn:()=>this._player.accelerate(-2)
+      },
+      left: {
+        up: false,
+        down: false,
+        actionUp:()=>this._player.rotate(0),
+        actionDn:()=>this._player.rotate(1)
+      },
+      right: {
+        up: false,
+        down: false,
+        actionUp:()=>this._player.rotate(0),
+        actionDn:()=>this._player.rotate(-1)
+      },
+      jump: {
+        up: false,
+        down: false,
+        actionUp:()=>null,
+        actionDn:()=>null
+      },
+      pause: {
+        up: false,
+        down: false,
+        actionUp:()=>null,
+        actionDn:()=>null
+      }
+    }
+    // Maps keys to events
+    this._keyMap = new Map();
+    this._keyMap.set("ArrowUp", "forwards");
+    this._keyMap.set("ArrowDown", "backwards");
+    this._keyMap.set("ArrowLeft", "left");
+    this._keyMap.set("ArrowRight", "right");
   }
 
   start() {
@@ -117,6 +166,9 @@ class Game {
     const timeDelta = time / 1000;
     // Sort sprites by distance to player
 
+    // Handle user input
+    this._handleKeys();
+
     // Update object states
     this._player.update(timeDelta);
 
@@ -163,45 +215,29 @@ class Game {
   /*
    * Player interaction
    */
-  keyUp(event) {
-    switch(event.code) {
-      case "ArrowUp":     // Move Forware
-        this._player.accelerate(0);
-        break;
-      case "ArrowDown":   // Move Backwards
-        this._player.accelerate(0);
-        break;
-      case "ArrowLeft":   // Turn Left
-        this._player.rotate(0);
-        break;
-      case "ArrowRight":  // Turn Right
-        this._player.rotate(0);
-        break;
-      case "Space":       // Jump
-        break;
-      case "P":           // Pause
-        break;
+  _handleKeys() {
+    for (let [key, action] of Object.entries(this._actionMap)) {
+      if (action.down) action.actionDn();
+      if (action.up) {
+        action.actionUp();
+        action.up = false;
+      }
     }
   }
 
   keyDown(event) {
-    switch(event.code) {
-      case "ArrowUp":     // Move Forware
-        this._player.accelerate(1);
-        break;
-      case "ArrowDown":   // Move Backwards
-        this._player.accelerate(-1);
-        break;
-      case "ArrowLeft":   // Turn Left
-        this._player.rotate(1);
-        break;
-      case "ArrowRight":  // Turn Right
-        this._player.rotate(-1);
-        break;
-      case "Space":       // Jump
-        break;
-      case "P":           // Pause
-        break;
+    const key = this._keyMap.get(event.code);
+    if (key) {
+      this._actionMap[key].down = true;
+      this._actionMap[key].up = false;
+    }
+  }
+
+  keyUp(event) {
+    const key = this._keyMap.get(event.code);
+    if (key) {
+      this._actionMap[key].down = false;
+      this._actionMap[key].up = true;
     }
   }
 }
