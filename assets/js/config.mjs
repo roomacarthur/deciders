@@ -17,8 +17,8 @@ const TrackConfig = {
     pSpawn: {x:345, y:200, dir: 2.8704},
     // List of checkpoints position and radii in map image pixels
     checkpoints: [
-        {x:15, y:15, r:50},
-        {x:15, y:35, r:50}
+        {x:170, y:325, r:50},
+        {x:345, y:200, r:50}
     ],
     // List of objects (bonuses, obstacles, and scenery)
     // An object has a position and a type, which should map to object configs
