@@ -38,7 +38,26 @@ const TestPlayerConfig = {
     radius: 10
 };
 
-const ObjectTypes = [];
+const ObjectTypes = [
+  {
+    name: "checkpoint"
+    scale: 50,
+    radius: 50
+  }
+  {
+    // Name identifier
+    name: "gofaster",
+     // Scale of the sprite on screen
+    scale: 25,
+     // Radius on the map
+    radius: 25
+  },
+  {
+    name: "bannanpeel",
+    scale: 25,
+    radius: 25
+  }
+];
 
 // Add configs to list below:
 export { TestTrackConfig, TestPlayerConfig, ObjectTypes, };
