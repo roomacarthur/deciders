@@ -161,10 +161,10 @@ class Renderer {
     if (tY > this._camera.nearClip) {
       // Calculate distance scalar
       const aspectR = image.width / image.height;
-      const spriteH = Math.abs( ~~(((this._canvas.height / tY) * this._camera.scale) * scale) );
+      const spriteH = Math.abs( ~~((this._canvas.height / tY) * (this._camera.scale + scale)));
       const spriteW = spriteH * aspectR;
       // Camera height offset
-      const vOffset = ((this._canvas.height - (image.height * scale)) / tY) * (this._camera.height - height);
+      const vOffset = ((this._canvas.height - image.height) / tY) * (this._camera.height - height);
       // Calculate the sprite screen coordinates
       const sX = ~~( (this._canvas.width / 2) * (1 + tX / tY) - spriteW / 2 );
       const sY = ~~( ((this._canvas.height - spriteH) / 2) + (spriteH / 2) + vOffset);
