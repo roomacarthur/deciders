@@ -25,7 +25,9 @@ const TestPlayerConfig = {
     // Maximum speed in pixels a second
     maxSpeed: 150,
     // Turn speed in radians a second (there's 6.28 radians in a circle)
-    tSpeed: 3.14,
+    tSpeed: 2.0,
+    // Jump Power
+    jumpPower: 15,
     // Collision detection radius in pixels
     radius: 10
 };
