@@ -95,7 +95,7 @@ class Player extends GameObject {
   update(timeDelta) {
     if (!this._jumping) {
       // Update speed
-      this._speed += (this._acceleration - this._game.friction) * timeDelta;
+      this._speed += (this._acceleration - this._game.friction(this._bounds)) * timeDelta;
       if (this._speed > this._maxSpeed) this._speed = this._maxSpeed;
       else if (this._speed < 0) this._speed = 0;
 
@@ -117,7 +117,21 @@ class Player extends GameObject {
     } else if (this._height > 0) this._jumping = true;
     this._vAcceleration -= this._game.gravity * timeDelta;
   }
+
+  // update(timeDelta) {
+  //   // Update rotation
+  //   const rotation = this._rotation;
+  //   this._direction.rotateByRadians(rotation * timeDelta);
+  //
+  //   // Update position
+  //   this._bounds.x += (this._direction.x * this._acceleration) * timeDelta;
+  //   this._bounds.y += (this._direction.y * this._acceleration) * timeDelta;
+  //
+  //   this._height=0;
+  // }
+
 }
+
 
 /**
  * Defines a track checkpoint
@@ -180,11 +194,17 @@ class GoFaster extends Pickup {
   constructor(game, sprite, position, template, id) {
     super(game, sprite, position, template, id);
   }
+  pickup(player) {
+    // Do power up action code here
+  }
 }
 
 class BananaPeel extends Pickup {
   constructor(game, sprite, position, template, id) {
     super(game, sprite, position, template, id);
+  }
+  pickup(player) {
+    // Do power up action code here
   }
 }
 
