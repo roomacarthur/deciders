@@ -21,7 +21,7 @@ class GameObject {
     this._sprite = sprite;
     this._bounds = new BoundingCircle(position.x, position.y, template.radius);
     this._scale = template.scale;
-    this._height = 0;
+    this._height = template.height;
   }
 
   get dimensions() {return this._bounds;}
@@ -95,9 +95,17 @@ class Player extends GameObject {
   update(timeDelta) {
     if (!this._jumping) {
       // Update speed
-      this._speed += (this._acceleration - this._game.friction) * timeDelta;
-      if (this._speed > this._maxSpeed) this._speed = this._maxSpeed;
-      else if (this._speed < 0) this._speed = 0;
+      const friction = this._game.friction(this._bounds);
+      const mapSpeed = this._game.groundSpeed(this._bounds);
+      
+      // Don't add acceleration if we're traveling faster than the current max
+      if (this._speed < (this._maxSpeed + mapSpeed)) {
+        this._speed += (this._acceleration - friction) * timeDelta;
+      } else {
+        this._speed -= friction;
+      }
+      if (this._speed < 0) this._speed = 0;
+
 
       // Update rotation
       const rotation = ((this._rotation) * ((this._speed / this._maxSpeed)/2));
@@ -118,7 +126,20 @@ class Player extends GameObject {
     this._vAcceleration -= this._game.gravity * timeDelta;
   }
 
+  // update(timeDelta) {
+  //   // Update rotation
+  //   const rotation = this._rotation;
+  //   this._direction.rotateByRadians(rotation * timeDelta);
+  //
+  //   // Update position
+  //   this._bounds.x += (this._direction.x * this._acceleration) * timeDelta;
+  //   this._bounds.y += (this._direction.y * this._acceleration) * timeDelta;
+  //
+  //   this._height=0;
+  // }
+
 }
+
 
 /**
  * Defines a track checkpoint
@@ -181,11 +202,17 @@ class GoFaster extends Pickup {
   constructor(game, sprite, position, template, id) {
     super(game, sprite, position, template, id);
   }
+  pickup(player) {
+    // Do power up action code here
+  }
 }
 
 class BananaPeel extends Pickup {
   constructor(game, sprite, position, template, id) {
     super(game, sprite, position, template, id);
+  }
+  pickup(player) {
+    // Do power up action code here
   }
 }
 

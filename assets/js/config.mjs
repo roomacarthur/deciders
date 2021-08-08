@@ -10,9 +10,9 @@ const TrackConfig = {
     // Friction on the track
     tDrag: 25,
     // Friction off the track
-    dDrag: 50,
+    dDrag: 30,
     // Change to max speed when not on the track
-    dSpeed: -75,
+    dSpeed: -100,
     // Player spawn point position and view direction in radians
     pSpawn: {x:345, y:200, dir: 2.8704},
     // List of checkpoints position and radii in map image pixels
@@ -56,7 +56,6 @@ const TrackConfig = {
         {x: 727, y: 544, t: "tree"},
         {x: 538, y: 257, t: "tree"},
         {x: 388, y: 70, t: "tree"},
-
     ]
 };
 
@@ -71,10 +70,12 @@ const PlayerConfig = {
     tSpeed: 3.14,
     // Jump Power
     jumpPower: 15,
-    // Collision detection radius in pixels
-    radius: 10,
+    // Default height above the ground
+    height: 0,
     // Scale of the sprite on the screen
-    scale: 1
+    scale: 1,
+    // Collision detection radius in pixels
+    radius: 10
 };
 
 const ObjectTypes = [
@@ -82,7 +83,8 @@ const ObjectTypes = [
     name: "checkpoint",
     sprite: "./assets/img/sprites/checkpoint.png",
     jumpable: false,
-    scale: 10,
+    height: 15,
+    scale: 20,
     radius: 50
   },
   {
@@ -92,8 +94,10 @@ const ObjectTypes = [
     sprite: "./assets/img/sprites/test.png",
     // Will the player still collide with this if they're jumping
     jumpable: false,
+    // Default height above the floor plain
+    height: 0,
     // Scale of the sprite on screen
-    scale: 1.5,
+    scale: 10,
     // Radius on the map
     radius: 25
   },
@@ -101,6 +105,7 @@ const ObjectTypes = [
     name: "bananapeel",
     sprite: "./assets/img/objects/banana.png",
     jumpable: true,
+    height: 0,
     scale: 5,
     radius: 25
   },

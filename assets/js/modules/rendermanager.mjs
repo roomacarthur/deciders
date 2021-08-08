@@ -45,6 +45,14 @@ class ImageAsset {
   get height() {return this._image.height;}
   get image() {return this._image;}
   get id() {return this._id;}
+
+  getPixel(x,y) {
+    if (this._loaded) {
+      const pos = y * this._image.width + x;
+      return this._pixels[pos];
+    }
+    return 0;
+  }
 }
 /**
  * Manages rendering to the screen
@@ -142,36 +150,36 @@ class Renderer {
    *  @param {number} scale - Base scale for the sprite
    *  @param {number} height - Height of this sprite above the floor plain
    */
-  drawSprite(image, position, scale = 1, height=0) {
-    // Precache camera direction vector values
-    const rX = this._camera.direction.x;
-    const rY = this._camera.direction.y;
-    // Generate projection plane
-    const pX = rY / 2;
-    const pY = -rX / 2;
-    // Calculate the sprite's position in the world relative to the camera
-    const wX = position.x - this._camera.position.x;
-    const wY = position.y - this._camera.position.y;
-    // Generate screen/world transform
-    // tX = horizontal scalar, tY = depth from screen plane
-    const invDet = 1.0 / (pX * rY - rX * pY);
-    const tX = invDet * (rY * wX - rX * wY);
-    const tY = invDet * (-pY * wX + pX * wY);
-    // Is the sprite in front of the camera?
-    if (tY > this._camera.nearClip) {
-      // Calculate distance scalar
-      const aspectR = image.width / image.height;
-      const spriteH = Math.abs( ~~(((this._canvas.height / tY) * this._camera.scale) * scale) );
-      const spriteW = spriteH * aspectR;
-      // Camera height offset
-      const vOffset = ((this._canvas.height - (image.height * scale)) / tY) * (this._camera.height - height);
-      // Calculate the sprite screen coordinates
-      const sX = ~~( (this._canvas.width / 2) * (1 + tX / tY) - spriteW / 2 );
-      const sY = ~~( ((this._canvas.height - spriteH) / 2) + (spriteH / 2) + vOffset);
-      // Draw the sprite to screen
-      this._ctx.drawImage(image.image, sX, sY, spriteW, spriteH);
-    }
-  }
+   drawSprite(image, position, scale = 1, height=0) {
+     // Precache camera direction vector values
+     const rX = this._camera.direction.x;
+     const rY = this._camera.direction.y;
+     // Generate projection plane
+     const pX = rY / 2;
+     const pY = -rX / 2;
+     // Calculate the sprite's position in the world relative to the camera
+     const wX = position.x - this._camera.position.x;
+     const wY = position.y - this._camera.position.y;
+     // Generate screen/world transform
+     // tX = horizontal scalar, tY = depth from screen plane
+     const invDet = 1.0 / (pX * rY - rX * pY);
+     const tX = invDet * (rY * wX - rX * wY);
+     const tY = invDet * (-pY * wX + pX * wY);
+     // Is the sprite in front of the camera?
+     if (tY > this._camera.nearClip) {
+       // Calculate distance scalar
+       const aR = image.width/image.height;
+       const sH = Math.abs( ~~((this._canvas.height / tY) * (this._camera.scale + scale)) );
+       const sW = sH * aR;
+       // Camera height offset
+       const vOffset = (this._canvas.height / tY) * (this._camera.height - height);
+       // Calculate screen coordinates
+       const sX = ~~( (this._canvas.width / 2) * (1 + tX / tY) - sW / 2 );
+       const sY = ~~( ((this._canvas.height - sH) / 2)  + vOffset);
+
+       this._ctx.drawImage(image.image, sX, sY, sW, sH);
+     }
+   }
 
   /**
    * Currently draw a flat sky and floor colour background. Can be improved to
@@ -221,7 +229,6 @@ class Camera2D {
     this._nearClip = nearClip;
     this._farClip = farClip
     this._height = height;
-    // Generate
   }
   // Getters and setters
   get position() {return this._position;}
