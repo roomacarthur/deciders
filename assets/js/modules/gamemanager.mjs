@@ -100,7 +100,7 @@ class Game {
       jump: {
         up: false,
         down: false,
-        actionUp:()=>{console.log("jump"); this._player.jump();},
+        actionUp:()=>this._player.jump(),
         actionDn:()=>null
       },
       pause: {
@@ -205,7 +205,7 @@ class Game {
     // Draw backdrop
     this._renderer.drawBackdrop();
     // Draw gound plain
-    this._renderer.projectFloor(this.track.image);
+    if (this.track.image.loaded) this._renderer.projectFloor(this.track.image);
     // Draw Player
     this._player.draw(this._renderer);
     // Draw objects
