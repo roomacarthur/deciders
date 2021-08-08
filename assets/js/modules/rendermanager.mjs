@@ -14,7 +14,7 @@ class ImageAsset {
    *  @param {number} id - The resource id
    *  @param {Object} callback - (Optional) Function to call when image loading complete
    */
-  constructor(image, id=0, callback = null) {
+  constructor(image, id=-1, callback = null) {
     this._loaded = false;
     this._id = id;
     this._image = new Image();
@@ -159,14 +159,16 @@ class Renderer {
     // Is the sprite in front of the camera?
     if (tY > 20) {
       // Calculate distance scalar
-      const size = Math.abs( ~~((this._canvas.height / tY) * this._camera.scale) );
+      const aspectR = image.width / image.height;
+      const spriteH = Math.abs( ~~((this._canvas.height / tY) * this._camera.scale) );
+      const spriteW = spriteH * aspectR;
       // Camera height offset
       const vOffset = (this._canvas.height / tY) * (this._camera.height - height);
-      // Calculate screen coordinates
-      const sX = ~~( (this._canvas.width / 2) * (1 + tX / tY) - size / 2 );
-      const sY = ~~( ((this._canvas.height - size) / 2) + (size / 2) + vOffset);
+      // Calculate the sprite screen coordinates
+      const sX = ~~( (this._canvas.width / 2) * (1 + tX / tY) - spriteW / 2 );
+      const sY = ~~( ((this._canvas.height - spriteH) / 2) + (spriteH / 2) + vOffset);
       // Draw the sprite to screen
-      this._ctx.drawImage(image.image, sX, sY, size, size);
+      this._ctx.drawImage(image.image, sX, sY, spriteW, spriteH);
     }
   }
 

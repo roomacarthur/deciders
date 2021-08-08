@@ -65,6 +65,16 @@ class Point2D {
     const y = point._y - this._y;
     return Math.sqrt( (x * x) + (y * y) );
   }
+  /**
+   * Calculates the square of the distance between two points
+   *  @param {Object} point - The point to measure distance to
+   *  @return {number} The square of distance between this point and the one passed
+   */
+   distanceTo2(point) {
+     const x = point._x - this._x;
+     const y = point._y - this._y;
+     return (x * x) + (y * y);
+   }
 }
 
 /**
