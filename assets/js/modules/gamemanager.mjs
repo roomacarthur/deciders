@@ -29,6 +29,7 @@ class Game {
    *  @param {Object} canvas The canvas element to draw the game view to
    */
   constructor(canvas, trackTemplate, playerTemplate, objectTypes) {
+    this._debug = true;
     // Create Renderer
     this._renderer = new Renderer(canvas);
     // Asset lists
@@ -261,7 +262,7 @@ class Game {
       this._objects[i].draw(this._renderer);
     }
     // Draw interface
-    this._drawDebugInfo(time);
+    if (this._debug) this._drawDebugInfo(time);
   }
 
   _loop(time) {
