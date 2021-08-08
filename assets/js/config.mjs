@@ -28,7 +28,7 @@ const TrackConfig = {
     ]
 };
 
-const TestPlayerConfig = {
+const PlayerConfig = {
     name: "player one",
     sprite: "./assets/img/sprites/testplayer.png",
     // Acceleration in pixels a second
