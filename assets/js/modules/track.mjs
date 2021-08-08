@@ -16,7 +16,10 @@ class Track {
 
   _createCheckpoints(template) {
     this._checkPoints = new Array();
-
+    for (let i = 0; i < template.checkpoints.length; i++) {
+      let checkpoint = this._game.createObject("checkpoint", template.checkpoints[i]);
+      this._checkPoints.push(checkpoint);
+    }
   }
 
   get image() {return this._image;}
