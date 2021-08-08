@@ -2,6 +2,12 @@
 const TestTrackConfig = {
     name: "Test Track",
     image: "./assets/img/tracks/test.png",
+    // Track gravity - affects how far a player can jump
+    gravity: 50,
+    // Friction on the track
+    tDrag: 25,
+    // Friction off the track
+    dDrag: 50,
     // Player spawn point position and view direction in radians
     pSpawn: {x:920, y:585, dir: 4.71239},
     // List of checkpoints position and radii in map image pixels
@@ -32,7 +38,26 @@ const TestPlayerConfig = {
     radius: 10
 };
 
-const ObjectTypes = [];
+const ObjectTypes = [
+  {
+    name: "checkpoint"
+    scale: 2,
+    radius: 50
+  }
+  {
+    // Name identifier
+    name: "gofaster",
+     // Scale of the sprite on screen
+    scale: 1.5,
+     // Radius on the map
+    radius: 25
+  },
+  {
+    name: "bannanpeel",
+    scale: 1.5,
+    radius: 25
+  }
+];
 
 // Add configs to list below:
 export { TestTrackConfig, TestPlayerConfig, ObjectTypes, };

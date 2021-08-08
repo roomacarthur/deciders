@@ -137,11 +137,11 @@ class Renderer {
   /**
    * Draws a given sprite to the screen
    *  @param {Object} image - The ImageAsset to draw
-   *  @param {number} scale - Base scale for the sprite
    *  @param {Object} position - Point2D world position of the sprite
+   *  @param {number} scale - Base scale for the sprite
    *  @param {number} height - Height of this sprite above the floor plain
    */
-  drawSprite(image, position, height=0) {
+  drawSprite(image, position, scale = 1, height=0) {
     // Precache camera direction vector values
     const rX = this._camera.direction.x;
     const rY = this._camera.direction.y;
