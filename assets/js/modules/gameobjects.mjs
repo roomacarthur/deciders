@@ -21,7 +21,7 @@ class GameObject {
     this._sprite = sprite;
     this._bounds = new BoundingCircle(position.x, position.y, template.radius);
     this._scale = template.scale;
-    this._height = 0;
+    this._height = template.height;
   }
 
   get dimensions() {return this._bounds;}
@@ -117,7 +117,6 @@ class Player extends GameObject {
     } else if (this._height > 0) this._jumping = true;
     this._vAcceleration -= this._game.gravity * timeDelta;
   }
-
 }
 
 /**
