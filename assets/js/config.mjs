@@ -1,17 +1,20 @@
 
-const TestTrackConfig = {
+const TrackConfig = {
     name: "Test Track",
     image: "./assets/img/tracks/f-track.png",//test.png",
+    mask: "./assets/img/tracks/f-track-mask.png",
     skyColor: "#00FFFF",
-    groundColor: "#008000",
+    groundColor: "#842f1c",
     // Track gravity - affects how far a player can jump
     gravity: 50,
     // Friction on the track
     tDrag: 25,
     // Friction off the track
     dDrag: 50,
+    // Change to max speed when not on the track
+    dSpeed: -75,
     // Player spawn point position and view direction in radians
-    pSpawn: {x:920, y:585, dir: 4.71239},
+    pSpawn: {x:345, y:200, dir: 2.8704},
     // List of checkpoints position and radii in map image pixels
     checkpoints: [
         {x:15, y:15, r:50},
