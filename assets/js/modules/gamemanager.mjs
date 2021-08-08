@@ -65,6 +65,7 @@ class Game {
       trackTemplate.pSpawn,
       playerTemplate
     );
+    // Create Objects
   }
 
   _setupEvents() {
@@ -164,6 +165,8 @@ class Game {
    */
   _updateLoading(time) {}
   _drawLoading(time) {}
+
+  _sortSprites() {}
 
   _updatePlaying(time) {
     const timeDelta = time / 1000;
