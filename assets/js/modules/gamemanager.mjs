@@ -4,7 +4,7 @@
 
 import { ImageAsset, Renderer, Camera2D } from "./rendermanager.mjs";
 import { Track } from "./track.mjs";
-import { Player } from "./gameobjects.mjs";
+import { Player, ObjectFactory } from "./gameobjects.mjs";
 
 const AssetTypes = {
   IMAGE: "image",
@@ -13,6 +13,7 @@ const AssetTypes = {
 
 const GameStates = {
   LOADING: "loading",
+  LOADED: "loaded",
   PLAYING: "playing",
   PAUSED: "paused",
   FINISHED: "finished"
@@ -27,7 +28,7 @@ class Game {
    * Creates a new game
    *  @param {Object} canvas The canvas element to draw the game view to
    */
-  constructor(canvas) {
+  constructor(canvas, trackTemplate, playerTemplate, objectTypes) {
     // Create Renderer
     this._renderer = new Renderer(canvas);
     // Asset lists
@@ -36,8 +37,9 @@ class Game {
     // State management
     this._state = GameStates.LOADING;
     this._lastState = this._state;
-    // Game Objects
+
     this._setupEvents();
+    this._setupGame(trackTemplate, playerTemplate, objectTypes);
   }
 
   /**
@@ -48,16 +50,34 @@ class Game {
   get friction() {return 25;}
   get gravity() {return 50;}
 
+  get state() {}
+
   /*
    * Setup
    */
-  setupGame(trackTemplate, playerTemplate) {
+  _setupGame(trackTemplate, playerTemplate, objectTypes) {
+    // Load object templates
+    this._objectTemplates = new Map();
+    for (let i = 0; i < objectTypes.length; i++) {
+      this._objectTemplates.set(objectTypes[i].name, {
+        template: objectTypes[i],
+        sprite: this.getAsset(this.addAsset(objectTypes.image, AssetTypes.IMAGE))
+      });
+    }
+
+    // Create object factory
+    this._objectFactory = new ObjectFactory();
+
+    // Create empty object list
+    this._objects = new Array();
+
     // Create Track
-    this.track = new Track(
+    this._track = new Track(
       this,
       this.getAsset(this.addAsset(trackTemplate.image, AssetTypes.IMAGE)),
       trackTemplate
     );
+
     // Create Player
     this._player = new Player(
       this,
@@ -65,7 +85,6 @@ class Game {
       trackTemplate.pSpawn,
       playerTemplate
     );
-    // Create Objects
   }
 
   _setupEvents() {
