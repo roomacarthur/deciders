@@ -118,7 +118,40 @@ class Player extends GameObject {
 
 }
 
+/**
+ * Defines a track checkpoint
+ */
+class CheckPoint extends GameObject {
+  /**
+   * Creates a new CheckPoint
+   *  @param {Object} game - The gamemanager object
+   *  @param {Object} sprite - This object's image asset
+   *  @param {Object} position - Initial X, Y and facing angle for the object
+   *  @param {Object} template - Initial values for object properties
+   */
+  constructor(game, sprite, position, template, id) {
+    super(game, sprite, position, template);
+    // All checkpoints default to inactive. Only the next check point is active.
+    this._active = false;
+    // This checkpoint's Goal id
+    this._id = id;
+  }
 
+  get active() {return this._active;}
+  activate() {this._active = true;}
+  deactivate() {this._active = false;}
+
+  /**
+   * Checks whether this checkpoint has just been passed
+   */
+  playerCollision(Player) {
+    // If this checkpoint is the next goal and the player has collided with it:
+    if (this._active && super._bounds.collides(Player._bounds)) {
+      // Deactivate this checkpoint.
+
+    }
+  }
+}
 
 
 
