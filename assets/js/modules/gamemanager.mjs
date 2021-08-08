@@ -47,7 +47,7 @@ class Game {
    * is on the track or not.
    */
   get friction() {return 25;}
-  get gravity() {return 25;}
+  get gravity() {return 50;}
 
   /*
    * Setup
@@ -99,7 +99,7 @@ class Game {
       jump: {
         up: false,
         down: false,
-        actionUp:()=>null,
+        actionUp:()=>{console.log("jump"); this._player.jump();},
         actionDn:()=>null
       },
       pause: {
@@ -115,6 +115,8 @@ class Game {
     this._keyMap.set("ArrowDown", "backwards");
     this._keyMap.set("ArrowLeft", "left");
     this._keyMap.set("ArrowRight", "right");
+    this._keyMap.set("Space", "jump");
+    this._keyMap.set("KeyP", "pause");
   }
 
   start() {
