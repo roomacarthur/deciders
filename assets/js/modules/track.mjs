@@ -1,5 +1,5 @@
 
-import {  } "./gameobjects.mjs";
+import { CheckPoint } from "./gameobjects.mjs";
 
 class Track {
   constructor(game, image, template) {

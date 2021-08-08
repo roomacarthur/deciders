@@ -28,7 +28,7 @@ class GameObject {
   get height() {return this._height;}
 
   draw(renderer) {
-    renderer.drawSprite(this._sprite, this._bounds, this._height);
+    renderer.drawSprite(this._sprite, this._bounds, 1, this._height);
   }
 
   collision(object) {
@@ -68,8 +68,9 @@ class Player extends GameObject {
 
   /** Gives the player an initial upward acceleration */
   jump() {
-    if (this._height === 0)
+    if (this._height === 0) {
       this._vAcceleration = (this._speed / this._maxSpeed) * this._jumpPower;
+    }
   }
 
   /** Returns the players current acceleration */
