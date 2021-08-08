@@ -1,21 +1,24 @@
 
-const TestTrackConfig = {
+const TrackConfig = {
     name: "Test Track",
-    image: "./assets/img/tracks/test.png",
+    image: "./assets/img/tracks/f-track.png",//test.png",
+    mask: "./assets/img/tracks/f-track-mask.png",
     skyColor: "#00FFFF",
-    groundColor: "#008000",
+    groundColor: "#842f1c",
     // Track gravity - affects how far a player can jump
     gravity: 50,
     // Friction on the track
     tDrag: 25,
     // Friction off the track
     dDrag: 50,
+    // Change to max speed when not on the track
+    dSpeed: -75,
     // Player spawn point position and view direction in radians
-    pSpawn: {x:920, y:585, dir: 4.71239},
+    pSpawn: {x:345, y:200, dir: 2.8704},
     // List of checkpoints position and radii in map image pixels
     checkpoints: [
-        {x:15, y:15, r:50},
-        {x:15, y:35, r:50}
+        {x:170, y:325, r:50},
+        {x:345, y:200, r:50}
     ],
     // List of objects (bonuses, obstacles, and scenery)
     // An object has a position and a type, which should map to object configs
@@ -25,7 +28,7 @@ const TestTrackConfig = {
     ]
 };
 
-const TestPlayerConfig = {
+const PlayerConfig = {
     name: "player one",
     sprite: "./assets/img/sprites/testplayer.png",
     // Acceleration in pixels a second
@@ -33,7 +36,7 @@ const TestPlayerConfig = {
     // Maximum speed in pixels a second
     maxSpeed: 150,
     // Turn speed in radians a second (there's 6.28 radians in a circle)
-    tSpeed: 2.0,
+    tSpeed: 3.14,
     // Jump Power
     jumpPower: 15,
     // Collision detection radius in pixels
@@ -43,23 +46,31 @@ const TestPlayerConfig = {
 const ObjectTypes = [
   {
     name: "checkpoint",
+    sprite: "./assets/img/sprites/checkpoint.png",
+    jumpable: false,
     scale: 2,
     radius: 50
   },
   {
     // Name identifier
     name: "gofaster",
-     // Scale of the sprite on screen
+    // The image file holding this object's sprite
+    sprite: "./assets/img/sprites/test.png",
+    // Will the player still collide with this if they're jumping
+    jumpable: false,
+    // Scale of the sprite on screen
     scale: 1.5,
-     // Radius on the map
+    // Radius on the map
     radius: 25
   },
   {
     name: "bannanpeel",
+    sprite: "./assets/img/sprites/test.png",
+    jumpable: true,
     scale: 1.5,
     radius: 25
   }
 ];
 
 // Add configs to list below:
-export { TestTrackConfig, TestPlayerConfig, ObjectTypes, };
+export { TrackConfig, PlayerConfig, ObjectTypes };

@@ -100,7 +100,7 @@ class Player extends GameObject {
 
       // Update rotation
       const rotation = ((this._rotation) * ((this._speed / this._maxSpeed)/2));
-      this._direction.rotateByRadians(rotation * timeDelta);
+      if(this._speed > 0) this._direction.rotateByRadians(rotation * timeDelta);
     }
 
     // Update position
@@ -158,20 +158,43 @@ class CheckPoint extends GameObject {
  * Base class for an object that the player can pickup. Obstacle or Power up
  */
 class Pickup extends GameObject {
-
+  constructor(game, sprite, position, template, id) {
+    super(game, sprite, position, template);
+    this._active = false;
+    this._id = id;
+  }
 }
 
 /**
  * Defines a peice of map scenery the player can collide with
  */
 class Scenery extends GameObject {
-
+  constructor(game, sprite, position, template, id) {
+    super(game, sprite, position, template);
+    this._active = false;
+    this._id = id;
+  }
 }
 
 /**
  * Creates Game Objects on demand based on templates
  */
 class ObjectFactory {
+
+  constructor() {
+    this._factories = new Map();
+    this._factories.set("checkpoint", {
+      create: (game, sprite, position, template, id) =>
+        new CheckPoint(game, sprite, position, template, id)
+    });
+    // Add new game objects here
+  }
+
+  createObject(game, sprite, position, template, id) {
+    const factory = this._factories.get(template.name);
+    if (factory) return factory.create(game, sprite, position, template, id);
+    return null;
+  }
 
 }
 
