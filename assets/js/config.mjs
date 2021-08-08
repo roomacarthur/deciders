@@ -47,6 +47,7 @@ const ObjectTypes = [
   {
     name: "checkpoint",
     sprite: "./assets/img/sprites/checkpoint.png",
+    jumpable: false,
     scale: 2,
     radius: 50
   },
@@ -55,6 +56,8 @@ const ObjectTypes = [
     name: "gofaster",
     // The image file holding this object's sprite
     sprite: "./assets/img/sprites/test.png",
+    // Will the player still collide with this if they're jumping
+    jumpable: false,
     // Scale of the sprite on screen
     scale: 1.5,
     // Radius on the map
@@ -63,10 +66,11 @@ const ObjectTypes = [
   {
     name: "bannanpeel",
     sprite: "./assets/img/sprites/test.png",
+    jumpable: true,
     scale: 1.5,
     radius: 25
   }
 ];
 
 // Add configs to list below:
-export { TestTrackConfig, TestPlayerConfig, ObjectTypes, };
+export { TrackConfig, PlayerConfig, ObjectTypes };
