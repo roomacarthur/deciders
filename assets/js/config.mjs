@@ -41,20 +41,20 @@ const TestPlayerConfig = {
 const ObjectTypes = [
   {
     name: "checkpoint"
-    scale: 50,
+    scale: 2,
     radius: 50
   }
   {
     // Name identifier
     name: "gofaster",
      // Scale of the sprite on screen
-    scale: 25,
+    scale: 1.5,
      // Radius on the map
     radius: 25
   },
   {
     name: "bannanpeel",
-    scale: 25,
+    scale: 1.5,
     radius: 25
   }
 ];
