@@ -151,6 +151,13 @@
       function changePage() {
         location.href = "game.html";
       }
+      window.top.document.onkeydown = function (evt) {
+        evt = evt || window.event;
+        let keyCode = evt.key;
+        if (keyCode == " ") {
+          return false;
+        }
+      };
     </script>
   </body>
 </html>
