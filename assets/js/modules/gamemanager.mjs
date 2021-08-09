@@ -297,17 +297,17 @@ class Game {
     }
   }
 
-  _drawDebugInfo(time) {
+  _drawDebugInfo(time, top) {
     this._renderer.setFont(12, "sans", 'left');
-    this._renderer.drawText(`FPS: ${~~(1000/(time))}`, 5, 15);
+    this._renderer.drawText(`FPS: ${~~(1000/(time))}`, 5, top);
     this._renderer.drawText(
-      `X: ${~~this._player.dimensions.x} Y: ${~~this._player.dimensions.y}`, 5, 30
+      `X: ${~~this._player.dimensions.x} Y: ${~~this._player.dimensions.y}`, 5, top + 15
     );
     this._renderer.drawText(
       `Facing: ${Math.atan2(this._player.direction.y,this._player.direction.x)}`,
-      5, 45
+      5, top + 45
     );
-    this._renderer.drawText(`Height: ${this._player.height}`, 5, 60);
+    this._renderer.drawText(`Height: ${this._player.height}`, 5, top + 45);
   }
 
   _drawHUD(time) {
