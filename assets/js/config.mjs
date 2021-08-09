@@ -61,7 +61,7 @@ const TrackConfig = {
 
 const PlayerConfig = {
     name: "player one",
-    sprite: "./assets/img/sprites/testplayer.png",
+    sprite: "./assets/img/sprites/cycle.png",
     // Acceleration in pixels a second
     acceleration: 50,
     // Maximum speed in pixels a second
@@ -84,36 +84,39 @@ const ObjectTypes = [
     sprite: "./assets/img/sprites/checkpoint.png",
     jumpable: false,
     height: 15,
-    scale: 20,
+    scale: 1,
     radius: 50
   },
   {
     // Name identifier
     name: "gofaster",
     // The image file holding this object's sprite
-    sprite: "./assets/img/sprites/test.png",
+    sprite: "./assets/img/objects/power-ups.png",
     // Will the player still collide with this if they're jumping
     jumpable: false,
     // Default height above the floor plain
     height: 0,
     // Scale of the sprite on screen
-    scale: 10,
+    scale: 1,
     // Radius on the map
     radius: 25
   },
   {
     name: "bananapeel",
+    //sprite: "./assets/img/sprites/test2.png",
     sprite: "./assets/img/objects/banana.png",
     jumpable: true,
     height: 0,
-    scale: 5,
+    scale: 1,
     radius: 25
   },
   {
     name: "tree",
+    //sprite: "./assets/img/sprites/test2.png",
     sprite: "./assets/img/objects/tree.png",
     jumpable: true,
-    scale: 5,
+    height: 0,
+    scale: 25,
     radius: 25
   }
 ];
