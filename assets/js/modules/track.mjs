@@ -51,6 +51,10 @@ class Track {
   get currentLap() {return this._currentLap;}
   get totalLaps() {return this._template.laps;}
   get checkPoints() {return this._checkPoints;}
+  get lastCheckPoint() {
+    if (this._goalPoint > 0) return this._checkPoints[this._goalPoint - 1];
+    return this._checkPoints[this.checkPoints.length - 1];
+  }
 
   get trackFriction() {return this._template.tDrag;}
 
