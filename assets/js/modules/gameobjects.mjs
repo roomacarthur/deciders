@@ -22,6 +22,7 @@ class GameObject {
     this._bounds = new BoundingCircle(position.x, position.y, template.radius);
     this._scale = template.scale;
     this._height = template.height;
+    this._active = false;
   }
 
   get dimensions() {return this._bounds;}
@@ -29,12 +30,14 @@ class GameObject {
   get height() {return this._height;}
 
   draw(renderer) {
-    renderer.drawSprite(this._sprite, this._bounds, this._scale, this._height);
+    if (this._active) renderer.drawSprite(this._sprite, this._bounds, this._scale, this._height);
   }
 
   collision(object) {
-    return this._bounds.collides(object._bounds);
+    if (this._active) return this._bounds.collides(object._bounds);
   }
+
+  playerCollision(player) {}
 }
 
 /**
@@ -51,6 +54,7 @@ class Player extends GameObject {
   constructor(game, sprite, position, template) {
     super(game, sprite, position, template);
     this._direction = new Vector2D(Math.cos(position.dir), Math.sin(position.dir));
+    this._active = true;
 
     this._maxSpeed = template.maxSpeed;
     this._maxAcceleration = template.acceleration;
