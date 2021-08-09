@@ -34,7 +34,8 @@ class GameObject {
   }
 
   collision(object) {
-    if (this._active) return this._bounds.collides(object._bounds);
+    if (this._active && object._active) return this._bounds.collides(object._bounds);
+    else return false;
   }
 
   playerCollision(player) {}
@@ -79,6 +80,9 @@ class Player extends GameObject {
     }
   }
   get jumping() {return this._jumping;}
+
+  get speed() {return this._speed;}
+  set speed(val) {this._speed = val;}
 
   /** Returns the players current acceleration */
   get acceleration() {return this._acceleration;}
@@ -253,7 +257,7 @@ class BananaPeel extends Pickup {
     playerCollision(player) {
       if (this._jumpable && !player.jumping) {
         // Hitting a banana makes the player skid for couple of seconds
-        player.setSkidding(40);
+        player.speed = 0;
         this._active = false;
       }
     }
