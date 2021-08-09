@@ -223,7 +223,7 @@ class BoundingCircle extends Point2D {
    * Detects if collision has occured between two bounding circles
    */
   collides(circle) {
-    return (this.distanceTo(circle) < this._radius + circle._radius);
+    return (this.distanceTo(circle) < (this._radius + circle._radius));
   }
 
   /** NOT YET IMPLEMENTED */
