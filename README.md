@@ -1,6 +1,8 @@
 # Super BMX Bash
 <div align="center">
 
+[Let's play!](https://roomacarthur.github.io/deciders/)
+
 ![coin slot animation from Super BMX Bash](/readme/coin-slot.gif)
 </div>
 
@@ -10,8 +12,21 @@ A collaborative project for the Code Institute's August Hackathon, with a retro 
 
 *** 
 
-Super BMX bash is a retro style game where the aim of the game is to get around the track as quickly as possible.  
-There are items on the course which help or hinder you on your way.
+Super BMX bash is a retro style game where the aim of the game is to cycle and hop your way around 5 laps of the track as quickly as possible.  
+Avoid bananas and barrels, and stay on the track to maintain maximum speed.  
+Pass through each checkpoint marker to get onto the next lap.
+Don't forget to screenshot your best time to gain ultimate bragging rights for being the superior BMX basher.
+
+![banana](assets/img/objects/banana.png)  
+Hop over or avoid banana peels. If you hit them you'll lose control of your bike momentarily.   
+<br> 
+![barrel](assets/img/objects/barrel.png)  
+If you hit these barrels your speed will be reduced to 0, so best if you don't.  
+<br>
+![checkpoint](assets/img/sprites/checkpoint.png)  
+Do pass through these! They are checkpoints and you'll need to get them all to advance in laps.  
+![bonus](assets/img/objects/power-ups.png)  
+If you've got a need for speed then these pickups are for you! They'll give you a quick speed boost to help you zoom through the laps!
 
 ## Design and planning
 
@@ -25,6 +40,8 @@ There are items on the course which help or hinder you on your way.
 
 ### Game Operation
 
+This section details the original plan for the game engine, but there are some differences between this and the final layout.
+
 <details>
 <summary>Click to reveal</summary>
 
@@ -33,7 +50,7 @@ There are items on the course which help or hinder you on your way.
 </details>
 
 - Game Manager:  
-    Controls game start and end. Creates the other objects, runs the game loop. This is where we'll probably want to place higher level game logic like win/lose condition, score, timing and interaction with the back-end for leaderboard etc.  
+    Controls game start and end. Creates the other objects, runs the game loop. Here is the higher level game logic like win/lose condition, creating game and timing.
 - Asset Manager:  
     Loads, stores and manages any resource files (sounds, level data, images). Game Objects would hold a reference to their resource, and give that to the audio/render manager for playing drawing.   
 - Audio Manager:  
@@ -43,15 +60,15 @@ There are items on the course which help or hinder you on your way.
 - Camera:  
     Defines the player view in the game world. It will generate the information the Render Manager will use to do the actual drawing.  
 - Map:  
-    Stores information on the current level. Either this or the Asset Manager can load the level definition. May be better for the Game Manager to do, as it can load the required level objects as well.  
+    Stores information on the current level.  
 - User Interaction Manager:  
-    This is where the event listeners will live. The event listeners won't perform any function themselves. They'll log the interaction and then the Update cycle will do the work of changing any states. You can see this paradigm in the mode7 demo. When the user presses a key it just sets a variable. When the update happens that variable is used to change state, be it turning the camera, moving backwards or forwards or jumping.  
+    This is where the event listeners live. The event listeners don't perform any function themselves. They log the interaction and then the Update cycle will do the work of changing any states.   
 - Game Object:  
     Base class for any entity in the game world. The player, items and scenery will derive from this, and any core functionality that all game objects need will be written here, collision detection for instance.  
 - Player:  
     The users avatar. Represents the user in the game world.  
 - Interactable:  
-    Any non player object that can change the player state beyond collision. Buttons, springs, power ups etc would be based on this. May not be needed.  
+    Any non player object that can change the player state beyond collision; ie, speed boost.
 - Pick ups:  
      Anything the player can pickup and changes their state.
 - Scenery:  
