@@ -52,6 +52,8 @@ class Track {
   get totalLaps() {return this._template.laps;}
   get checkPoints() {return this._checkPoints;}
 
+  get trackFriction() {return this._template.tDrag;}
+
   getFriction(pos) {
     // Get the value of the mask at the given coordinates
     const pixel = this._mask.getPixel(~~pos.x, ~~pos.y);
