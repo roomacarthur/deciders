@@ -22,6 +22,10 @@ class Track {
     this._currentLap = 0;
   }
 
+  /*
+   * Setup
+   */
+
   _createCheckpoints(template) {
     this._checkPoints = new Array();
     for (let i = 0; i < template.checkpoints.length; i++) {
@@ -36,10 +40,16 @@ class Track {
     }
   }
 
+  /*
+   * Accessors
+   */
+
   get image() {return this._image;}
   get skyColor() {return this._template.skyColor;}
   get groundColor() {return this._template.groundColor;}
   get gravity() {return this._template.gravity;}
+  get currentLap() {return this._currentLap;}
+  get totalLaps() {return this._template.laps;}
 
   getFriction(pos) {
     // Get the value of the mask at the given coordinates
@@ -52,7 +62,7 @@ class Track {
       // Dirt
       return this._template.dDrag;
     }
-    return 25;
+    return this._template.dDrag;
   }
 
   getMapSpeed(pos) {
@@ -65,6 +75,9 @@ class Track {
     return 0;
   }
 
+  /*
+   * Game Logic
+   */
   GoalCheck(checkPoint) {
     if (checkPoint === this._checkPoints[this._goalPoint]) {
       checkPoint.deactivate();

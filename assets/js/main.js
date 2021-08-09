@@ -7,7 +7,8 @@ const game = new Game(
   document.getElementById('canvas'),
   configs.TrackConfig,
   configs.PlayerConfig,
-  configs.ObjectTypes
+  configs.ObjectTypes,
+  true                    // debug switch
 );
 
 // Loading code here...

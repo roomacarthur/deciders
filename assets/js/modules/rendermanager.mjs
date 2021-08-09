@@ -80,6 +80,8 @@ class Renderer {
   get canvas() {return this._canvas;}
   get context() {return this._ctx;}
 
+  get frameTime() {return this._thisFrameTime;}
+
   /**
    * Starts a draw frame
    *  @param {number} time The current time in milliseconds
@@ -198,15 +200,17 @@ class Renderer {
    *  @param {Object} image The image to draw
    *  @param {Object} position The x,y screen coordinates of the top left corner
    */
-  drawOverlayImage(image, position, width=-1, height=-1) {
-    if (width= -1) width = image.width;
-    if (height= -1) height = image.height;
+  drawOverlayImage(image, position, width, height) {
     this._ctx.drawImage(image.image, position.x, position.y, width, height);
   }
 
-  drawText(text, x, y, color="#000") {
+  drawText(text, x, y, color="#000", outline=false, oColor = "#FFF") {
     this._ctx.fillStyle = color;
     this._ctx.fillText(text, x, y);
+    if (outline) {
+      this._ctx.strokeStyle = oColor;
+      this._ctx.strokeText(text, x, y);
+    }
   }
 
   setFont(size, font, align) {

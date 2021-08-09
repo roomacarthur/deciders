@@ -30,13 +30,13 @@ class Clock {
   set time(val) {this._time = val;}
 
   get hours() {
-    return Math.floor( (this.time  / 3600000) % 24);
+    return Math.floor( (this._time  / 3600000) % 24);
   }
   get minutes() {
-    return Math.floor( (this.time / 60000) % 60 );
+    return Math.floor( (this._time / 60000) % 60 );
   }
   get seconds() {
-    return Math.floor( (this.time / 1000) % 60 );
+    return Math.floor( (this._time / 1000) % 60 );
   }
 }
 
@@ -49,8 +49,8 @@ class Game {
    * Creates a new game
    *  @param {Object} canvas The canvas element to draw the game view to
    */
-  constructor(canvas, trackTemplate, playerTemplate, objectTypes) {
-    this._debug = true;
+  constructor(canvas, trackTemplate, playerTemplate, objectTypes, debugging=false) {
+    this._debug = debugging;
     // Create Renderer
     this._renderer = new Renderer(canvas);
     // Asset lists
@@ -60,6 +60,7 @@ class Game {
     this._state = GameStates.LOADING;
     this._lastState = this._state;
 
+    this._clock = new Clock(0);
     this._gameStartTime = 0;
 
     this._setupEvents();
@@ -68,7 +69,7 @@ class Game {
 
   groundSpeed(pos) {return this._track.getMapSpeed(pos);}
   friction(pos) {return this._track.getFriction(pos);}
-  get gravity() {return 50;}
+  get gravity() {return this._track.gravity;}
 
   get state() {return this._state;}
 
@@ -178,7 +179,7 @@ class Game {
     this._assets.loadedCount++;
     // Have we finished loading all our assets?
     if (this._assets.loadedCount >= this._assets.length-1) {
-      this._state = GameStates.LOADED;
+      this._state = GameStates.PLAYING;//GameStates.LOADED;
     } else {
       this._state = GameStates.LOADING;
     }
@@ -242,12 +243,21 @@ class Game {
   /*
    * Game logic
    */
+  _checkVictory() {
+    // Has the player completed all their laps
+    if (this._track.currentLap >= this._track.totalLaps) {
+      this._state = GameStates.FINISHED;
+      return true;
+    }
+    return false;
+  }
 
   /*
    * Game Loop
    */
   _sortObjects() {
-    // Sorts all the objects based on distance to the camera
+    // Sorts all the objects based on distance to the camera so that when
+    // they're drawn closer objects are drawn in front.
     this._objects.sort((a,b) => {
       const aD = this._renderer.camera.position.distanceTo2(a.dimensions);
       const bD = this._renderer.camera.position.distanceTo2(b.dimensions);
@@ -257,54 +267,80 @@ class Game {
     });
   }
 
-  _updatePlaying(time) {
+  _update(time) {
     // Check if playing or paused...
+    if (this._state === GameStates.PLAYING) {
+      const timeDelta = time / 1000;
+      // Update clock
+      this._clock.time = performance.now() - this._gameStartTime;
 
-    const timeDelta = time / 1000;
-    // Sort sprites by distance to camera
-    this._sortObjects();
+      // Sort sprites by distance to camera
+      this._sortObjects();
 
-    // Handle user input
-    this._handleKeys();
+      // Handle user input
+      this._handleKeys();
 
-    // Update object states
-    this._player.update(timeDelta);
+      // Update object states
+      this._player.update(timeDelta);
 
-    // Align camera to player
-    let cX = this._player.dimensions.x - (this._player.direction.x * 45);
-    let cY = this._player.dimensions.y - (this._player.direction.y * 45);
-    this._renderer.camera.setPosition(cX, cY);
-    this._renderer.camera.setDirection(
-      this._player.direction.x,
-      this._player.direction.y
-    );
+      // Align camera to player
+      let cX = this._player.dimensions.x - (this._player.direction.x * 45);
+      let cY = this._player.dimensions.y - (this._player.direction.y * 45);
+      this._renderer.camera.setPosition(cX, cY);
+      this._renderer.camera.setDirection(
+        this._player.direction.x,
+        this._player.direction.y
+      );
 
-    // Check goals and victory conditions Press Start 2P
+      // Check goals and victory conditions
+      this._checkVictory();
+    }
   }
 
-  _drawDebugInfo(time) {
+  _drawDebugInfo(time, top) {
     this._renderer.setFont(12, "sans", 'left');
-    this._renderer.drawText(`FPS: ${~~(1000/(time))}`, 5, 15);
+    this._renderer.drawText(`FPS: ${~~(1000/(time))}`, 5, top);
     this._renderer.drawText(
-      `X: ${~~this._player.dimensions.x} Y: ${~~this._player.dimensions.y}`, 5, 30
+      `X: ${~~this._player.dimensions.x} Y: ${~~this._player.dimensions.y}`, 5, top + 15
     );
     this._renderer.drawText(
       `Facing: ${Math.atan2(this._player.direction.y,this._player.direction.x)}`,
-      5, 45
+      5, top + 45
     );
-    this._renderer.drawText(`Height: ${this._player.height}`, 5, 60);
+    this._renderer.drawText(`Height: ${this._player.height}`, 5, top + 45);
   }
 
   _drawHUD(time) {
+    const w = this._renderer.canvas.width;
+    const h = this._renderer.canvas.height;
     // Draw small track image
+    this._renderer.drawOverlayImage(this._track.image, {x:5,y:5}, 100, 100);
     // Plot player position
     // Plot next goal position
 
     // Draw Lap counter
+    let lap = this._track.currentLap + 1;
+    if (lap > this._track.totalLaps) lap = this._track.totalLaps;
+    this._renderer.setFont(18, "'Press Start 2P'", "right");
+    this._renderer.drawText(
+      `Lap: ${lap} of ${this._track.totalLaps}`,
+      w-5, 25, "black", true, "white"
+    );
     // Draw clock
+    const min = String(this._clock.minutes).padStart(2, '0');
+    const sec = String(this._clock.seconds).padStart(2, '0');
+    this._renderer.drawText(`${min}:${sec}`, w-5, 50, "black", true, "white");
+
+    // Draw Messages
+    if (this._state === GameStates.FINISHED) {
+      this._renderer.setFont(24, "'Press Start 2P'", "center");
+      this._renderer.drawText("Track complete", w/2, h/2, "black", true, "white");
+    }
+
+    if (this._debug) this._drawDebugInfo(time, h/2);
   }
 
-  _drawPlaying(time) {
+  _draw(time) {
     // Draw backdrop
     this._renderer.drawBackdrop(this._track.skyColor, this._track.groundColor);
     // Draw gound plain
@@ -314,13 +350,13 @@ class Game {
       this._objects[i].draw(this._renderer);
     }
     // Draw interface
-    if (this._debug) this._drawDebugInfo(time);
+    this._drawHUD(time);
   }
 
   _loop(time) {
     const frameTime = this._renderer.startFrame(time);
-    this._updatePlaying(frameTime);
-    this._drawPlaying(frameTime);
+    this._update(frameTime);
+    this._draw(frameTime);
 
     this._renderer.endFrame(time);
     window.requestAnimationFrame((time)=>this._loop(time));
