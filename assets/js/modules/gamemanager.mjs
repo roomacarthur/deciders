@@ -269,30 +269,32 @@ class Game {
 
   _update(time) {
     // Check if playing or paused...
-
-    const timeDelta = time / 1000;
-    // Sort sprites by distance to camera
-    this._sortObjects();
-
-    // Handle user input
-    this._handleKeys();
-
-    // Update object states
-    this._player.update(timeDelta);
-
-    // Align camera to player
-    let cX = this._player.dimensions.x - (this._player.direction.x * 45);
-    let cY = this._player.dimensions.y - (this._player.direction.y * 45);
-    this._renderer.camera.setPosition(cX, cY);
-    this._renderer.camera.setDirection(
-      this._player.direction.x,
-      this._player.direction.y
-    );
-
-    // Check goals and victory conditions Press Start 2P
+    if (this._state === GameStates.PLAYING) {
+      const timeDelta = time / 1000;
       // Update clock
       this._clock.time = performance.now() - this._gameStartTime;
 
+      // Sort sprites by distance to camera
+      this._sortObjects();
+
+      // Handle user input
+      this._handleKeys();
+
+      // Update object states
+      this._player.update(timeDelta);
+
+      // Align camera to player
+      let cX = this._player.dimensions.x - (this._player.direction.x * 45);
+      let cY = this._player.dimensions.y - (this._player.direction.y * 45);
+      this._renderer.camera.setPosition(cX, cY);
+      this._renderer.camera.setDirection(
+        this._player.direction.x,
+        this._player.direction.y
+      );
+
+      // Check goals and victory conditions
+      this._checkVictory();
+    }
   }
 
   _drawDebugInfo(time) {
