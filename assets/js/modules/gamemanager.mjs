@@ -243,6 +243,14 @@ class Game {
   /*
    * Game logic
    */
+  _checkVictory() {
+    // Has the player completed all their laps
+    if (this._track.currentLap >= this._track.totalLaps) {
+      this._state = GameStates.FINISHED;
+      return true;
+    }
+    return false;
+  }
 
   /*
    * Game Loop
