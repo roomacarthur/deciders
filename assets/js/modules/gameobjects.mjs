@@ -246,6 +246,19 @@ class BananaPeel extends Pickup {
   }
 }
 
+  class Barrel extends Pickup {
+    constructor(game, sprite, position, template, id) {
+      super(game, sprite, position, template, id);
+    }
+    playerCollision(player) {
+      if (this._jumpable && !player.jumping) {
+        // Hitting a banana makes the player skid for couple of seconds
+        player.setSkidding(40);
+        this._active = false;
+      }
+    }
+}
+
 class Tree extends Scenery {
   constructor(game, sprite, position, template, id) {
     super(game, sprite, position, template, id);
@@ -275,6 +288,10 @@ class ObjectFactory {
     this._factories.set("tree", {
       create: (game, sprite, position, template, id) =>
         new Tree(game, sprite, position, template, id)
+    });
+    this._factories.set("barrel", {
+      create: (game, sprite, position, template, id) =>
+        new Barrel(game, sprite, position, template, id)
     });
   }
 
