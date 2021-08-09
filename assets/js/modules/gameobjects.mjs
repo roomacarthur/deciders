@@ -185,11 +185,7 @@ class CheckPoint extends GameObject {
    * Checks whether this checkpoint has just been passed
    */
   playerCollision(Player) {
-    // If this checkpoint is the next goal and the player has collided with it:
-    if (this._active && super._bounds.collides(Player._bounds)) {
-      // Deactivate this checkpoint.
-
-    }
+    this._game.track.GoalCheck(this);
   }
 }
 
