@@ -78,10 +78,8 @@ There are items on the course which help or hinder you on your way.
         ├──
     ├── img: All images
 ├── readme: Assets for README.md
-    ├──
 ├── index.html
 ├── game.html
-├── hs.html
 ├── about.html
 ├── README.md
 ```
