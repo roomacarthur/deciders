@@ -70,6 +70,15 @@ class Player extends GameObject {
     this._vAcceleration = 0;
     this._jumping = false;
     this._skidding = 0;
+
+    // Bonuses
+    this._speedBonus = 0;
+    this._speedCount = 0;
+    this._accelBonus = 0;
+    this._accelCount = 0;
+    this._jumpBonus = 0;
+    this._jumpCount = 0;
+    this._offRoad = 0;
   }
 
   /** Returns the current player direction vector */
@@ -78,7 +87,7 @@ class Player extends GameObject {
   /** Gives the player an initial upward acceleration */
   jump() {
     if (this._height === 0) {
-      this._vAcceleration = (this._speed / this._maxSpeed) * this._jumpPower;
+      this._vAcceleration = (this._speed / this._maxSpeed) * (this._jumpPower + this._jumpBonus);
     }
   }
   get jumping() {return this._jumping;}
@@ -100,11 +109,38 @@ class Player extends GameObject {
     this._rotation = this._turnSpeed * dir;
   }
 
+  /*
+   * Object interaction
+   */
   get skidding() {return this._skidding > 0;}
   set skidding(val) {this._skidding = val;}
   setSkidding(counter) {
     this._skidding = counter * (this._speed / this._maxSpeed);
   }
+
+  get speedBonus() {return this._speedBonus;}
+  get speedCount() {return this._speedCount;}
+  setSpeedBonus(value, time) {
+    this._speedBonus = value;
+    this._speedCount = time;
+  }
+
+  get accelBonus() {return this._accelBonus;}
+  get accelCount() {return this._accelCount;}
+  setAccelBonus(value, time) {
+    this._accelBonus = value;
+    this._accelCount = time;
+  }
+
+  get jumpBonus() {return this._jumpBonus;}
+  get jumpCount() {return this._jumpCount;}
+  getJumpBonus(value, time) {
+    this._jumpBonus = value;
+    this._jumpCount = time;
+  }
+
+  get offRoadBonus() {return this._offRoad;}
+  set offRoadBonus(val) {this._offRoad = val;}
 
   _checkCollisions() {
     // Run through every object and test for collision
@@ -122,15 +158,18 @@ class Player extends GameObject {
    *  @param {number} timeDelta - Time in seconds since the last update
    */
   update(timeDelta) {
+    const updateCounter = (counter) => counter - (20 * timeDelta);
     // If jumping or skidding the player has no control
     if (!this._jumping && this._skidding <= 0) {
       // Update speed
-      const friction = this._game.friction(this._bounds);
+      let friction = 0;
+      if (this._offRoad > 0) friction = this._game.trackFriction();
+      else friction = this._game.friction(this._bounds);
       const mapSpeed = this._game.groundSpeed(this._bounds);
 
       // Don't add acceleration if we're traveling faster than the current max
-      if (this._speed < (this._maxSpeed + mapSpeed)) {
-        this._speed += (this._acceleration - friction) * timeDelta;
+      if (this._speed < (this._maxSpeed + mapSpeed + this._speedBonus)) {
+        this._speed += (this._acceleration + this._accelBonus - friction) * timeDelta;
       } else {
         this._speed -= friction;
       }
@@ -142,8 +181,30 @@ class Player extends GameObject {
       if(this._speed > 0) this._direction.rotateByRadians(rotation * timeDelta);
     }
 
-    if (this._skidding > 0) this._skidding -= 20 * timeDelta;
+    // Update modifiers
+    if (this._skidding > 0) this._skidding = updateCounter(this._skidding);
     else this._skidding = 0;
+
+    if (this._speedCount > 0) this._speedCount = updateCounter(this._speedCount);
+    else {
+      this._speedCount = 0;
+      this._speedBonus = 0;
+    }
+
+    if (this._accelCount > 0) this._accelCount = updateCounter(this._accelCount);
+    else {
+      this._accelCount = 0;
+      this._accelBonus = 0;
+    }
+
+    if (this._jumpCount > 0) this._accelCount = updateCounter(this._jumpCount);
+    else {
+      this._jumpCount = 0;
+      this._jumpBonus = 0;
+    }
+
+    if (this._offRoad > 0) this._offRoad = updateCounter(this._offRoad);
+    else this._offRoad = 0;
 
     // Update position
     this._bounds.x += (this._direction.x * this._speed) * timeDelta;
