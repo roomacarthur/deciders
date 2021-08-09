@@ -18,7 +18,13 @@ const TrackConfig = {
     // List of checkpoints position and radii in map image pixels
     checkpoints: [
         {x:170, y:325},
+        {x:175, y:600},
         {x:265, y:800},
+        {x:650, y:805},
+        {x:900, y:675},
+        {x:625, y:560},
+        {x:685, y:290},
+        {x:650, y:150},
         {x:345, y:200}
     ],
     // List of objects (bonuses, obstacles, and scenery)
@@ -75,7 +81,7 @@ const PlayerConfig = {
     // Scale of the sprite on the screen
     scale: 1,
     // Collision detection radius in pixels
-    radius: 10
+    radius: 2
 };
 
 const ObjectTypes = [
@@ -84,8 +90,8 @@ const ObjectTypes = [
     sprite: "./assets/img/sprites/checkpoint.png",
     jumpable: false,
     height: 15,
-    scale: 1,
-    radius: 50
+    scale: 25,
+    radius: 25
   },
   {
     // Name identifier
@@ -99,7 +105,7 @@ const ObjectTypes = [
     // Scale of the sprite on screen
     scale: 1,
     // Radius on the map
-    radius: 25
+    radius: 3
   },
   {
     name: "bananapeel",
@@ -107,8 +113,8 @@ const ObjectTypes = [
     sprite: "./assets/img/objects/banana.png",
     jumpable: true,
     height: 0,
-    scale: 1,
-    radius: 25
+    scale: 0.25,
+    radius: 2
   },
   {
     name: "tree",
@@ -116,8 +122,8 @@ const ObjectTypes = [
     sprite: "./assets/img/objects/tree.png",
     jumpable: true,
     height: 0,
-    scale: 25,
-    radius: 25
+    scale: 50,
+    radius: 4
   }
 ];
 

@@ -22,6 +22,7 @@ class GameObject {
     this._bounds = new BoundingCircle(position.x, position.y, template.radius);
     this._scale = template.scale;
     this._height = template.height;
+    this._active = false;
   }
 
   get dimensions() {return this._bounds;}
@@ -29,12 +30,14 @@ class GameObject {
   get height() {return this._height;}
 
   draw(renderer) {
-    renderer.drawSprite(this._sprite, this._bounds, this._scale, this._height);
+    if (this._active) renderer.drawSprite(this._sprite, this._bounds, this._scale, this._height);
   }
 
   collision(object) {
-    return this._bounds.collides(object._bounds);
+    if (this._active) return this._bounds.collides(object._bounds);
   }
+
+  playerCollision(player) {}
 }
 
 /**
@@ -51,6 +54,7 @@ class Player extends GameObject {
   constructor(game, sprite, position, template) {
     super(game, sprite, position, template);
     this._direction = new Vector2D(Math.cos(position.dir), Math.sin(position.dir));
+    this._active = true;
 
     this._maxSpeed = template.maxSpeed;
     this._maxAcceleration = template.acceleration;
@@ -86,6 +90,17 @@ class Player extends GameObject {
   /** Sets the player's rotation */
   rotate(dir) {
     this._rotation = this._turnSpeed * dir;
+  }
+
+  _checkCollisions() {
+    // Run through every object and test for collision
+    for (let i = 0; i < this._game.objectsCount; i++) {
+      let object = this._game.getObject(i);
+      if (this != object && this.collision(object)) {
+        // Trigger the object's collision event
+        object.playerCollision(this);
+      }
+    }
   }
 
   /**
@@ -124,6 +139,7 @@ class Player extends GameObject {
       this._jumping = false;
     } else if (this._height > 0) this._jumping = true;
     this._vAcceleration -= this._game.gravity * timeDelta;
+    this._checkCollisions();
   }
 
   // update(timeDelta) {
@@ -132,14 +148,15 @@ class Player extends GameObject {
   //   this._direction.rotateByRadians(rotation * timeDelta);
   //
   //   // Update position
-  //   this._bounds.x += (this._direction.x * this._acceleration) * timeDelta;
-  //   this._bounds.y += (this._direction.y * this._acceleration) * timeDelta;
+  //   this._bounds.x += (this._direction.x * this._acceleration * 2) * timeDelta;
+  //   this._bounds.y += (this._direction.y * this._acceleration * 2) * timeDelta;
   //
   //   this._height=0;
+  //
+  //   this._checkCollisions();
   // }
 
 }
-
 
 /**
  * Defines a track checkpoint
@@ -168,11 +185,7 @@ class CheckPoint extends GameObject {
    * Checks whether this checkpoint has just been passed
    */
   playerCollision(Player) {
-    // If this checkpoint is the next goal and the player has collided with it:
-    if (this._active && super._bounds.collides(Player._bounds)) {
-      // Deactivate this checkpoint.
-
-    }
+    this._game.track.GoalCheck(this);
   }
 }
 
@@ -182,7 +195,7 @@ class CheckPoint extends GameObject {
 class Pickup extends GameObject {
   constructor(game, sprite, position, template, id) {
     super(game, sprite, position, template);
-    this._active = false;
+    this._active = true;
     this._id = id;
   }
 }
@@ -193,7 +206,7 @@ class Pickup extends GameObject {
 class Scenery extends GameObject {
   constructor(game, sprite, position, template, id) {
     super(game, sprite, position, template);
-    this._active = false;
+    this._active = true;
     this._id = id;
   }
 }
@@ -202,7 +215,7 @@ class GoFaster extends Pickup {
   constructor(game, sprite, position, template, id) {
     super(game, sprite, position, template, id);
   }
-  pickup(player) {
+  playerCollision(player) {
     // Do power up action code here
   }
 }
@@ -211,12 +224,12 @@ class BananaPeel extends Pickup {
   constructor(game, sprite, position, template, id) {
     super(game, sprite, position, template, id);
   }
-  pickup(player) {
+  playerCollision(player) {
     // Do power up action code here
   }
 }
 
-class Tree extends Pickup {
+class Tree extends Scenery {
   constructor(game, sprite, position, template, id) {
     super(game, sprite, position, template, id);
   }
