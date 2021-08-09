@@ -252,6 +252,19 @@ class Game {
     return false;
   }
 
+  /**
+   * Adds a time penalty to the clock
+   *  @param {number} time The time, in milliseconds, to add to the clock. If negative will subtract time
+   */
+  addTimeToClock(time) {
+    this._gameStartTime -= time;
+    const curTime = performance.now();
+    // Make sure time can't go negative
+    if (curTime < this._gameStartTime) {
+      this._gameStartTime = curTime;
+    }
+  }
+
   /*
    * Game Loop
    */
@@ -334,7 +347,6 @@ class Game {
         this._renderer.drawDot(x, y, 4, "grey");
       }
     }
-
 
     // Draw Lap counter
     let lap = this._track.currentLap + 1;
