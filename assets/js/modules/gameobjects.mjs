@@ -66,6 +66,7 @@ class Player extends GameObject {
     this._speed = 0;
     this._vAcceleration = 0;
     this._jumping = false;
+    this._skidding = 0;
   }
 
   /** Returns the current player direction vector */
@@ -77,6 +78,7 @@ class Player extends GameObject {
       this._vAcceleration = (this._speed / this._maxSpeed) * this._jumpPower;
     }
   }
+  get jumping() {return this._jumping;}
 
   /** Returns the players current acceleration */
   get acceleration() {return this._acceleration;}
@@ -90,6 +92,12 @@ class Player extends GameObject {
   /** Sets the player's rotation */
   rotate(dir) {
     this._rotation = this._turnSpeed * dir;
+  }
+
+  get skidding() {return this._skidding > 0;}
+  set skidding(val) {this._skidding = val;}
+  setSkidding(counter) {
+    this._skidding = counter * (this._speed / this._maxSpeed);
   }
 
   _checkCollisions() {
@@ -108,7 +116,8 @@ class Player extends GameObject {
    *  @param {number} timeDelta - Time in seconds since the last update
    */
   update(timeDelta) {
-    if (!this._jumping) {
+    // If jumping or skidding the player has no control
+    if (!this._jumping && this._skidding <= 0) {
       // Update speed
       const friction = this._game.friction(this._bounds);
       const mapSpeed = this._game.groundSpeed(this._bounds);
@@ -126,6 +135,9 @@ class Player extends GameObject {
       const rotation = ((this._rotation) * ((this._speed / this._maxSpeed)/2));
       if(this._speed > 0) this._direction.rotateByRadians(rotation * timeDelta);
     }
+
+    if (this._skidding > 0) this._skidding -= 20 * timeDelta;
+    else this._skidding = 0;
 
     // Update position
     this._bounds.x += (this._direction.x * this._speed) * timeDelta;
@@ -197,6 +209,7 @@ class Pickup extends GameObject {
     super(game, sprite, position, template);
     this._active = true;
     this._id = id;
+    this._jumpable = template.jumpable;
   }
 }
 
@@ -225,7 +238,11 @@ class BananaPeel extends Pickup {
     super(game, sprite, position, template, id);
   }
   playerCollision(player) {
-    // Do power up action code here
+    if (this._jumpable && !player.jumping) {
+      // Hitting a banana makes the player skid for couple of seconds
+      player.setSkidding(40);
+      this._active = false;
+    }
   }
 }
 

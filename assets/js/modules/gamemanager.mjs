@@ -20,6 +20,27 @@ const GameStates = {
 }
 
 /**
+ * Basic clock class. Encapsulates basic time functions.
+ */
+class Clock {
+  constructor(time) {
+    this._time = time;
+  }
+  get time() {return this._time;}
+  set time(val) {this._time = val;}
+
+  get hours() {
+    return Math.floor( (this.time  / 3600000) % 24);
+  }
+  get minutes() {
+    return Math.floor( (this.time / 60000) % 60 );
+  }
+  get seconds() {
+    return Math.floor( (this.time / 1000) % 60 );
+  }
+}
+
+/**
  * Game manager. Creates and manages game objects, runs the main game loop
  * and handles game state and logic.
  */
@@ -122,8 +143,8 @@ class Game {
       jump: {
         up: false,
         down: false,
-        actionUp:()=>this._player.jump(),
-        actionDn:()=>null
+        actionUp:()=>null,
+        actionDn:()=>this._player.jump()
       },
       pause: {
         up: false,
@@ -258,10 +279,11 @@ class Game {
       this._player.direction.y
     );
 
-    // Check goals and victory conditions
+    // Check goals and victory conditions Press Start 2P
   }
 
   _drawDebugInfo(time) {
+    this._renderer.setFont(12, "sans", 'left');
     this._renderer.drawText(`FPS: ${~~(1000/(time))}`, 5, 15);
     this._renderer.drawText(
       `X: ${~~this._player.dimensions.x} Y: ${~~this._player.dimensions.y}`, 5, 30
@@ -271,6 +293,15 @@ class Game {
       5, 45
     );
     this._renderer.drawText(`Height: ${this._player.height}`, 5, 60);
+  }
+
+  _drawHUD(time) {
+    // Draw small track image
+    // Plot player position
+    // Plot next goal position
+
+    // Draw Lap counter
+    // Draw clock
   }
 
   _drawPlaying(time) {

@@ -32,7 +32,6 @@ const TrackConfig = {
     objects: [
         {x: 25, y: 25, t: "gofaster"},
         // obstacle
-        {x: 320, y: 210, t: "bananapeel"},
         {x: 145, y: 452, t: "bananapeel"},
         {x: 165, y: 372, t: "bananapeel"},
         {x: 160, y: 665, t: "bananapeel"},
@@ -75,7 +74,7 @@ const PlayerConfig = {
     // Turn speed in radians a second (there's 6.28 radians in a circle)
     tSpeed: 3.14,
     // Jump Power
-    jumpPower: 15,
+    jumpPower: 20,
     // Default height above the ground
     height: 0,
     // Scale of the sprite on the screen
@@ -90,8 +89,8 @@ const ObjectTypes = [
     sprite: "./assets/img/sprites/checkpoint.png",
     jumpable: false,
     height: 15,
-    scale: 25,
-    radius: 25
+    scale: 35,
+    radius: 35
   },
   {
     // Name identifier
