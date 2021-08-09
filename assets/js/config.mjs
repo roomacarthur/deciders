@@ -13,6 +13,8 @@ const TrackConfig = {
     dDrag: 30,
     // Change to max speed when not on the track
     dSpeed: -100,
+    // The number of laps
+    laps: 5,
     // Player spawn point position and view direction in radians
     pSpawn: {x:345, y:200, dir: 2.8704},
     // List of checkpoints position and radii in map image pixels
@@ -108,7 +110,6 @@ const ObjectTypes = [
   },
   {
     name: "bananapeel",
-    //sprite: "./assets/img/sprites/test2.png",
     sprite: "./assets/img/objects/banana.png",
     jumpable: true,
     height: 0,
@@ -117,7 +118,6 @@ const ObjectTypes = [
   },
   {
     name: "tree",
-    //sprite: "./assets/img/sprites/test2.png",
     sprite: "./assets/img/objects/tree.png",
     jumpable: true,
     height: 0,
