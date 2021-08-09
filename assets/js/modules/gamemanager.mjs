@@ -30,13 +30,13 @@ class Clock {
   set time(val) {this._time = val;}
 
   get hours() {
-    return Math.floor( (this.time  / 3600000) % 24);
+    return Math.floor( (this._time  / 3600000) % 24);
   }
   get minutes() {
-    return Math.floor( (this.time / 60000) % 60 );
+    return Math.floor( (this._time / 60000) % 60 );
   }
   get seconds() {
-    return Math.floor( (this.time / 1000) % 60 );
+    return Math.floor( (this._time / 1000) % 60 );
   }
 }
 
@@ -60,6 +60,7 @@ class Game {
     this._state = GameStates.LOADING;
     this._lastState = this._state;
 
+    this._clock = new Clock(0);
     this._gameStartTime = 0;
 
     this._setupEvents();
@@ -280,6 +281,9 @@ class Game {
     );
 
     // Check goals and victory conditions Press Start 2P
+      // Update clock
+      this._clock.time = performance.now() - this._gameStartTime;
+
   }
 
   _drawDebugInfo(time) {
@@ -302,6 +306,17 @@ class Game {
 
     // Draw Lap counter
     // Draw clock
+    const min = String(this._clock.minutes).padStart(2, '0');
+    const sec = String(this._clock.seconds).padStart(2, '0');
+    this._renderer.drawText(`${min}:${sec}`, w-5, 50, "black", true, "white");
+
+    // Draw Messages
+    if (this._state === GameStates.FINISHED) {
+      this._renderer.setFont(24, "'Press Start 2P'", "center");
+      this._renderer.drawText("Track complete", w/2, h/2, "black", true, "white");
+    }
+
+    if (this._debug) this._drawDebugInfo(time, h/2);
   }
 
   _drawPlaying(time) {
