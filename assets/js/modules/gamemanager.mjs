@@ -122,8 +122,8 @@ class Game {
       jump: {
         up: false,
         down: false,
-        actionUp:()=>this._player.jump(),
-        actionDn:()=>null
+        actionUp:()=>null,
+        actionDn:()=>this._player.jump()
       },
       pause: {
         up: false,
