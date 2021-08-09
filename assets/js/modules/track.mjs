@@ -50,6 +50,7 @@ class Track {
   get gravity() {return this._template.gravity;}
   get currentLap() {return this._currentLap;}
   get totalLaps() {return this._template.laps;}
+  get checkPoints() {return this._checkPoints;}
 
   getFriction(pos) {
     // Get the value of the mask at the given coordinates
