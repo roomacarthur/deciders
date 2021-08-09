@@ -11,6 +11,4 @@ const game = new Game(
   false                    // debug switch
 );
 
-// Loading code here...
-
 game.start();

@@ -335,7 +335,6 @@ class Game {
       }
     }
 
-
     // Draw Lap counter
     let lap = this._track.currentLap + 1;
     if (lap > this._track.totalLaps) lap = this._track.totalLaps;
