@@ -108,6 +108,11 @@ nav {
   justify-content: center
 }
 
+#stopwatch{
+  text-align: center;
+  color: green;
+}
+
 #gaming {
   background-color: #000;
 }

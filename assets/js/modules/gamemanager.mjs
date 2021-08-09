@@ -29,6 +29,7 @@ class Game {
    *  @param {Object} canvas The canvas element to draw the game view to
    */
   constructor(canvas, trackTemplate, playerTemplate, objectTypes) {
+    this._debug = true;
     // Create Renderer
     this._renderer = new Renderer(canvas);
     // Asset lists
@@ -42,15 +43,11 @@ class Game {
     this._setupGame(trackTemplate, playerTemplate, objectTypes);
   }
 
-  /**
-   * Returns how much speed should be reduced per second due to friction
-   * This value should be pulled from the track depending on whether the player#
-   * is on the track or not.
-   */
-  get friction() {return 25;}
+  groundSpeed(pos) {return this._track.getMapSpeed(pos);}
+  friction(pos) {return this._track.getFriction(pos);}
   get gravity() {return 50;}
 
-  get state() {}
+  get state() {return this._state;}
 
   /*
    * Setup
@@ -85,6 +82,8 @@ class Game {
       trackTemplate.pSpawn,
       playerTemplate
     );
+
+    this._objects.push(this._player);
   }
 
   _setupEvents() {
@@ -214,10 +213,18 @@ class Game {
   /*
    * Game Loop
    */
-  _sortObjects() {}
+  _sortObjects() {
+    // Sorts all the objects based on distance to the camera
+    this._objects.sort((a,b) => {
+      const aD = this._renderer.camera.position.distanceTo2(a.dimensions);
+      const bD = this._renderer.camera.position.distanceTo2(b.dimensions);
+      if (aD > bD) return -1;
+      if (aD < bD) return 1;
+      return 0;
+    });
+  }
 
   _updatePlaying(time) {
-
     // Check if playing or paused...
 
     const timeDelta = time / 1000;
@@ -231,8 +238,8 @@ class Game {
     this._player.update(timeDelta);
 
     // Align camera to player
-    let cX = this._player.dimensions.x - (this._player.direction.x * 35);
-    let cY = this._player.dimensions.y - (this._player.direction.y * 35);
+    let cX = this._player.dimensions.x - (this._player.direction.x * 45);
+    let cY = this._player.dimensions.y - (this._player.direction.y * 45);
     this._renderer.camera.setPosition(cX, cY);
     this._renderer.camera.setDirection(
       this._player.direction.x,
@@ -249,8 +256,9 @@ class Game {
     );
     this._renderer.drawText(
       `Facing: ${Math.atan2(this._player.direction.y,this._player.direction.x)}`,
-      5, 50
+      5, 45
     );
+    this._renderer.drawText(`Height: ${this._player.height}`, 5, 60);
   }
 
   _drawPlaying(time) {
@@ -258,14 +266,12 @@ class Game {
     this._renderer.drawBackdrop(this._track.skyColor, this._track.groundColor);
     // Draw gound plain
     if (this._track.image.loaded) this._renderer.projectFloor(this._track.image);
-    // Draw Player
-    this._player.draw(this._renderer);
     // Draw objects
     for (let i = 0; i < this._objects.length; i++) {
       this._objects[i].draw(this._renderer);
     }
     // Draw interface
-    this._drawDebugInfo(time);
+    if (this._debug) this._drawDebugInfo(time);
   }
 
   _loop(time) {

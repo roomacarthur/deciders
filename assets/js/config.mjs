@@ -10,9 +10,9 @@ const TrackConfig = {
     // Friction on the track
     tDrag: 25,
     // Friction off the track
-    dDrag: 50,
+    dDrag: 30,
     // Change to max speed when not on the track
-    dSpeed: -75,
+    dSpeed: -100,
     // Player spawn point position and view direction in radians
     pSpawn: {x:345, y:200, dir: 2.8704},
     // List of checkpoints position and radii in map image pixels
@@ -56,13 +56,12 @@ const TrackConfig = {
         {x: 727, y: 544, t: "tree"},
         {x: 538, y: 257, t: "tree"},
         {x: 388, y: 70, t: "tree"},
-
     ]
 };
 
 const PlayerConfig = {
     name: "player one",
-    sprite: "./assets/img/sprites/testplayer.png",
+    sprite: "./assets/img/sprites/cycle.png",
     // Acceleration in pixels a second
     acceleration: 50,
     // Maximum speed in pixels a second
@@ -71,10 +70,12 @@ const PlayerConfig = {
     tSpeed: 3.14,
     // Jump Power
     jumpPower: 15,
-    // Collision detection radius in pixels
-    radius: 10,
+    // Default height above the ground
+    height: 0,
     // Scale of the sprite on the screen
-    scale: 1
+    scale: 1,
+    // Collision detection radius in pixels
+    radius: 10
 };
 
 const ObjectTypes = [
@@ -82,33 +83,40 @@ const ObjectTypes = [
     name: "checkpoint",
     sprite: "./assets/img/sprites/checkpoint.png",
     jumpable: false,
-    scale: 10,
+    height: 15,
+    scale: 1,
     radius: 50
   },
   {
     // Name identifier
     name: "gofaster",
     // The image file holding this object's sprite
-    sprite: "./assets/img/sprites/test.png",
+    sprite: "./assets/img/objects/power-ups.png",
     // Will the player still collide with this if they're jumping
     jumpable: false,
+    // Default height above the floor plain
+    height: 0,
     // Scale of the sprite on screen
-    scale: 1.5,
+    scale: 1,
     // Radius on the map
     radius: 25
   },
   {
     name: "bananapeel",
+    //sprite: "./assets/img/sprites/test2.png",
     sprite: "./assets/img/objects/banana.png",
     jumpable: true,
-    scale: 5,
+    height: 0,
+    scale: 1,
     radius: 25
   },
   {
     name: "tree",
+    //sprite: "./assets/img/sprites/test2.png",
     sprite: "./assets/img/objects/tree.png",
     jumpable: true,
-    scale: 5,
+    height: 0,
+    scale: 25,
     radius: 25
   }
 ];
