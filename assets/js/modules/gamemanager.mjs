@@ -311,11 +311,21 @@ class Game {
   }
 
   _drawHUD(time) {
+    const w = this._renderer.canvas.width;
+    const h = this._renderer.canvas.height;
     // Draw small track image
+    this._renderer.drawOverlayImage(this._track.image, {x:5,y:5}, 100, 100);
     // Plot player position
     // Plot next goal position
 
     // Draw Lap counter
+    let lap = this._track.currentLap + 1;
+    if (lap > this._track.totalLaps) lap = this._track.totalLaps;
+    this._renderer.setFont(18, "'Press Start 2P'", "right");
+    this._renderer.drawText(
+      `Lap: ${lap} of ${this._track.totalLaps}`,
+      w-5, 25, "black", true, "white"
+    );
     // Draw clock
     const min = String(this._clock.minutes).padStart(2, '0');
     const sec = String(this._clock.seconds).padStart(2, '0');
