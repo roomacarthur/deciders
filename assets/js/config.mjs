@@ -32,7 +32,6 @@ const TrackConfig = {
     objects: [
         {x: 25, y: 25, t: "gofaster"},
         // obstacle
-        {x: 320, y: 210, t: "bananapeel"},
         {x: 145, y: 452, t: "bananapeel"},
         {x: 165, y: 372, t: "bananapeel"},
         {x: 160, y: 665, t: "bananapeel"},
