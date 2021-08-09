@@ -254,9 +254,15 @@ class CheckPoint extends GameObject {
     this._active = false;
     // This checkpoint's Goal id
     this._id = id;
+    // Player facing if they respawn at this checkpoint
+    this._spawnDir = new Vector2D(
+      Math.cos(position.f),
+      Math.sin(position.f)
+    );
   }
 
   get active() {return this._active;}
+  get direction() {return this._spawnDir;}
   activate() {this._active = true;}
   deactivate() {this._active = false;}
 
