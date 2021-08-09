@@ -85,7 +85,7 @@ nav {
 #game-container {
   background-color: #000 !important;
   margin: 0 10px;
-  height: 700px;
+  height: 520px;
   display: flex;
   flex-direction: column;
   align-content: center;

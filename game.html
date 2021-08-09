@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Super BMX Bash</title>
     <script type="module" src="assets/js/main.js"></script>
     <link rel="stylesheet" href="assets/css/style.css" />
     <link
-    href="https://fonts.googleapis.com/css?family=Press+Start+2P"
-    rel="stylesheet"/>
-  <link href="https://unpkg.com/nes.css/css/nes.css" rel="stylesheet" />
+      href="https://fonts.googleapis.com/css?family=Press+Start+2P"
+      rel="stylesheet"
+    />
+    <link href="https://unpkg.com/nes.css/css/nes.css" rel="stylesheet" />
   </head>
   <body>
-        <nav class="nav-container">
+    <nav class="nav-container">
       <div class="logo">
         <a href="index.html">
           <h1 class="">決定者</h1>
@@ -35,7 +36,6 @@
       <div id="game-box">
         <canvas id="canvas" width="500" height="500"></canvas>
       </div>
-
     </section>
     <footer class="nes-container">
       <h4>
@@ -132,5 +132,14 @@
       </section>
     </footer>
     <!-- <script src="timer.js"></script> -->
+    <script>
+      window.top.document.onkeydown = function (evt) {
+        evt = evt || window.event;
+        var keyCode = evt.keyCode;
+        if (keyCode >= 37 && keyCode <= 40) {
+          return false;
+        }
+      };
+    </script>
   </body>
 </html>
