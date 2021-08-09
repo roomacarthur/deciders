@@ -248,7 +248,8 @@ class Game {
    * Game Loop
    */
   _sortObjects() {
-    // Sorts all the objects based on distance to the camera
+    // Sorts all the objects based on distance to the camera so that when
+    // they're drawn closer objects are drawn in front.
     this._objects.sort((a,b) => {
       const aD = this._renderer.camera.position.distanceTo2(a.dimensions);
       const bD = this._renderer.camera.position.distanceTo2(b.dimensions);
@@ -258,7 +259,7 @@ class Game {
     });
   }
 
-  _updatePlaying(time) {
+  _update(time) {
     // Check if playing or paused...
 
     const timeDelta = time / 1000;
@@ -319,7 +320,7 @@ class Game {
     if (this._debug) this._drawDebugInfo(time, h/2);
   }
 
-  _drawPlaying(time) {
+  _draw(time) {
     // Draw backdrop
     this._renderer.drawBackdrop(this._track.skyColor, this._track.groundColor);
     // Draw gound plain
@@ -329,13 +330,13 @@ class Game {
       this._objects[i].draw(this._renderer);
     }
     // Draw interface
-    if (this._debug) this._drawDebugInfo(time);
+    this._drawHUD(time);
   }
 
   _loop(time) {
     const frameTime = this._renderer.startFrame(time);
-    this._updatePlaying(frameTime);
-    this._drawPlaying(frameTime);
+    this._update(frameTime);
+    this._draw(frameTime);
 
     this._renderer.endFrame(time);
     window.requestAnimationFrame((time)=>this._loop(time));
