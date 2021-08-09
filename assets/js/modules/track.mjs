@@ -17,6 +17,9 @@ class Track {
 
     // Set initial Checkpoint
     this._goalPoint = 0;
+    this._checkPoints[0].activate();
+
+    this._currentLap = 0;
   }
 
   _createCheckpoints(template) {
@@ -60,6 +63,21 @@ class Track {
       return this._template.dSpeed;
     }
     return 0;
+  }
+
+  GoalCheck(checkPoint) {
+    if (checkPoint === this._checkPoints[this._goalPoint]) {
+      checkPoint.deactivate();
+      this._goalPoint++;
+
+      if (this._goalPoint >= this._checkPoints.length) {
+        // All goals complete, register lap complete
+        this._goalPoint = 0;
+        this._currentLap++;
+      }
+
+      this._checkPoints[this._goalPoint].activate();
+    }
   }
 }
 
