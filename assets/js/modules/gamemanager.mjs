@@ -179,7 +179,7 @@ class Game {
     this._assets.loadedCount++;
     // Have we finished loading all our assets?
     if (this._assets.loadedCount >= this._assets.length-1) {
-      this._state = GameStates.LOADED;
+      this._state = GameStates.PLAYING;//GameStates.LOADED;
     } else {
       this._state = GameStates.LOADING;
     }
