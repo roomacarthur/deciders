@@ -20,6 +20,27 @@ const GameStates = {
 }
 
 /**
+ * Basic clock class. Encapsulates basic time functions.
+ */
+class Clock {
+  constructor(time) {
+    this._time = time;
+  }
+  get time() {return this._time;}
+  set time(val) {this._time = val;}
+
+  get hours() {
+    return Math.floor( (this.time  / 3600000) % 24);
+  }
+  get minutes() {
+    return Math.floor( (this.time / 60000) % 60 );
+  }
+  get seconds() {
+    return Math.floor( (this.time / 1000) % 60 );
+  }
+}
+
+/**
  * Game manager. Creates and manages game objects, runs the main game loop
  * and handles game state and logic.
  */
