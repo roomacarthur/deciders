@@ -92,6 +92,17 @@ class Player extends GameObject {
     this._rotation = this._turnSpeed * dir;
   }
 
+  _checkCollisions() {
+    // Run through every object and test for collision
+    for (let i = 0; i < this._game.objectsCount; i++) {
+      let object = this._game.getObject(i);
+      if (this != object && this.collision(object)) {
+        // Trigger the object's collision event
+        object.playerCollision(this);
+      }
+    }
+  }
+
   /**
    * Updates position and rotation based on time elasped since last update
    *  @param {number} timeDelta - Time in seconds since the last update
@@ -128,6 +139,7 @@ class Player extends GameObject {
       this._jumping = false;
     } else if (this._height > 0) this._jumping = true;
     this._vAcceleration -= this._game.gravity * timeDelta;
+    this._checkCollisions();
   }
 
   // update(timeDelta) {
@@ -136,14 +148,15 @@ class Player extends GameObject {
   //   this._direction.rotateByRadians(rotation * timeDelta);
   //
   //   // Update position
-  //   this._bounds.x += (this._direction.x * this._acceleration) * timeDelta;
-  //   this._bounds.y += (this._direction.y * this._acceleration) * timeDelta;
+  //   this._bounds.x += (this._direction.x * this._acceleration * 2) * timeDelta;
+  //   this._bounds.y += (this._direction.y * this._acceleration * 2) * timeDelta;
   //
   //   this._height=0;
+  //
+  //   this._checkCollisions();
   // }
 
 }
-
 
 /**
  * Defines a track checkpoint
