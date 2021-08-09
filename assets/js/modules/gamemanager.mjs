@@ -316,7 +316,25 @@ class Game {
     // Draw small track image
     this._renderer.drawOverlayImage(this._track.image, {x:5,y:5}, 100, 100);
     // Plot player position
-    // Plot next goal position
+    let x = ((this._player.dimensions.x / this._track.image.width) * 100) + 5;
+    let y = ((this._player.dimensions.y / this._track.image.height) * 100) + 5;
+    this._renderer.drawDot(x, y, 5, "red");
+    // Plot checkPoints
+    const checkPoints = this._track.checkPoints;
+    for (let i = 0; i < checkPoints.length; i++) {
+      x = ((checkPoints[i].dimensions.x / this._track.image.width) * 100);
+      y = ((checkPoints[i].dimensions.y / this._track.image.height) * 100)
+      if (checkPoints[i].active) {
+        x += 8;
+        y += 8;
+        this._renderer.drawDot(x, y, 8, "Orange");
+      } else {
+        x += 4;
+        y += 4;
+        this._renderer.drawDot(x, y, 4, "grey");
+      }
+    }
+
 
     // Draw Lap counter
     let lap = this._track.currentLap + 1;
