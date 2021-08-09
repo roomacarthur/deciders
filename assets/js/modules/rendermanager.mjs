@@ -208,6 +208,11 @@ class Renderer {
     this._ctx.fillStyle = color;
     this._ctx.fillText(text, x, y);
   }
+
+  setFont(size, font, align) {
+    this._ctx.font = `${size}px ${font}`;
+    this._ctx.textAlign = align;
+  }
 }
 
 /**
