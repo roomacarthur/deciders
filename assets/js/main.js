@@ -8,7 +8,7 @@ const game = new Game(
   configs.TrackConfig,
   configs.PlayerConfig,
   configs.ObjectTypes,
-  true                    // debug switch
+  false                    // debug switch
 );
 
 // Loading code here...

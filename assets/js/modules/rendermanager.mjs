@@ -196,6 +196,16 @@ class Renderer {
   }
 
   /**
+   * Draws a dot on screen
+   */
+  drawDot(x, y, radius, color="#FFF") {
+    this._ctx.fillStyle = color;
+    this._ctx.beginPath();
+    this._ctx.arc(x, y, radius, 0, 2*Math.PI);
+    this._ctx.fill();
+  }
+
+  /**
    * Simple image drawing
    *  @param {Object} image The image to draw
    *  @param {Object} position The x,y screen coordinates of the top left corner
