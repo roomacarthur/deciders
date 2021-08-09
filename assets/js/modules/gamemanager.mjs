@@ -40,7 +40,6 @@ class Game {
     this._lastState = this._state;
 
     this._gameStartTime = 0;
-    this._currentLap = 0;
 
     this._setupEvents();
     this._setupGame(trackTemplate, playerTemplate, objectTypes);
@@ -51,6 +50,8 @@ class Game {
   get gravity() {return 50;}
 
   get state() {return this._state;}
+
+  get track() {return this._track;}
 
   /*
    * Setup
@@ -216,6 +217,10 @@ class Game {
    }
 
    get objectsCount() {return this._objects.length;}
+
+  /*
+   * Game logic
+   */
 
   /*
    * Game Loop
