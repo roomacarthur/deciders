@@ -39,6 +39,9 @@ class Game {
     this._state = GameStates.LOADING;
     this._lastState = this._state;
 
+    this._gameStartTime = 0;
+    this._currentLap = 0;
+
     this._setupEvents();
     this._setupGame(trackTemplate, playerTemplate, objectTypes);
   }
@@ -140,6 +143,8 @@ class Game {
 
   start() {
     this._state = GameStates.PLAYING;
+
+    this._gameStartTime = performance.now();
     // Start game loop
     window.requestAnimationFrame((time)=>this._loop(time));
   }
