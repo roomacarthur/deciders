@@ -18,7 +18,13 @@ const TrackConfig = {
     // List of checkpoints position and radii in map image pixels
     checkpoints: [
         {x:170, y:325},
+        {x:175, y:600},
         {x:265, y:800},
+        {x:650, y:805},
+        {x:900, y:675},
+        {x:625, y:560},
+        {x:685, y:290},
+        {x:650, y:150},
         {x:345, y:200}
     ],
     // List of objects (bonuses, obstacles, and scenery)
