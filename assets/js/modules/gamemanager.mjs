@@ -279,10 +279,11 @@ class Game {
       this._player.direction.y
     );
 
-    // Check goals and victory conditions
+    // Check goals and victory conditions Press Start 2P
   }
 
   _drawDebugInfo(time) {
+    this._renderer.setFont(12, "sans", 'left');
     this._renderer.drawText(`FPS: ${~~(1000/(time))}`, 5, 15);
     this._renderer.drawText(
       `X: ${~~this._player.dimensions.x} Y: ${~~this._player.dimensions.y}`, 5, 30
@@ -292,6 +293,15 @@ class Game {
       5, 45
     );
     this._renderer.drawText(`Height: ${this._player.height}`, 5, 60);
+  }
+
+  _drawHUD(time) {
+    // Draw small track image
+    // Plot player position
+    // Plot next goal position
+
+    // Draw Lap counter
+    // Draw clock
   }
 
   _drawPlaying(time) {
