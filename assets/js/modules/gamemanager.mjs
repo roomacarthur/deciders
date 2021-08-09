@@ -49,8 +49,8 @@ class Game {
    * Creates a new game
    *  @param {Object} canvas The canvas element to draw the game view to
    */
-  constructor(canvas, trackTemplate, playerTemplate, objectTypes) {
-    this._debug = true;
+  constructor(canvas, trackTemplate, playerTemplate, objectTypes, debugging=false) {
+    this._debug = debugging;
     // Create Renderer
     this._renderer = new Renderer(canvas);
     // Asset lists
