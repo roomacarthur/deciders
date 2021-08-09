@@ -168,14 +168,15 @@ class Renderer {
      // Is the sprite in front of the camera?
      if (tY > this._camera.nearClip) {
        // Calculate distance scalar
+       scale = this._camera.scale + scale;
        const aR = image.width/image.height;
-       const sH = Math.abs( ~~((this._canvas.height / tY) * (this._camera.scale + scale)) );
+       const sH = Math.abs( ~~((this._canvas.height / tY) * scale) );
        const sW = sH * aR;
        // Camera height offset
-       const vOffset = (this._canvas.height / tY) * (this._camera.height - height);
+       const vOffset = (this._canvas.height / tY) * (this._camera.verticalOffset - height);
        // Calculate screen coordinates
        const sX = ~~( (this._canvas.width / 2) * (1 + tX / tY) - sW / 2 );
-       const sY = ~~( ((this._canvas.height - sH) / 2)  + vOffset);
+       const sY = ~~( ((this._canvas.height) / 2) - sH + vOffset);
 
        this._ctx.drawImage(image.image, sX, sY, sW, sH);
      }
@@ -225,7 +226,7 @@ class Camera2D {
   constructor(position, direction, scale, nearClip=5, farClip=1000, height=5) {
     this._position = new Point2D(position.x, position.y);
     this._direction = new Vector2D(direction.x, direction.x);
-    this._scale = scale;
+    this._scale = 10;//scale;
     this._nearClip = nearClip;
     this._farClip = farClip
     this._height = height;

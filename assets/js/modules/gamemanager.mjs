@@ -238,8 +238,8 @@ class Game {
     this._player.update(timeDelta);
 
     // Align camera to player
-    let cX = this._player.dimensions.x - (this._player.direction.x * 35);
-    let cY = this._player.dimensions.y - (this._player.direction.y * 35);
+    let cX = this._player.dimensions.x - (this._player.direction.x * 45);
+    let cY = this._player.dimensions.y - (this._player.direction.y * 45);
     this._renderer.camera.setPosition(cX, cY);
     this._renderer.camera.setDirection(
       this._player.direction.x,

@@ -97,7 +97,7 @@ class Player extends GameObject {
       // Update speed
       const friction = this._game.friction(this._bounds);
       const mapSpeed = this._game.groundSpeed(this._bounds);
-      
+
       // Don't add acceleration if we're traveling faster than the current max
       if (this._speed < (this._maxSpeed + mapSpeed)) {
         this._speed += (this._acceleration - friction) * timeDelta;
