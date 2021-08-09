@@ -195,7 +195,7 @@ class CheckPoint extends GameObject {
 class Pickup extends GameObject {
   constructor(game, sprite, position, template, id) {
     super(game, sprite, position, template);
-    this._active = false;
+    this._active = true;
     this._id = id;
   }
 }
@@ -206,7 +206,7 @@ class Pickup extends GameObject {
 class Scenery extends GameObject {
   constructor(game, sprite, position, template, id) {
     super(game, sprite, position, template);
-    this._active = false;
+    this._active = true;
     this._id = id;
   }
 }
@@ -215,7 +215,7 @@ class GoFaster extends Pickup {
   constructor(game, sprite, position, template, id) {
     super(game, sprite, position, template, id);
   }
-  pickup(player) {
+  playerCollision(player) {
     // Do power up action code here
   }
 }
@@ -224,12 +224,12 @@ class BananaPeel extends Pickup {
   constructor(game, sprite, position, template, id) {
     super(game, sprite, position, template, id);
   }
-  pickup(player) {
+  playerCollision(player) {
     // Do power up action code here
   }
 }
 
-class Tree extends Pickup {
+class Tree extends Scenery {
   constructor(game, sprite, position, template, id) {
     super(game, sprite, position, template, id);
   }
