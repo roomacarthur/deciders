@@ -302,7 +302,8 @@ class GoFaster extends Pickup {
     super(game, sprite, position, template, id);
   }
   playerCollision(player) {
-    // Do power up action code here
+    player.setSpeedBonus(75, 100);
+    this._active = false;
   }
 }
 
