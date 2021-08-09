@@ -43,6 +43,13 @@ const TrackConfig = {
         {x: 669, y: 321, t: "bananapeel"},
         {x: 691, y: 112, t: "bananapeel"},
         {x: 409, y: 203, t: "bananapeel"},
+        {x: 86, y: 336, t: "barrel"},
+        {x: 133, y: 534, t: "barrel"},
+        {x: 310, y: 795, t: "barrel"},
+        {x: 863, y: 728, t: "barrel"},
+        {x: 930, y: 160, t: "barrel"},
+        {x: 846, y: 900, t: "barrel"},
+
         // scenery
         {x: 131, y: 170, t: "tree"},
         {x: 50, y: 291, t: "tree"},
@@ -122,6 +129,15 @@ const ObjectTypes = [
     jumpable: true,
     height: 0,
     scale: 50,
+    radius: 4
+  },
+  {
+  name: "barrel",
+    //sprite: "./assets/img/sprites/test2.png",
+    sprite: "./assets/img/objects/barrel.png",
+    jumpable: true,
+    height: 0,
+    scale: 4,
     radius: 4
   }
 ];
