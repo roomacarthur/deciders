@@ -215,6 +215,8 @@ class Game {
      return this._objects[id];
    }
 
+   get objectsCount() {return this._objects.length;}
+
   /*
    * Game Loop
    */
