@@ -231,7 +231,7 @@ footer {
 .slot {
   height: 200px;
   width: 25px;
-  border: 5px solid rgb(67, 63, 64);
+  border: 5px solid rgb(95, 91, 92);
   border-radius: 3px;
   position: relative;
   left:8px;
@@ -242,6 +242,7 @@ footer {
   position: absolute;
   height: 190px;
   width: 15px;
+  left: 0px;
   animation: slot-inner-flash ease-in-out 2s infinite
   /* box-shadow: rgb(216, 138, 138) 0px 0px 5px 3px inset; */
 }

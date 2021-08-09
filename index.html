@@ -22,15 +22,31 @@
         </a>
       </div>
       <div class="links container">
-        <a href="play.html" class="nes-btn">Play</a>
+        <a href="game.html" class="nes-btn">Play</a>
         <!--<a href="hs.html" class="nes-btn">High Scores</a>-->
         <a href="about.html" class="nes-btn">About</a>
       </div>
     </nav>
-    <main>
-      <div class="content">
-        <p>some welcome text etc.</p>
-      </div>
+    <main id="game-container">
+      <section>
+        <div class="container">
+          <h2 class="nes-text is-warning">Super BMX Bash</h2>
+
+          <button id="btn1" class="nes-pointer arcade" onclick="changePage()">
+            <div class="slot"><div class="slot-inner"></div></div>
+            <div class="arcade-text">
+              <p class="coin-text nes-text is-warning">25&#162;</p>
+              <p class="nes-text is-warning">Insert</p>
+              <p class="nes-text is-warning">Coin</p>
+              <p class="nes-text is-warning">to</p>
+              <p class="nes-text is-warning">Start</p>
+            </div>
+          </button>
+          <p class="nes-balloon from-left nes-pointer">
+            or press space-bar to start
+          </p>
+        </div>
+      </section>
     </main>
     <footer class="nes-container">
       <h4>
@@ -39,7 +55,11 @@
       </h4>
       <section class="devs">
         <div class="dev">
-          <a href="https://github.com/roomacarthur" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://github.com/roomacarthur"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img
               class="dev-icon circle"
               src="assets/img/team/roo.jfif"
@@ -51,7 +71,11 @@
         </div>
 
         <div class="dev">
-          <a href="https://github.com/seanyoung247" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://github.com/seanyoung247"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img
               class="dev-icon"
               src="assets/img/team/sean.png"
@@ -61,7 +85,11 @@
           </a>
         </div>
         <div class="dev">
-          <a href="https://github.com/hartnetl" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://github.com/hartnetl"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img
               class="dev-icon"
               src="assets/img/team/laura.jfif"
@@ -71,7 +99,11 @@
           </a>
         </div>
         <div class="dev">
-          <a href="https://github.com/Georgette-Lumbe" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://github.com/Georgette-Lumbe"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img
               class="dev-icon"
               src="assets/img/team/default.png"
@@ -81,7 +113,11 @@
           </a>
         </div>
         <div class="dev">
-          <a href="https://github.com/JackTubby" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://github.com/JackTubby"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img
               class="dev-icon"
               src="assets/img/team/jack.jfif"
@@ -91,7 +127,11 @@
           </a>
         </div>
         <div class="dev">
-          <a href="https://github.com/vanessacleary" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://github.com/vanessacleary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img
               class="dev-icon"
               src="assets/img/team/vanessa.jfif"
@@ -102,5 +142,15 @@
         </div>
       </section>
     </footer>
+    <script>
+      document.addEventListener("keyup", (event) => {
+        if (event.code === "Space") {
+          changePage();
+        }
+      });
+      function changePage() {
+        location.href = "game.html";
+      }
+    </script>
   </body>
 </html>
