@@ -14,6 +14,9 @@ class Track {
     // Create Objects and checkpoints
     this._createCheckpoints(template);
     this._createObjects(template);
+
+    // Set initial Checkpoint
+    this._goalPoint = 0;
   }
 
   _createCheckpoints(template) {
@@ -48,6 +51,7 @@ class Track {
     }
     return 25;
   }
+
   getMapSpeed(pos) {
     // Get the value of the mask at the given coordinates
     const pixel = this._mask.getPixel(~~pos.x, ~~pos.y);
