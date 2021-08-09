@@ -122,21 +122,21 @@ class Player extends GameObject {
   get speedCount() {return this._speedCount;}
   setSpeedBonus(value, time) {
     this._speedBonus = value;
-    this._speedCount = time;
+    this._speedCount += time;
   }
 
   get accelBonus() {return this._accelBonus;}
   get accelCount() {return this._accelCount;}
   setAccelBonus(value, time) {
     this._accelBonus = value;
-    this._accelCount = time;
+    this._accelCount += time;
   }
 
   get jumpBonus() {return this._jumpBonus;}
   get jumpCount() {return this._jumpCount;}
   getJumpBonus(value, time) {
     this._jumpBonus = value;
-    this._jumpCount = time;
+    this._jumpCount += time;
   }
 
   get offRoadBonus() {return this._offRoad;}
@@ -254,9 +254,15 @@ class CheckPoint extends GameObject {
     this._active = false;
     // This checkpoint's Goal id
     this._id = id;
+    // Player facing if they respawn at this checkpoint
+    this._spawnDir = new Vector2D(
+      Math.cos(position.f),
+      Math.sin(position.f)
+    );
   }
 
   get active() {return this._active;}
+  get direction() {return this._spawnDir;}
   activate() {this._active = true;}
   deactivate() {this._active = false;}
 
@@ -296,7 +302,8 @@ class GoFaster extends Pickup {
     super(game, sprite, position, template, id);
   }
   playerCollision(player) {
-    // Do power up action code here
+    player.setSpeedBonus(75, 100);
+    this._active = false;
   }
 }
 

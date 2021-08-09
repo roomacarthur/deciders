@@ -90,15 +90,16 @@ This section details the original plan for the game engine, but there are some d
 .
 ├── assets
     ├── css: All style files.
-        ├──
     ├── Js: All JS files.
-        ├──
+        ├── modules
     ├── img: All images
+        ├── objects
+        ├── sprites
+        ├── team
+        ├── tracks
 ├── readme: Assets for README.md
-    ├──
 ├── index.html
 ├── game.html
-├── hs.html
 ├── about.html
 ├── README.md
 ```

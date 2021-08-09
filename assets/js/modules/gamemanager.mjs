@@ -152,6 +152,20 @@ class Game {
         down: false,
         actionUp:()=>null,
         actionDn:()=>null
+      },
+      respawn: {
+        up: false,
+        down: false,
+        actionUp:()=>{
+          const lastCheckPoint = this._track.lastCheckPoint;
+          this._player.dimensions.x = lastCheckPoint.dimensions.x;
+          this._player.dimensions.y = lastCheckPoint.dimensions.y;
+          this._player.direction.x = lastCheckPoint.direction.x;
+          this._player.direction.y = lastCheckPoint.direction.y;
+          this._player.speed = 0;
+          this.addTimeToClock(5000);
+        },
+        actionDn:()=>null
       }
     }
     // Maps keys to events
@@ -162,6 +176,7 @@ class Game {
     this._keyMap.set("ArrowRight", "right");
     this._keyMap.set("Space", "jump");
     this._keyMap.set("KeyP", "pause");
+    this._keyMap.set("KeyR", "respawn");
   }
 
   start() {
@@ -174,7 +189,7 @@ class Game {
 
   /*
    * Asset management
-   */
+   */false
   _registerAssetLoaded(id) {
     this._assets.loadedCount++;
     // Have we finished loading all our assets?
@@ -318,7 +333,7 @@ class Game {
     );
     this._renderer.drawText(
       `Facing: ${Math.atan2(this._player.direction.y,this._player.direction.x)}`,
-      5, top + 45
+      5, top + 30
     );
     this._renderer.drawText(`Height: ${this._player.height}`, 5, top + 45);
   }
