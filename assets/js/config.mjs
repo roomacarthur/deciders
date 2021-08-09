@@ -104,7 +104,7 @@ const ObjectTypes = [
     sprite: "./assets/img/sprites/checkpoint.png",
     jumpable: false,
     height: 15,
-    scale: 35,
+    scale: 45,
     radius: 35,
   },
   {
