@@ -80,7 +80,7 @@ There are items on the course which help or hinder you on your way.
 ├── readme: Assets for README.md
     ├──
 ├── index.html
-├── play.html
+├── game.html
 ├── hs.html
 ├── about.html
 ├── README.md
