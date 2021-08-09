@@ -29,6 +29,8 @@ class GameObject {
   get image() {return this._sprite;}
   get height() {return this._height;}
 
+  get active() {return this._active;}
+
   draw(renderer) {
     if (this._active) renderer.drawSprite(this._sprite, this._bounds, this._scale, this._height);
   }
