@@ -219,8 +219,12 @@ class Player extends GameObject {
     } else if (this._height > 0) this._jumping = true;
     this._vAcceleration -= this._game.gravity * timeDelta;
     this._checkCollisions();
+
+    if (!this._game.track.inBounds(this._bounds.x, this._bounds.y))
+      this._game.respawnAtLastCheckpoint();
   }
 
+  // Simpler update for testing
   // update(timeDelta) {
   //   // Update rotation
   //   const rotation = this._rotation;
