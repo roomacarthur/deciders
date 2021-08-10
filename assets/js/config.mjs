@@ -140,7 +140,7 @@ const ObjectTypes = [
     name: "barrel",
     //sprite: "./assets/img/sprites/test2.png",
     sprite: "./assets/img/objects/barrel.png",
-    jumpable: true,
+    jumpable: false,
     height: 0,
     scale: 4,
     radius: 6,
