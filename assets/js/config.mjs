@@ -32,7 +32,6 @@ const TrackConfig = {
   // An object has a position and a type, which should map to object configs
   objects: [
     // power ups
-    { x: 25, y: 25, t: "gofaster" },
     { x: 270, y: 805, t: "gofaster" },
     { x: 165, y: 320, t: "gofaster" },
     { x: 625, y: 560, t: "gofaster" },
