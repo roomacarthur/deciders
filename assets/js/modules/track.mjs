@@ -58,6 +58,10 @@ class Track {
 
   get trackFriction() {return this._template.tDrag;}
 
+  inBounds(x,y) {
+    return (x > 0 && x < this._image.width && y > 0 && y < this._image.height);
+  }
+
   getFriction(pos) {
     // Get the value of the mask at the given coordinates
     const pixel = this._mask.getPixel(~~pos.x, ~~pos.y);
