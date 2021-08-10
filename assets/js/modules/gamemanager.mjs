@@ -156,15 +156,7 @@ class Game {
       respawn: {
         up: false,
         down: false,
-        actionUp:()=>{
-          const lastCheckPoint = this._track.lastCheckPoint;
-          this._player.dimensions.x = lastCheckPoint.dimensions.x;
-          this._player.dimensions.y = lastCheckPoint.dimensions.y;
-          this._player.direction.x = lastCheckPoint.direction.x;
-          this._player.direction.y = lastCheckPoint.direction.y;
-          this._player.speed = 0;
-          this.addTimeToClock(5000);
-        },
+        actionUp:()=>this.respawnAtLastCheckpoint(),
         actionDn:()=>null
       }
     }
@@ -265,6 +257,16 @@ class Game {
       return true;
     }
     return false;
+  }
+
+  respawnAtLastCheckpoint() {
+    const lastCheckPoint = this._track.lastCheckPoint;
+    this._player.dimensions.x = lastCheckPoint.dimensions.x;
+    this._player.dimensions.y = lastCheckPoint.dimensions.y;
+    this._player.direction.x = lastCheckPoint.direction.x;
+    this._player.direction.y = lastCheckPoint.direction.y;
+    this._player.speed = 0;
+    this.addTimeToClock(5000);
   }
 
   /**
@@ -387,9 +389,9 @@ class Game {
 
   _draw(time) {
     // Draw backdrop
-    this._renderer.drawBackdrop(this._track.skyColor, this._track.groundColor);
+    this._renderer.drawSky(this._track.skyColor);
     // Draw gound plain
-    if (this._track.image.loaded) this._renderer.projectFloor(this._track.image);
+    if (this._track.image.loaded) this._renderer.projectFloor(this._track.image, 0xFF1C2F84);
     // Draw objects
     for (let i = 0; i < this._objects.length; i++) {
       this._objects[i].draw(this._renderer);

@@ -25,9 +25,10 @@ class ImageAsset {
       this._surface.height = this._image.height;
       this._context = this._surface.getContext('2d');
       this._context.drawImage(this._image, 0, 0);
-      // Create a 32bit pixel buffer for the image pixel data
-      this._data = this._context.getImageData(0,0,this._image.width,this._image.height);
+      // Create a 32bit pixel buffer for the image pixel data in system memory
+      this._data = this._context.getImageData(0,0,this._image.width,this._image.height-1);
       this._pixels = new Uint32Array(this._data.data.buffer);
+
       this._loaded = true;
       if (callback) callback(this._id);
     }
@@ -101,48 +102,56 @@ class Renderer {
   /**
    * Performs an Affine Transformation on the given texture and projects it
    * to the floor plain.
-   *  @param {Object} texture - An ImageAsset object of the texture to draw
+   *  @param {Object} image - An ImageAsset object of the texture to draw
+   *  @param {Object} color - Default colour to draw if no pixel data
    */
-  projectFloor(texture) {
-    // We need the centre point of the canvas a lot, so precaching it helps speed the loops
-    const halfWidth = this._canvas.width / 2;
-    const halfHeight = this._canvas.height / 2;
-    // Create project plane from camera view
+  projectFloor(image, color = 0) {
+    /* Setup: JS object accessors seem to be glacially slow, so precaching as
+       much as possible offers an order of magnitude speed increase here.
+       20ms > 2ms */
+    // Screen data
+    const width = this._canvas.width;
+    const height = this._canvas.height;
+    const halfWidth = width >> 1;
+    const halfHeight = height >> 1;
+    // Screen buffer
+    const screenData = new ImageData(this._canvas.width, halfHeight);
+    const screenPixels = new Uint32Array(screenData.data.buffer);
+    // Source image data
+    const imagePixels = image.pixels;
+    const imageW = image.width;
+    const imageH = image.height;
+    // Camera properties
+    const cVOff = this._camera.verticalOffset;
+    const cX = this._camera.position.x;
+    const cY = this._camera.position.y;
+    // Create projection plane from camera view
     const rX = this._camera.direction.y;
     const rY = -this._camera.direction.x;
-    // We want to write directly to the canvas buffer so get the raw pixel data
-    const screenData = this._ctx.getImageData(0,0,
-      this._canvas.width, this._canvas.height);
-    const screenPixels = new Uint32Array(screenData.data.buffer);
+    let pixel = color;
 
     // Loop through the floor area of the screen in scanlines
-    for (let y = halfHeight + 1; y < this._canvas.height; y++) {
-      // Calculate this scanline's z depth
-      let pZ = y - (halfHeight);
-      for (let x = 0; x < this._canvas.width; x++) {
-        let pX = x-(halfWidth);       // Shifts the origin to middle of the screen
-        let pY = this._canvas.height; // Sets the floor plane at the bottom of the canvas
+    for (let y = 0; y < halfHeight; y++) {
+      for (let x = 0; x < width; x++) {
         // Project screen coordinates to floor coordinates
-        let wX = (pX / pZ);
-        let wY = (pY / pZ);
+        const wX = (x - halfWidth) / y;
+        const wY =height / y;
         // Add camera rotation (basic vector rotation)
         let sX = wX * rX - wY * rY;
         let sY = wX * rY + wY * rX;
         // Offset for camera height and move to camera x/y position
-        sX = ~~(sX * this._camera.verticalOffset + this._camera.position.x);
-        sY = ~~(sY * this._camera.verticalOffset + this._camera.position.y);
+        sX = ~~(sX * cVOff + cX);
+        sY = ~~(sY * cVOff + cY);
+        pixel = color;
         // Is the pixel in the buffer?
-        if (sX > 0 && sX < texture.width && sY > 0 && sY < texture.height) {
-          // Convert screen and image coordinates to buffer offsets
-          let soff = sY * texture.width + sX;
-          let doff = y * screenData.width + x;
-          // Copy pixel data
-          screenPixels[doff] = texture.pixels[soff];
+        if (sX > 0 && sX < imageW && sY > 0 && sY < imageH-1) {
+          pixel = imagePixels[sY * imageW + sX];
         }
+        screenPixels[y * width + x] = pixel;
       }
     }
-    // Copy the buffer data back to the screen
-    this._ctx.putImageData(screenData,0,0);
+    // Copy the buffer data to the screen
+    this._ctx.putImageData(screenData,0,halfHeight+1);
   }
 
   /**
@@ -153,6 +162,8 @@ class Renderer {
    *  @param {number} height - Height of this sprite above the floor plain
    */
    drawSprite(image, position, scale = 1, height=0) {
+     const screenW = this._canvas.width;
+     const screenH = this._canvas.height;
      // Precache camera direction vector values
      const rX = this._camera.direction.x;
      const rY = this._camera.direction.y;
@@ -171,28 +182,26 @@ class Renderer {
      if (tY > this._camera.nearClip) {
        // Calculate distance scalar
        scale = this._camera.scale + scale;
-       const aR = image.width/image.height;
-       const sH = Math.abs( ~~((this._canvas.height / tY) * scale) );
+       const aR = image.width / image.height;   // Aspect Ratio of source image
+       const sH = Math.abs( ~~((screenH / tY) * scale) );
        const sW = sH * aR;
        // Camera height offset
-       const vOffset = (this._canvas.height / tY) * (this._camera.verticalOffset - height);
+       const vOffset = (screenH / tY) * (this._camera.verticalOffset - height);
        // Calculate screen coordinates
-       const sX = ~~( (this._canvas.width / 2) * (1 + tX / tY) - sW / 2 );
-       const sY = ~~( ((this._canvas.height) / 2) - sH + vOffset);
+       const sX = ~~( (screenW / 2) * (1 + tX / tY) - sW / 2 );
+       const sY = ~~( ((screenH) / 2) - sH + vOffset);
 
        this._ctx.drawImage(image.image, sX, sY, sW, sH);
      }
    }
 
   /**
-   * Currently draw a flat sky and floor colour background. Can be improved to
+   * Currently draw a flat sky. Can be improved to
    * draw a skybox.
    */
-  drawBackdrop(sky="cyan", ground="green") {
+  drawSky(sky="cyan") {
     this._ctx.fillStyle = sky;
-    this._ctx.fillRect(0,0,canvas.width,canvas.height/2);
-    this._ctx.fillStyle = ground;
-    this._ctx.fillRect(0,canvas.height/2,canvas.width,canvas.height);
+    this._ctx.fillRect(0,0,canvas.width,(canvas.height/2)+1);
   }
 
   /**

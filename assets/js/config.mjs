@@ -32,7 +32,6 @@ const TrackConfig = {
   // An object has a position and a type, which should map to object configs
   objects: [
     // power ups
-    { x: 25, y: 25, t: "gofaster" },
     { x: 270, y: 805, t: "gofaster" },
     { x: 165, y: 320, t: "gofaster" },
     { x: 625, y: 560, t: "gofaster" },
@@ -105,7 +104,7 @@ const ObjectTypes = [
     jumpable: false,
     height: 15,
     scale: 45,
-    radius: 35,
+    radius: 50,
   },
   {
     // Name identifier
@@ -119,7 +118,7 @@ const ObjectTypes = [
     // Scale of the sprite on screen
     scale: 1,
     // Radius on the map
-    radius: 3,
+    radius: 4,
   },
   {
     name: "bananapeel",
@@ -144,7 +143,7 @@ const ObjectTypes = [
     jumpable: true,
     height: 0,
     scale: 4,
-    radius: 4,
+    radius: 6,
   },
 ];
 
