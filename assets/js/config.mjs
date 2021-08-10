@@ -104,7 +104,7 @@ const ObjectTypes = [
     jumpable: false,
     height: 15,
     scale: 45,
-    radius: 35,
+    radius: 50,
   },
   {
     // Name identifier
@@ -118,7 +118,7 @@ const ObjectTypes = [
     // Scale of the sprite on screen
     scale: 1,
     // Radius on the map
-    radius: 3,
+    radius: 4,
   },
   {
     name: "bananapeel",
@@ -143,7 +143,7 @@ const ObjectTypes = [
     jumpable: true,
     height: 0,
     scale: 4,
-    radius: 4,
+    radius: 6,
   },
 ];
 
