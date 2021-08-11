@@ -1,4 +1,3 @@
-// Engine Core Test code
 
 import { Game, AssetTypes, GameStates } from "./modules/gamemanager.mjs";
 import * as configs from "./config.mjs";
