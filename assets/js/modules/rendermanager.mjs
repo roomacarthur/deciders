@@ -5,6 +5,87 @@ import { Point2D, Vector2D } from "./types2d.mjs";
  */
 
 /**
+ * Allows working with 32bit colors in a transparent manner regardless of the
+ * edian-ness of the underlying hardware or the required colour format
+ */
+class ColorAsset {
+  static channels = {
+    red: 0, green: 1, blue: 2, alpha: 3
+  }
+  /**
+   * Creates a new ColorAsset
+   *  @param {number} alpha - (optional) defines the alpha channel for the color
+   *  @param {number} red - (optional) defines the red channel component
+   *  @param {number} green - (optional) defines the green channel component
+   *  @param {number} blue - (optional) defines the blue channel component
+   */
+  constructor(alpha = 0, red = 0, green = 0, blue = 0) {
+    this._buffer = new ArrayBuffer(4);
+    this._channels = new Uint8Array(this._buffer);
+    this._color = new Uint32Array(this._buffer);
+
+    this._channels[0] = red;
+    this._channels[1] = green;
+    this._channels[2] = blue;
+    this._channels[3] = alpha;
+  }
+  // Accessors
+  get alpha() {return this._channels[3];}
+  set alpha(val) {this._channels[3] = val;}
+  get red() {return this._channels[0];}
+  set alpha(val) {this._channels[0] = val;}
+  get green() {return this._channels[1];}
+  set alpha(val) {this._channels[1] = val;}
+  get blue() {return this._channels[2];}
+  set alpha(val) {this._channels[2] = val;}
+
+  get color() {return this._color[0];}
+  /**
+   * Sets color from number in AARRGGBB format
+   */
+  set color(val) {
+    // If the value is higher than 0xFFFFFF then there must be an alpha channel
+    if (val > 0xFFFFFF) {
+      this._channels[3] = val >> 24;
+    } else {
+      this._channels[3] = 0xFF;
+    }
+    this._channels[0] = (val >> 16) & 0xFF; // Red
+    this._channels[1] = (val >> 8) & 0xFF;  // Green
+    this._channels[2] = val & 0xFF;         // Blue
+  }
+
+  _hexC(ch) {
+    return this._channels[ch].toString(16).padStart(2, '0');
+  }
+
+  get hexStr() {
+    return ('#' + this._hexC(0) + this._hexC(1) + this._hexC(2));
+  }
+
+  get hexAStr() {
+    return ('#' + this._hexC(0) + this._hexC(1) + this._hexC(2) + this._hexC(3));
+  }
+
+  get rgbStr() {
+    return `rgb(${this._channels[0]},${this._channels[1]},${this._channels[2]})`;
+  }
+
+  get rgbaStr() {
+    return `rgba(${this._channels[0]},${this._channels[1]},${this._channels[2]},${this._channels[3]})`;
+  }
+
+  /**
+   * Sets the value of this color from a hex string
+   */
+  fromString(str) {
+    // If there's a leading # remove it.
+    if (str[0] === '#') str = str.substring(1);
+    this.color = parseInt(str, 16);
+  }
+}
+
+/**
  * Encapsulates an image that can be read to and from on a per pixel basis
  */
 class ImageAsset {
@@ -135,7 +216,7 @@ class Renderer {
       for (let x = 0; x < width; x++) {
         // Project screen coordinates to floor coordinates
         const wX = (x - halfWidth) / y;
-        const wY =height / y;
+        const wY = height / y;
         // Add camera rotation (basic vector rotation)
         let sX = wX * rX - wY * rY;
         let sY = wX * rY + wY * rX;
@@ -285,4 +366,4 @@ class Camera2D {
   //TODO: Vision checks
 }
 
-export { ImageAsset, Renderer, Camera2D };
+export { ColorAsset, ImageAsset, Renderer, Camera2D };
