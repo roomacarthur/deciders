@@ -3,7 +3,7 @@ const TrackConfig = {
   image: "./assets/img/tracks/f-track.png", //test.png",
   mask: "./assets/img/tracks/f-track-mask.png",
   skyColor: "#00FFFF",
-  groundColor: "#842f1c",
+  groundColor: "#842F1C",
   // Track gravity - affects how far a player can jump
   gravity: 50,
   // Friction on the track
