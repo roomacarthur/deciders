@@ -288,6 +288,9 @@ class Pickup extends GameObject {
     this._id = id;
     this._jumpable = template.jumpable;
   }
+  doAction(player, func) {
+    if (!this._jumpable || (this._jumpable && !player.jumping)) func(player);
+  }
 }
 
 /**
@@ -301,42 +304,49 @@ class Scenery extends GameObject {
   }
 }
 
+/*
+ * Custom objects here
+ */
+//////////////////////////////////////////////////////////// Bonuses
 class GoFaster extends Pickup {
   constructor(game, sprite, position, template, id) {
     super(game, sprite, position, template, id);
   }
   playerCollision(player) {
-    player.setSpeedBonus(75, 100);
-    this._active = false;
+    super.doAction(player, (player) => {
+      player.setSpeedBonus(75, 100);
+      this._active = false;
+    });
   }
 }
 
+//////////////////////////////////////////////////////////// Obstacles
 class BananaPeel extends Pickup {
   constructor(game, sprite, position, template, id) {
     super(game, sprite, position, template, id);
   }
   playerCollision(player) {
-    if (this._jumpable && !player.jumping) {
-      // Hitting a banana makes the player skid for couple of seconds
+    // Hitting a banana makes the player skid for couple of seconds
+    super.doAction(player, (player) => {
       player.setSkidding(40);
       this._active = false;
-    }
+    });
   }
 }
 
-  class Barrel extends Pickup {
-    constructor(game, sprite, position, template, id) {
-      super(game, sprite, position, template, id);
-    }
-    playerCollision(player) {
-      if (this._jumpable && !player.jumping) {
-        // Hitting a banana makes the player skid for couple of seconds
-        player.speed = 0;
-        this._active = false;
-      }
-    }
+class Barrel extends Pickup {
+  constructor(game, sprite, position, template, id) {
+    super(game, sprite, position, template, id);
+  }
+  playerCollision(player) {
+    super.doAction(player, (player) => {
+      player.speed = 0;
+      this._active = false;
+    });
+  }
 }
 
+//////////////////////////////////////////////////////////// Scenery
 class Tree extends Scenery {
   constructor(game, sprite, position, template, id) {
     super(game, sprite, position, template, id);
@@ -362,7 +372,6 @@ class ObjectFactory {
       create: (game, sprite, position, template, id) =>
         new BananaPeel(game, sprite, position, template, id)
     });
-    // Add new game objects here
     this._factories.set("tree", {
       create: (game, sprite, position, template, id) =>
         new Tree(game, sprite, position, template, id)
@@ -371,6 +380,7 @@ class ObjectFactory {
       create: (game, sprite, position, template, id) =>
         new Barrel(game, sprite, position, template, id)
     });
+    // Add new game objects here
   }
 
   createObject(game, sprite, position, template, id) {
