@@ -1,12 +1,16 @@
 
 import { Game, AssetTypes } from "./gamemanager.mjs";
-import { ImageAsset } from "./rendermanager.mjs";
+import { ColorAsset, ImageAsset } from "./rendermanager.mjs";
 import { CheckPoint, ObjectFactory } from "./gameobjects.mjs";
 
 class Track {
   constructor(game, image, template) {
     this._game = game;
     this._image = image;
+    this._skyColor = new ColorAsset();
+    this._skyColor.fromString(template.skyColor);
+    this._groundColor = new ColorAsset();
+    this._groundColor.fromString(template.groundColor);
     this._template = template;
     // Load track mask
     this._mask = game.getAsset(game.addAsset(template.mask, AssetTypes.IMAGE))
@@ -45,8 +49,8 @@ class Track {
    */
 
   get image() {return this._image;}
-  get skyColor() {return this._template.skyColor;}
-  get groundColor() {return this._template.groundColor;}
+  get skyColor() {return this._skyColor;}
+  get groundColor() {return this._groundColor;}
   get gravity() {return this._template.gravity;}
   get currentLap() {return this._currentLap;}
   get totalLaps() {return this._template.laps;}

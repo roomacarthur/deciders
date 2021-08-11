@@ -392,9 +392,9 @@ class Game {
 
   _draw(time) {
     // Draw backdrop
-    this._renderer.drawSky(this._track.skyColor);
+    this._renderer.drawSky(this._track.skyColor.hexStr);
     // Draw gound plain
-    if (this._track.image.loaded) this._renderer.projectFloor(this._track.image, 0xFF1C2F84);
+    if (this._track.image.loaded) this._renderer.projectFloor(this._track.image, this._track.groundColor.color);
     // Draw objects
     for (let i = 0; i < this._objects.length; i++) {
       this._objects[i].draw(this._renderer);
