@@ -151,7 +151,7 @@ class Renderer {
       }
     }
     // Copy the buffer data to the screen
-    this._ctx.putImageData(screenData,0,halfHeight+1);
+    this._ctx.putImageData(screenData, 0, halfHeight + 1);
   }
 
   /**
@@ -186,7 +186,8 @@ class Renderer {
        const sH = Math.abs( ~~((screenH / tY) * scale) );
        const sW = sH * aR;
        // Camera height offset
-       const vOffset = (screenH / tY) * (this._camera.verticalOffset - height);
+       height = this._camera.verticalOffset - height;
+       const vOffset = (screenH / tY) * height;
        // Calculate screen coordinates
        const sX = ~~( (screenW / 2) * (1 + tX / tY) - sW / 2 );
        const sY = ~~( ((screenH) / 2) - sH + vOffset);

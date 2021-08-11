@@ -26,7 +26,7 @@ const TrackConfig = {
     { x: 625, y: 560, f: -2.00 },
     { x: 685, y: 290, f: -0.05 },
     { x: 650, y: 150, f: -3.10 },
-    { x: 345, y: 200, f: -2.87 },
+    { x: 345, y: 200, f: -2.8704 },
   ],
   // List of objects (bonuses, obstacles, and scenery)
   // An object has a position and a type, which should map to object configs
@@ -140,7 +140,7 @@ const ObjectTypes = [
     name: "barrel",
     //sprite: "./assets/img/sprites/test2.png",
     sprite: "./assets/img/objects/barrel.png",
-    jumpable: true,
+    jumpable: false,
     height: 0,
     scale: 4,
     radius: 6,
