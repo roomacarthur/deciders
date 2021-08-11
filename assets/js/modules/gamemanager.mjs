@@ -175,6 +175,9 @@ class Game {
     this._state = GameStates.PLAYING;
 
     this._gameStartTime = performance.now();
+
+    this._frameCounter = 0;
+    this._avgFPS = 0;
     // Start game loop
     window.requestAnimationFrame((time)=>this._loop(time));
   }
@@ -401,11 +404,16 @@ class Game {
   }
 
   _loop(time) {
+    this._frameCounter++;
     const frameTime = this._renderer.startFrame(time);
-    this._update(frameTime);
-    this._draw(frameTime);
+
+      this._frameCounter++;
+      this._update(frameTime);
+      this._draw(frameTime);
 
     this._renderer.endFrame(time);
+    this._avgFPS = (1000 / ((performance.now() - this._gameStartTime) / this._frameCounter));
+
     window.requestAnimationFrame((time)=>this._loop(time));
   }
 
