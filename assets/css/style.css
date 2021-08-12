@@ -76,7 +76,19 @@ nav {
 #about-box {
   text-align: center;
 }
+.game-instructions{
+  width: 600px !important;
+  word-wrap: normal;
+}
+.game-objects{
+  text-align: center;
+}
+.game-objects img {
+  margin-bottom: 20px;
 
+  border: 4px solid #000;
+  background-color: rgb(107, 53, 17);
+}
 /* 
 #####################################################
 #-----Play Game Page--------------------------------#
