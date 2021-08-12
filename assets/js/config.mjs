@@ -51,7 +51,8 @@ const TrackConfig = {
     { x: 691, y: 112, t: "bananapeel" },
     { x: 409, y: 203, t: "bananapeel" },
     { x: 86, y: 336, t: "barrel" },
-    { x: 133, y: 534, t: "barrel" },
+    { x: 133, y: 534, t: "barrel" },//double barrel
+    { x: 153, y: 524, t: "barrel" },//double barrel
     { x: 310, y: 795, t: "barrel" },
     { x: 863, y: 728, t: "barrel" },
     { x: 930, y: 160, t: "barrel" },
