@@ -1,4 +1,6 @@
 # Super BMX Bash
+<div align="center"><h1 style="color: red;">Super BMX Bash</h1></div>
+
 <div align="center">
 
 [Let's play!](https://roomacarthur.github.io/deciders/)
